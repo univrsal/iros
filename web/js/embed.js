@@ -24,15 +24,16 @@ function embed_player() {
         // extract channel name from url
         let splits = url.split("/");
         let channel = splits[splits.length - 1];
-
-        var options = {
-            width: "100%",
-            height: "100%",
-            channel: channel,
-            parent: [document.location.hostname]
-        };
-        player = new Twitch.Player("player", options);
-        player.setVolume(0.2);
+        if (channel !== "") {
+            var options = {
+                width: "100%",
+                height: "100%",
+                channel: channel,
+                parent: [document.location.hostname]
+            };
+            player = new Twitch.Player("player", options);
+            player.setVolume(0.2);
+        }
     }
     save_settings();
 }

@@ -36,10 +36,23 @@ class viewer {
         let url = new URL(window.location.href);
         this.session_id = url.searchParams.get("session");
 
+        // remove session id from url so it's not visible in browser
+        url.searchParams.delete("session");
+        window.history.replaceState({}, document.title, url.href);
+
         // check if session id is valid
         if (!this.session_id) {
-            alert("No session id provided!");
-            return;
+            if (this.is_editor()) {
+                // check local storage for session id
+                this.session_id = localStorage.getItem("session");
+            }
+            if (!this.session_id) {
+                alert("No session id provided!");
+                return;
+            }
+        } else if (this.is_editor()) {
+            // save session id to local storage, so reloading the page without the session id in the url works
+            localStorage.setItem("session", this.session_id);
         }
 
         setInterval(() => this.tick(), 1000 / 60);

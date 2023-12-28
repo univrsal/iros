@@ -32,7 +32,7 @@
 [x] landing page
 [x] server config
     [x] serve from subfolder (in url)
-[ ] remove session id from url bar
+[x] remove session id from url bar
 [ ] text background 
 [ ] favorites to quickly save and load elements
 [ ] select multiple items
