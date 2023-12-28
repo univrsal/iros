@@ -24,6 +24,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var CfgFilePath string
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "iros",
@@ -31,7 +33,7 @@ var rootCmd = &cobra.Command{
 	Long:  `Remote control overlays for your stream.`,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		core.StartServer()
+		core.StartServer(CfgFilePath)
 	},
 }
 
@@ -43,4 +45,5 @@ func Execute() {
 }
 
 func init() {
+	rootCmd.PersistentFlags().StringVar(&CfgFilePath, "config", "", "config file (default is $cwd/config.json)")
 }

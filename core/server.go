@@ -41,7 +41,7 @@ func (s *WebSocketServer) Start() {
 		WriteBufferSize: 1024,
 	}
 
-	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(Cfg.WebSocketEndpoint, func(w http.ResponseWriter, r *http.Request) {
 
 		websocket, err := upgrader.Upgrade(w, r, nil)
 		if err != nil {
@@ -51,11 +51,26 @@ func (s *WebSocketServer) Start() {
 		log.Println("Websocket Connected!")
 		listen(websocket)
 	})
-	http.Handle("/", http.FileServer(http.Dir("./web")))
-	http.ListenAndServe(":8080", nil)
+
+	var ws_url string
+	var http_address = fmt.Sprintf("%s:%d", Cfg.HTTPServerAddress, Cfg.HTTPPort)
+	if Cfg.UseWSS {
+		ws_url = "wss://" + http_address + Cfg.WebSocketEndpoint
+	} else {
+		ws_url = "ws://" + http_address + Cfg.WebSocketEndpoint
+	}
+	config_text := fmt.Sprintf(`var config = {WEBSOCKET_URL: "%s", ROOT: "%s"};`, ws_url, Cfg.WebRoot)
+	http.HandleFunc(Cfg.WebRoot+"js/config.js", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/javascript")
+		w.Write([]byte(config_text))
+	})
+
+	http.Handle(Cfg.WebRoot, http.StripPrefix(Cfg.WebRoot, http.FileServer(http.Dir("./web"))))
+	http.ListenAndServe(http_address, nil)
 }
 
-func StartServer() {
+func StartServer(cfg string) {
+	LoadConfig(cfg)
 	wss.Start()
 }
 

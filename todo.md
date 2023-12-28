@@ -30,9 +30,11 @@
 [x] pad preview container
 [x] persistent storage for canvas size, window pos and stream link
 [x] landing page
+[x] server config
+    [x] serve from subfolder (in url)
+[ ] remove session id from url bar
+[ ] text background 
 [ ] favorites to quickly save and load elements
 [ ] select multiple items
     [ ] move items
     [ ] delete items
-[ ] server config
-    [ ] serve from subfolder (in url)

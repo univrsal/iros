@@ -425,7 +425,7 @@ class editor extends viewer {
     is_editor() { return true; }
 
     chrome_scale_fuckery(val) {
-        return config.IS_CHROME ? val / this.scale_factor : val;
+        return IS_CHROME ? val / this.scale_factor : val;
     }
 
     enter_mode(mode, axis = MODE_AXIS.XY) {

@@ -15,6 +15,8 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+var IS_CHROME = navigator.userAgent.indexOf("Chrome") === -1 ? false : true;
+
 // enum for resize directions
 const EDIT_MODE = {
     NONE: -1,
