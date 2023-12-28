@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>IROS</title>
+    <link rel="icon" href="/img/favicon.png" type="image/x-icon" />
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/landing.css'>
+    <script src='js/util.js'></script>
+    <script src='js/session.js'></script>
+</head>
+
+<body>
+
+    <div id="header">
+        <img id="header-logo" src="img/logo.png" alt="IROS Logo">
+
+        <!-- Header links -->
+        <div id="header-links">
+            <a href=".">Home</a>
+            <a href="#quickstart">Quickstart</a>
+            <a href="./docs">Documenation</a>
+        </div>
+    </div>
+
+    <div id="main">
+        <div id="screenshot">
+            <img src="img/showcase.png" alt="IROS Screenshot">
+        </div>
+        <div id="content">
+            <h1>The Interactive Remote Overlay System</h1>
+            <p>
+                IROS is a simple overlay which allows you to display and arrange text, images and other elements on
+                stream through a web interface. Make your streams more interactive and engaging by allowing your
+                moderators to control the overlay from their browser.
+            </p>
+            <p>
+                The editor can add images, text, countdowns, timers, emotes and more to your stream with a few simple
+                clicks.
+            </p>
+            <p>
+                See <a href="#quickstart">quickstart</a> to get started with a few simple steps or check out the <a
+                    href="./docs">documentation</a> for a more thorough explanation for setting it up and a list of all
+                features and how to use them.
+            </p>
+
+            <h1 id="quickstart">Quickstart</h1>
+            <p>
+                To get started with IROS you first need to create a new session. This will give you two links, one for
+                the editor and one for the overlay. The editor is where you can add and edit elements and the overlay is
+                what you will add to your stream as a browser source. The links can be generated here:
+            </p>
+
+            <h2>Create a session</h2>
+
+            <div id="generate-form">
+                <label for="stream-link">Stream URL</label>
+                <input type="text" name="stream-link" id="stream-link" placeholder="https://streamingsite/yourchannel">
+                <label for="size">Size</label>
+                <input type="text" name="size" id="size" placeholder="1920x1080">
+                <button onclick="generate_session()">Generate</button>
+            </div>
+            <div id="link-container" class="hidden">
+                <div class="link-display">
+                    <div class="label">Editor link</div>
+                    <input class="link-textbox" type="text" name="editor-link" id="editor-link" readonly>
+                    <button title="Copy to clipboard" onclick="copy_link('editor-link')"><img
+                            src="img/copy.svg" /></button>
+
+                    <div class="label">Overlay link</div>
+                    <input type=" text" name="overlay-link" id="overlay-link" readonly>
+                    <button title="Copy to clipboard" onclick="copy_link('overlay-link')"><img
+                            src="img/copy.svg" /></button>
+                </div>
+            </div>
+            <p>
+                To generate a session provide a link to your stream and optionally a size of the overlay. The link
+                is
+                used
+                to embed the stream in the editor so you can see how the overlay will look on stream. The size
+                should be
+                the resolution of your stream. By default it will be 1920x1080.
+            </p>
+            <p>
+                <strong>Important:</strong> The generated links should only be shared with people you trust. Anyone that
+                has
+                access to them
+                can use the editor to change the overlay.
+            </p>
+
+            <h2>Adding the overlay</h2>
+            <p>
+                To use the overlay you have to add a browser source to your streaming software and point it to the
+                overlay link. The overlay will automatically update when you make changes in the editor. See the
+                links below on how to use browser sources in your streaming software.
+
+            <ul>
+                <li><a href="https://obsproject.com/kb/sources-guide" target="_blank">Browser source for OBS Studio</a>
+                </li>
+                <li><a href="https://support.xsplit.com/en/article/webpage-1y1l6v/" target="_blank">Browser source for
+                        XSplit</a>
+                </li>
+            </ul>
+            </p>
+            <h2>Using the editor</h2>
+            <p>
+                The editor is where you can add and edit elements on the overlay. It can be accessed through the
+                editor link using a browser. The editor is designed to be used by moderators so they can show
+                things on stream while the streamer is AFK or otherwise occupied. Elements can be added via the
+                buttons at the tp of the settings panel. You can move them around by pressing <strong>G</strong>
+                and then moving your mouse. The same goes for scaling and rotating with <strong>S</strong> and
+                <strong>R</strong> respectively. For more information on how to use the editor see the <a
+                    href="./docs">documentation</a>.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

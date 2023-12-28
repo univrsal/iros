@@ -1,0 +1,7 @@
+.iros-element {
+    pointer-events: none;
+}
+
+.hidden {
+    display: none;
+}

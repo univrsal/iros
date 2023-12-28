@@ -1,0 +1,32 @@
+#player {
+    background-color: rgb(49, 41, 48);
+}
+
+#player-container {
+    aspect-ratio: 16/9;
+    text-align: center;
+    position: relative;
+    /* center horizontally */
+    margin: 0 auto;
+}
+
+#main-container {
+    /* center vertically */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.landscape-player {
+    height: 100%;
+}
+
+.portrait-player {
+    width: 100%;
+}
+
+#player,
+#player-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}

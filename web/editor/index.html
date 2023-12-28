@@ -1,0 +1,190 @@
+<!--
+   This file is part of iros
+   Copyright (C) 2023 Alex <uni@vrsal.xyz>
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Affero General Public License as published
+   by the Free Software Foundation, version 3 of the License.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Affero General Public License for more details.
+
+   You should have received a copy of the GNU Affero General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>IROS | Editor </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/ui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/player.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/overlay.css">
+    <!-- icon-->
+    <link rel="icon" href="../img/favicon.png" type="image/x-icon" />
+    <script src="../js/config.js"></script>
+    <script src="../js/commands/base.js"></script>
+    <script src="../js/util.js"></script>
+    <script src="../js/embed.js"></script>
+    <script src="../js/viewer.js"></script>
+    <script src="../js/editor/key_binds.js"></script>
+    <script src="../js/editor/editor.js"></script>
+    <script src="../js/editor/settings_ui.js"></script>
+    <script src="../js/elements/element.js"></script>
+    <script src="../js/elements/text.js"></script>
+    <script src="../js/elements/image.js"></script>
+    <script src="/js/elements/timer.js"></script>
+    <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+</head>
+
+<body>
+
+    <!-- main content -->
+    <div id="main-container">
+        <!-- player container -->
+        <div id="player-container">
+            <div id="player"></div>
+            <div id="overlay">
+            </div>
+            <canvas id="editor-canvas" class="no-input"></canvas>
+        </div>
+
+        <!-- element settings window -->
+        <div id="settings-window" class="window inactive">
+            <div class="window-header" id="settings-header">
+                <h1>Settings</h1>
+            </div>
+            <div id="elements">
+                <button onclick="add_text_element()" title="Add text"><img id="text-icon"
+                        src="../img/add-text.svg" /></button>
+                <button onclick="add_image_element()" title="Add image"><img id="image-icon"
+                        src="../img/add-image.svg" /></button>
+                <button onclick="add_timer_element()" title="Add timer"><img id="timer-icon"
+                        src="../img/add-timer.svg" /></button>
+            </div>
+            <div id="canvas-header">
+                <h1>Canvas size</h1>
+            </div>
+
+            <div id="canvas-settings">
+                <img id="canvas-width-label" src="../img/canvas-width.svg" title="Canvas width" />
+                <input type="text" name="canvas-width" id="canvas-width" title="Canvas width">
+
+                <img id="canvas-height-label" src="../img/canvas-height.svg" title="Canvas height" />
+                <input type="text" name="canvas-height" id="canvas-height" title="Canvas height">
+
+                <input type="text" name="embed-url" id="embed-url" placeholder="Stream URL" required>
+                <button id="embed-button" onclick="embed_player()">
+                    Embed
+                </button>
+            </div>
+
+            <div id="element-header">
+                <h1>Settings</h1>
+            </div>
+
+            <div id="base-settings">
+                <label for="element-name" title="Name">Name</label>
+                <input type="text" name="name" id="element-name" title="Name of element">
+                <label for="pos-x" title="X position of element">X</label>
+                <input type="text" name="pos-x" id="pos-x" title="X position of element">
+
+                <label for="pos-y" title="Y position of element">Y</label>
+                <input type="text" name="pos-y" id="pos-y" title="Y position of element">
+
+                <img id="width-label" src="../img/width.svg" title="Width of element" />
+                <input type="text" name="width" id="width" title="Width of element">
+
+                <img id="height-label" src="../img/height.svg" title="Height of element" />
+                <input type="text" name="height" id="height" title="Height of element">
+
+                <img id="z-index-label" src="../img/layer.svg" title="Layer of element" />
+                <input type="number" name="z-index" id="z-index" title="Layer of element">
+
+                <img id="opacity-label" src="../img/opacity.svg" title="Opacity of element" />
+                <input type="range" name="opacity" id="opacity" value="100" min="1" max="100"
+                    title="Opacity of element">
+
+                <img id="visibility-label" src="../img/visible.svg" title="Visiblity of element" />
+                <input type="checkbox" name="visibility" id="visibility" title="Visiblity of element">
+
+                <img id="pivot-label" src="../img/pivot.svg" title="Pivot point of element" />
+                <div id="pivot-select">
+                    <div id="pivot-options-horizontal">
+                        <div id="pivot-h-left" pivot="left" class="pivot-option horizontal" title="Left"></div>
+                        <div id="pivot-h-center" pivot="center" class="pivot-option horizontal" title="Center"></div>
+                        <div id="pivot-h-right" pivot="right" class="pivot-option horizontal" title="Right"></div>
+                    </div>
+                    <div id="pivot-options-vertical">
+                        <div id="pivot-v-top" pivot="top" class="pivot-option vertical" title="Top"></div>
+                        <div id="pivot-v-center" pivot="center" class="pivot-option vertical" title="Center"></div>
+                        <div id="pivot-v-bottom" pivot="bottom" class="pivot-option vertical" title="Bottom"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="color-settings">
+                <img id="color-label" src="../img/color.svg" title="Element color" />
+                <input type="color" name="color" id="color" title="Element color">
+            </div>
+
+            <div id="text-settings">
+                <img id="font-label" src="../img/font.svg" title="Element font" />
+                <input type="text" name="font" id="font" title="Element font">
+
+                <img id="font-size-label" src="../img/font-size.svg" title="Element font size" />
+                <input type="number" name="font-size" id="font-size" title="Element font size">
+                <textarea id="text" name="text" rows="4" cols="50"
+                    title="Element text, supports basic markdown like **bold**, *italic*, __underline__ and ~~strikethrough~~"></textarea>
+            </div>
+
+            <div id="url-settings">
+                <label for="url-input">URL</label>
+                <input type="text" name="url-input" id="url-input">
+            </div>
+
+            <div id="timer-settings">
+                <input type="radio" name="timer-type" id="timer-type-stopwatch" title="Stopwatch">
+                <label class="radio-button-label" for="timer-type" title="Stopwatch">Stopwatch</label>
+                <input type="radio" name="timer-type" id="timer-type-timer" title="Timer">
+                <label class="radio-button-label" for="timer-type" title="Timer">Timer</label>
+
+                <label for="timer-time" title="Countdown start">Start</label>
+                <input type="text" name="timer-time" id="timer-time" title="Countdown start">
+                <div></div>
+                <div id="timer-buttons">
+                    <button id="timer-start" onclick="start_timer()">Start</button>
+                    <button id="timer-stop" onclick="pause_timer()">Pause</button>
+                    <button id="timer-reset" onclick="reset_timer()">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="element-list-window" class="window inactive">
+            <div id="element-list-header" class="window-header">
+                <h1>Elements</h1>
+            </div>
+            <div id="element-list">
+                <select id="element-list-select" size="10">
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div id="branding">
+        IROS (c6b71)
+    </div>
+
+    <script>
+        var edt = new editor($("#overlay"));
+    </script>
+</body>
+
+</html>

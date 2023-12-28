@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="pivot.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="5.822615"
+     inkscape:cx="33.575979"
+     inkscape:cy="50.836265"
+     inkscape:window-width="1920"
+     inkscape:window-height="1022"
+     inkscape:window-x="0"
+     inkscape:window-y="373"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect1"
+       style="fill:#ffffff;stroke-width:3.65963;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.335689;paint-order:stroke fill markers"
+       d="M 11.751953 6.2402344 A 5.390151 5.390151 0 0 1 6.3613281 11.630859 L 6.3613281 26.367188 A 5.390151 5.390151 0 0 1 11.751953 31.757812 A 5.390151 5.390151 0 0 1 6.3613281 37.146484 L 6.3613281 51.882812 A 5.390151 5.390151 0 0 1 11.751953 57.273438 L 26.609375 57.273438 A 5.390151 5.390151 0 0 1 32 51.882812 A 5.390151 5.390151 0 0 1 37.390625 57.273438 L 52.005859 57.273438 A 5.390151 5.390151 0 0 1 57.394531 51.882812 L 57.394531 37.146484 A 5.390151 5.390151 0 0 1 52.003906 31.757812 A 5.390151 5.390151 0 0 1 57.394531 26.367188 L 57.394531 11.630859 A 5.390151 5.390151 0 0 1 52.005859 6.2402344 L 37.390625 6.2402344 A 5.390151 5.390151 0 0 1 32 11.630859 A 5.390151 5.390151 0 0 1 26.609375 6.2402344 L 11.751953 6.2402344 z M 32 26.609375 A 5.390151 5.390151 0 0 1 37.390625 32 A 5.390151 5.390151 0 0 1 32 37.390625 A 5.390151 5.390151 0 0 1 26.609375 32 A 5.390151 5.390151 0 0 1 32 26.609375 z " />
+    <circle
+       style="fill:#ffffff;stroke-width:5.71164;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.335689;paint-order:stroke fill markers;fill-opacity:1"
+       id="circle8"
+       cx="6.3616829"
+       cy="6.2402415"
+       r="4.5314302" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke-width:5.71164;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.335689;paint-order:stroke fill markers"
+       id="circle9"
+       cx="57.395077"
+       cy="6.2402415"
+       r="4.5314302" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke-width:5.71164;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.335689;paint-order:stroke fill markers"
+       id="circle10"
+       cx="57.395077"
+       cy="57.273636"
+       r="4.5314302" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke-width:5.71164;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.335689;paint-order:stroke fill markers"
+       id="circle11"
+       cx="6.3616829"
+       cy="57.273636"
+       r="4.5314302" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke-width:5.71164;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.335689;paint-order:stroke fill markers"
+       id="circle17"
+       cx="32"
+       cy="6.2402344"
+       r="4.5314302" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke-width:5.71164;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.335689;paint-order:stroke fill markers"
+       id="circle18"
+       cx="57.394531"
+       cy="31.756939"
+       r="4.5314302" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke-width:5.71164;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.335689;paint-order:stroke fill markers"
+       id="circle19"
+       cx="32"
+       cy="57.273636"
+       r="4.5314302" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke-width:5.71164;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.335689;paint-order:stroke fill markers"
+       id="circle20"
+       cx="32"
+       cy="32"
+       r="4.5314302" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke-width:5.71164;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.335689;paint-order:stroke fill markers"
+       id="circle21"
+       cx="6.3613281"
+       cy="31.756836"
+       r="4.5314302" />
+  </g>
+</svg>
