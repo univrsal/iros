@@ -71,7 +71,7 @@
     font-weight: bold;
 }
 
-.window img {
+#main-container .window img {
     height: 24px;
 }
 
@@ -85,6 +85,11 @@
     padding-top: 2px;
     padding-bottom: 2px;
     font-size: 10pt;
+}
+
+#main-container button,
+#main-container input,
+#main-container textarea {
     padding-left: 9px;
 }
 
@@ -279,4 +284,129 @@
 
 #timer-settings .radio-button-label {
     text-align: left;
+}
+
+#modal-container {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1010;
+    display: none;
+}
+
+#modal-container .window {
+    width: 50vw;
+    height: 70vh;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#modal-container.visible {
+    animation: fade-in 0.3s;
+
+}
+
+#modal-container.invisible {
+    animation: fade-out 0.3s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+#emote-search-header {
+    cursor: default;
+}
+
+#emote-search-modal {
+    display: grid;
+    grid-template-rows: min-content min-content 1fr;
+    gap: 8px;
+    display: none;
+}
+
+#emote-search {
+    display: grid;
+    grid-template-columns: 1fr fit-content(200px);
+    gap: 4px;
+}
+
+#emote-search-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+    height: 100%;
+    display: grid;
+    grid-gap: 10px;
+    height: 100%;
+    overflow: auto;
+    align-content: start;
+}
+
+.emote-search-result {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    grid-gap: 4px;
+    background-color: #6c6d71;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.emote-search-result:hover {
+    background-color: #939396;
+}
+
+.emote-search-result-image {
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    padding: 4px;
+    object-fit: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.emote-search-result-name {
+    text-align: center;
+    font-size: 10pt;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0px 6px;
+}
+
+.emote-search-result-owner {
+    text-align: center;
+    font-size: 8pt;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(211, 211, 211);
+    margin-bottom: 2px;
+    padding: 0px 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

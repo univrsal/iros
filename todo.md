@@ -33,6 +33,7 @@
 [x] server config
     [x] serve from subfolder (in url)
 [x] remove session id from url bar
+[x] 7tv emote support
 [ ] text background 
 [ ] favorites to quickly save and load elements
 [ ] select multiple items

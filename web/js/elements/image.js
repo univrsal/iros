@@ -71,14 +71,16 @@ class image_element_handler extends element_handler {
     }
 }
 
-function add_image_element() {
+function add_image_element(url = null, width = 100, height = 100) {
+    if (url === null)
+        url = `${document.location.origin}${config.ROOT}img/empty.png`
     let data = {
-        url: `${document.location.origin}${config.ROOT}img/empty.png`,
+        url,
         transform: {
             x: 0,
             y: 0,
-            width: 100,
-            height: 100,
+            width,
+            height,
         },
         name: `Image ${edt.get_next_element_id()}`,
     };
