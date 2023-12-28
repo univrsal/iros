@@ -26,11 +26,17 @@ function keybind_paste_internal(edit, _e) {
 
 function keybind_delete_selected_element(edit, _e) {
     if (edit.selected_element) {
+        // remove from tickable elements
+        let index = edit.tickable_elements.indexOf(edit.elements.get(edit.selected_element.id()));
+        if (index > -1)
+            edit.tickable_elements.splice(index, 1);
+
         // remove html
         edit.selected_element.html.remove();
         edit.elements.delete(edit.selected_element.id());
         send_command_delete_element(edit, edit.selected_element.id());
         edit.select_element(null);
+        edit.rebuild_element_list();
     }
 }
 

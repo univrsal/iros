@@ -67,12 +67,16 @@ function send_command_delete_element(view, id) {
 }
 
 function command_delete_element(view, args) {
+    if (view.is_editor() && view.selected_element && view.selected_element.id() == args.id)
+        view.select_element(null);
     view.elements.get(args.id).delete();
     view.elements.delete(args.id);
     // remove from tickable elements
     let index = view.tickable_elements.indexOf(view.elements.get(args.id));
     if (index > -1)
         view.tickable_elements.splice(index, 1);
+    if (view.is_editor())
+        view.rebuild_element_list();
 }
 
 
