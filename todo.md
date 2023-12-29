@@ -34,8 +34,9 @@
     [x] serve from subfolder (in url)
 [x] remove session id from url bar
 [x] 7tv emote support
+[x] favorites to quickly save and load elements
 [ ] text background 
-[ ] favorites to quickly save and load elements
+[ ] copy paste elements don't have unique id and name
 [ ] select multiple items
     [ ] move items
     [ ] delete items

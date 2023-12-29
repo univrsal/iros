@@ -18,7 +18,7 @@
 class image_element extends element {
     constructor(parent, data) {
         super(parent, "image", data);
-        this.html = $(`<img draggable="false" class="iros-element" id="${data.id}" src="${this.data.url}"></img>`);
+        this.html = $(`<img draggable="false" class="iros-element" id="${this.data.id}" src="${this.data.url}"></img>`);
         // update size after image is loaded
         this.html.onload = () => {
             this.tf().width = Math.max(this.html.width, 100);
@@ -71,9 +71,11 @@ class image_element_handler extends element_handler {
     }
 }
 
-function add_image_element(url = null, width = 100, height = 100) {
+function add_image_element(url = null, name = null, width = 100, height = 100) {
     if (url === null)
         url = `${document.location.origin}${config.ROOT}img/empty.png`
+    if (name === null)
+        name = `Image ${edt.get_next_element_id()}`;
     let data = {
         url,
         transform: {
@@ -82,7 +84,7 @@ function add_image_element(url = null, width = 100, height = 100) {
             width,
             height,
         },
-        name: `Image ${edt.get_next_element_id()}`,
+        name
     };
     edt.add_element(create_element(edt, "image", data));
 }

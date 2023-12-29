@@ -37,11 +37,14 @@
     <script src="../js/editor/key_binds.js"></script>
     <script src="../js/editor/editor.js"></script>
     <script src="../js/editor/settings_ui.js"></script>
+    <script src="../js/editor/modals.js"></script>
     <script src="../js/editor/7tv.js"></script>
+    <script src="../js/editor/favorites.js"></script>
     <script src="../js/elements/element.js"></script>
     <script src="../js/elements/text.js"></script>
     <script src="../js/elements/image.js"></script>
     <script src="../js/elements/timer.js"></script>
+
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>
 </head>
 
@@ -69,8 +72,10 @@
                         src="../img/add-image.svg" /></button>
                 <button onclick="add_timer_element()" title="Add timer"><img id="timer-icon"
                         src="../img/add-timer.svg" /></button>
-                <button onclick="open_emote_search()" title="Add 7tv Emote"><img id="emote-icon"
+                <button onclick="open_modal(emote_search_modal)" title="Add 7tv Emote"><img id="emote-icon"
                         src="../img/add-emote.svg" /></button>
+                <button onclick="open_modal(favorites_modal)" title="Add favorite"><img id="favorite-icon"
+                        src="../img/add-favorite.svg" /></button>
             </div>
             <div id="canvas-header">
                 <h1>Canvas size</h1>
@@ -193,6 +198,18 @@
                     Search</button>
             </div>
             <div id="emote-search-results">
+            </div>
+        </div>
+
+        <div id="favorites-modal" class="window">
+            <div class="window-header" id="favorites-header">
+                <h1>Add element from favorites</h1>
+            </div>
+            <div id="favorites-info">
+                <div class="label" id="favorites-hint-label">Favorite an element by selecting it and pressing 'F'</div>
+                <button id="favorites-delete-mode" onclick="favorite_toggle_delete_mode()">Delete mode</button>
+            </div>
+            <div id="favorites-list">
             </div>
         </div>
     </div>

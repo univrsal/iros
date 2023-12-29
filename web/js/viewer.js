@@ -37,9 +37,11 @@ class viewer {
         this.session_id = url.searchParams.get("session");
 
         // remove session id from url so it's not visible in browser
-        url.searchParams.delete("session");
-        window.history.replaceState({}, document.title, url.href);
-
+        // we don't do this for the viewer since it's usually not opened in a normal browser
+        if (this.is_editor()) {
+            url.searchParams.delete("session");
+            window.history.replaceState({}, document.title, url.href);
+        }
         // check if session id is valid
         if (!this.session_id) {
             if (this.is_editor()) {

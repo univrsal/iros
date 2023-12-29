@@ -14,26 +14,14 @@
    You should have received a copy of the GNU Affero General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-var modal = null;
-var emote_search = null;
+var emote_search_modal = null;
 
 $(document).ready(() => {
-    modal = $("#modal-container"); emote_search = $("#emote-search-modal");
+    emote_search_modal = $("#emote-search-modal");
     $("#emote-search-input").on("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
             search_emotes();
-        }
-    });
-
-    $(modal).on("click", function (event) {
-        if (event.target == modal) {
-            close_emote_search();
-        }
-    });
-    $(modal).on("keydown", function (event) {
-        if (event.key === "Escape") {
-            close_emote_search();
         }
     });
 });
@@ -55,10 +43,11 @@ function process_emote_search_result(data, offset = 0) {
                 dimensions.push([file.width, file.height]);
             }
         }
+        let owner = emote.owner ? emote.owner.username : "";
 
         emote_list.push({
             name: emote.name,
-            owner: emote.owner.username,
+            owner,
             dimensions,
             urls
         });
@@ -78,7 +67,6 @@ function search_emote(name, page = 0, limit = 40) {
     })
 }
 
-
 var emote_search_page = 0;
 var emote_cache = null;
 
@@ -87,21 +75,9 @@ function add_emote(index) {
     // use last url
     let url = emote.urls[emote.urls.length - 1];
     let dimensions = emote.dimensions[emote.dimensions.length - 1];
-    add_image_element(url, dimensions[0], dimensions[1]);
-    close_emote_search();
-}
-
-function open_emote_search() {
-    modal.style.display = "block";
-    emote_search.style.display = "grid";
-    modal.classList.remove("invisible");
-    modal.classList.add("visible");
-}
-
-function close_emote_search() {
-    modal.classList.remove("visible");
-    modal.classList.add("invisible");
-    setTimeout(() => { modal.style.display = "none"; }, 300);
+    let name = emote.name + " " + edt.get_next_element_id();
+    add_image_element(url, name, dimensions[0], dimensions[1]);
+    close_modal();
 }
 
 function search_emotes(page_limit = 40) {
@@ -125,7 +101,7 @@ function search_emotes(page_limit = 40) {
             let emote = emotes[i];
             let div = document.createElement("div");
             div.className = "emote-search-result";
-            div.innerHTML = `<div onclick="add_emote(${i})" class="emote-search-result-image" style="background-image: url('${emote.urls[0]}')"></div><div class="emote-search-result-name">${emote.name}</div><div class="emote-search-result-owner">${emote.owner}</div>`;
+            div.innerHTML = `<div onclick="add_emote(${i})" class="emote-search-result-image" style="background-image: url('${emote.urls[0]}')"></div><div class="emote-search-result-name" title="${emote.name}">${emote.name}</div><div class="emote-search-result-owner" title="${emote.owner}">${emote.owner}</div>`;
             $("#emote-search-results").appendChild(div);
         }
     }).catch((err) => {

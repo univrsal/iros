@@ -110,6 +110,10 @@ function keybind_reset_transform(edit, _e) {
     }
 }
 
+function keybind_favorite_selected_element(edit, _e) {
+    favorite_selected_element();
+}
+
 const editor_keybinds = [
     { code: "KeyC", ctrl: true, function: keybind_copy },
     { code: "KeyC", shift: true, function: keybind_copy },
@@ -125,5 +129,6 @@ const editor_keybinds = [
     { code: "KeyX", ctrl: false, function: keybind_switch_axis_x },
     { code: "KeyY", ctrl: false, function: keybind_switch_axis_y },
     { code: "KeyZ", shift: true, function: keybind_switch_axis_xy },
-    { code: "KeyR", ctrl: true, function: keybind_reset_transform }
+    { code: "KeyR", ctrl: true, function: keybind_reset_transform },
+    { code: "KeyF", function: keybind_favorite_selected_element }
 ];

@@ -394,7 +394,7 @@ class editor extends viewer {
             let element_handler = this.element_handlers.find(element_handler => element_handler.type == element.type());
             element_handler.show_settings(element);
         }
-        let windows = document.getElementsByClassName("window");
+        let windows = this.main_container.getElementsByClassName("window");
         for (let i = 0; i < windows.length; i++) {
             if (element)
                 windows[i].classList.remove("inactive");
@@ -444,5 +444,11 @@ class editor extends viewer {
 
     get_next_element_id() {
         return this.element_count + 1;
+    }
+
+    make_unique_element_name(element_name) {
+        let name_no_numbers = element_name.replace(/\d+$/, '');
+        name_no_numbers += " " + this.get_next_element_id();
+        return name_no_numbers;
     }
 }
