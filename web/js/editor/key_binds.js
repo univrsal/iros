@@ -114,14 +114,25 @@ function keybind_favorite_selected_element(edit, _e) {
     favorite_selected_element();
 }
 
+function keybind_toggle_selected_element_visibility(edit, _e) {
+    if (edit.selected_element) {
+        edit.selected_element.tf().visible = !edit.selected_element.tf().visible;
+        edit.selected_element.update();
+        edit.update_selected_element();
+        send_command_update_element(edit, edit.selected_element);
+    }
+}
+
 const editor_keybinds = [
     { code: "KeyC", ctrl: true, function: keybind_copy },
     { code: "KeyC", shift: true, function: keybind_copy },
     { code: "KeyV", ctrl: true, function: keybind_paste },
     { code: "KeyV", shift: true, function: keybind_paste_internal },
     { code: "Delete", ctrl: false, function: keybind_delete_selected_element },
+    { code: "KeyX", ctrl: false, function: keybind_delete_selected_element },
     { code: "KeyE", ctrl: true, function: keybind_toggle_overlay },
     { code: "KeyM", ctrl: false, function: keybind_mirror_selected_element },
+    { code: "KeyM", shift: true, function: keybind_mirror_selected_element },
     { code: "KeyS", ctrl: false, function: keybind_enter_scale_mode },
     { code: "KeyG", ctrl: false, function: keybind_enter_move_mode },
     { code: "KeyR", ctrl: false, function: keybind_enter_rotate_mode },
@@ -130,5 +141,6 @@ const editor_keybinds = [
     { code: "KeyY", ctrl: false, function: keybind_switch_axis_y },
     { code: "KeyZ", shift: true, function: keybind_switch_axis_xy },
     { code: "KeyR", ctrl: true, function: keybind_reset_transform },
-    { code: "KeyF", function: keybind_favorite_selected_element }
+    { code: "KeyF", ctrl: false, function: keybind_favorite_selected_element },
+    { code: "KeyH", ctrl: false, function: keybind_toggle_selected_element_visibility },
 ];

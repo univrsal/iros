@@ -35,6 +35,9 @@
 [x] remove session id from url bar
 [x] 7tv emote support
 [x] favorites to quickly save and load elements
+[x] x for deleting elements
+[x] h for toggling visibility
+[ ] scaling depends on element position???
 [ ] text background 
 [ ] copy paste elements don't have unique id and name
 [ ] select multiple items

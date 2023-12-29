@@ -214,7 +214,7 @@ class editor extends viewer {
     }
 
     on_key_down(e) {
-        if ($('#settings-window').contains(e.target))
+        if ($('#settings-window').contains(e.target) || active_modal != null || $('#element-list-window').contains(e.target))
             return;
         if (e.code == "Space") {
             for (let [_, el] of this.elements) {
