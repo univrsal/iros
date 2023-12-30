@@ -97,7 +97,10 @@ class viewer {
 
     on_data(e) {
         let data = JSON.parse(e.data);
-        if (data.type === undefined) {
+        if (data.error !== undefined) {
+            alert(data.error);
+            return;
+        } else if (data.type === undefined) {
             // iterate over elements in data object
             for (const [_, args] of Object.entries(data)) {
                 command_add_element(this, args);

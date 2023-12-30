@@ -93,7 +93,13 @@ func listen(conn *websocket.Conn) {
 		}
 
 		if len(result.Session) < 1 {
-			log.Println("Received invalid handshake message")
+			log.Println("Received invalid session id for handshake message")
+			continue
+		}
+
+		// Don't allow short session ids in release for security reasons
+		if len(result.Session) != 36 && !Cfg.DebugMode {
+			log.Println("Received invalid session for handshake message")
 			continue
 		}
 

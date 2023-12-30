@@ -30,6 +30,7 @@ type Config struct {
 	UseWSS            bool   `json:"use_wss"`
 	HTTPPort          int    `json:"http_port"`
 	HTTPServerAddress string `json:"http_server_address"`
+	DebugMode         bool   `json:"debug_mode"`
 }
 
 var (
@@ -45,6 +46,7 @@ func LoadConfig(path string) {
 		UseWSS:            true,
 		HTTPPort:          8080,
 		HTTPServerAddress: "localhost",
+		DebugMode:         false,
 	}
 
 	// check if cmd.CfgFilePath is empty

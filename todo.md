@@ -40,7 +40,7 @@
 [x] scaling depends on element position???
 [x] text background 
 [x] copy paste elements don't have unique id and name
-[ ] Enforce uuid for session id
+[x] Enforce uuid for session id
 [ ] select multiple items
     [ ] move items
     [ ] delete items
