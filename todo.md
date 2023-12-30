@@ -39,7 +39,7 @@
 [x] h for toggling visibility
 [x] scaling depends on element position???
 [x] text background 
-[ ] copy paste elements don't have unique id and name
+[x] copy paste elements don't have unique id and name
 [ ] Enforce uuid for session id
 [ ] select multiple items
     [ ] move items

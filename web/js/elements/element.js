@@ -42,6 +42,8 @@ class element {
 
     shuffle_id() {
         this.data.id = Math.random().toString(36).substring(7);
+        if (this.html != null)
+            this.html.id = this.data.id;
     }
 
     delete() {

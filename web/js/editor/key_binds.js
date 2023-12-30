@@ -20,6 +20,7 @@ function keybind_paste_internal(edit, _e) {
         let new_element = edit.internal_clipboard.clone();
         new_element.tf().x += 10;
         new_element.tf().y += 10;
+        new_element.data.name = edit.make_unique_element_name(new_element.data.name);
         edit.add_element(new_element);
     }
 }
