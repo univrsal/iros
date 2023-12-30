@@ -41,6 +41,7 @@
 [x] text background 
 [x] copy paste elements don't have unique id and name
 [x] Enforce uuid for session id
+[x] Basic documentation page
 [ ] select multiple items
     [ ] move items
     [ ] delete items

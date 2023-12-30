@@ -169,6 +169,7 @@ function add_timer_element() {
         base_time_ms: 0,
         countdown_ms: 0,
         size: 32,
+        background_color: "#00000000",
         color: "#ff0000",
         name: `Timer ${edt.get_next_element_id()}`,
     };

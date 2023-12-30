@@ -31,6 +31,7 @@ function embed_player() {
                 channel: channel,
                 parent: [document.location.hostname]
             };
+            $('#player').innerHTML = ""; // remove old embeds
             player = new Twitch.Player("player", options);
             player.setVolume(0.2);
         }

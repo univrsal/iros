@@ -22,9 +22,9 @@
      inkscape:pageopacity="0"
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="5.5353203"
-     inkscape:cx="27.189032"
-     inkscape:cy="30.892521"
+     inkscape:zoom="11.070641"
+     inkscape:cx="33.376569"
+     inkscape:cy="32.247456"
      inkscape:window-width="1920"
      inkscape:window-height="1022"
      inkscape:window-x="0"
@@ -33,12 +33,12 @@
      inkscape:current-layer="svg3" />
   <path
      id="path5"
-     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.368217;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.457196;paint-order:stroke fill markers"
-     d="M 32,21.861856 A 30.926094,10.137278 0 0 0 1.073934,32 30.926094,10.137278 0 0 0 32,42.138144 30.926094,10.137278 0 0 0 62.926066,32 30.926094,10.137278 0 0 0 32,21.861856 Z m 0,0.986899 A 9.1509391,9.1509391 0 0 1 41.151245,32 9.1509391,9.1509391 0 0 1 32,41.151245 9.1509391,9.1509391 0 0 1 22.848755,32 9.1509391,9.1509391 0 0 1 32,22.848755 Z" />
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.324337;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.457196;paint-order:stroke fill markers"
+     d="M 32 14.832031 C 16.954513 14.832036 4.7584796 27.068233 4.7597656 32 C 4.7584796 36.931767 16.954513 48.843745 32 48.84375 C 47.045487 48.843745 59.24152 36.931767 59.240234 32 C 59.24152 27.068233 47.045487 14.832036 32 14.832031 z M 32 20.949219 A 11.050186 11.050186 0 0 1 43.050781 32 A 11.050186 11.050186 0 0 1 32 43.050781 A 11.050186 11.050186 0 0 1 20.949219 32 A 11.050186 11.050186 0 0 1 32 20.949219 z " />
   <circle
-     style="opacity:1;fill:#292929;fill-opacity:1;stroke:none;stroke-width:0.327771;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.457196;paint-order:stroke fill markers"
+     style="opacity:1;fill:#292929;fill-opacity:1;stroke:none;stroke-width:0.416548;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.457196;paint-order:stroke fill markers"
      id="circle6"
      cx="32"
      cy="32"
-     r="6.3922029" />
+     r="8.1235294" />
 </svg>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>IROS | Docs</title>
+    <link rel="icon" href="../img/favicon.png" type="image/x-icon" />
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/landing.css'>
+    <script src='../js/util.js'></script>
+    <script src='../js/session.js'></script>
+</head>
+
+<body>
+
+    <div id="header">
+        <img id="header-logo" src="../img/logo.png" alt="IROS Logo">
+
+        <!-- Header links -->
+        <div id="header-links">
+            <a href="..">Home</a>
+            <a href="../#quickstart">Quickstart</a>
+            <a href=".">Documenation</a>
+        </div>
+    </div>
+
+    <div id="main">
+        <div id="content">
+            <div id="toc">
+                <h1>Table of contents</h1>
+                <ol>
+                    <li><a href="#intro">Introduction</a></li>
+                    <li><a href="#getting-started">Getting started</a></li>
+                    <li><a href="#adding-overlay">Adding overlay</a></li>
+                    <li><a href="#editor">Using the editor</a></li>
+                    <ol>
+                        <li><a href="#usage-and-keybinds">Keybinds and basic usage</a></li>
+                        <li><a href="#settings-window">Settings window</a></li>
+                        <li><a href="#element-list">Element list</a></li>
+                    </ol>
+                    <li><a href="#elements">Elements</a></li>
+                    <ol>
+                        <li><a href="#basic-element-properties">Basic element properties</a></li>
+                        <li><a href="#text">Text</a></li>
+                        <li><a href="#image">Image</a></li>
+                        <li><a href="#countdown-and-timer">Countdown and timers</a></li>
+                        <li><a href="#emotes">Emotes</a></li>
+                        <li><a href="#favorites">Favorites</a></li>
+                    </ol>
+                    <li><a href="#faq">FAQ</a></li>
+                </ol>
+            </div>
+            <h1 id="intro">Introduction</h1>
+            <p>
+                IROS is a simple web based overlay which can be integrated into your stream through a browser source.
+                It allows you to display and arrange text, images and other elements on stream through a web interface.
+                Anybody with access to the editor link can control the overlay and update it in real time.
+            </p>
+            <p>
+                As of now the overlay supports the following elements:
+            <ul>
+                <li>text</li>
+                <li>images</li>
+                <li>emotes (can be searched directly from the editor, provided through <a
+                        href="https://7tv.app">7TV</a>)
+                </li>
+                <li>countdowns and timers</li>
+            </ul>
+            </p>
+            <p>
+                See <a href="../#quickstart">quickstart</a> to get started with a few simple steps or look below for
+                a more thorough explanation for setting it up.
+            </p>
+
+            <h1 id="getting-started">Getting started</h1>
+            <p>
+                The overlay is split up into two parts, the editor and the overlay itself. To use both of them a new
+                session has to be created. This will give you two links, one for the editor and one for the overlay.
+                A new session can be created here:
+            </p>
+            <h2>Create a session</h2>
+
+            <div id="generate-form">
+                <label for="stream-link">Stream URL</label>
+                <input type="text" name="stream-link" id="stream-link" placeholder="https://streamingsite/yourchannel">
+                <label for="size">Size</label>
+                <input type="text" name="size" id="size" placeholder="1920x1080">
+                <button onclick="generate_session()">Generate</button>
+            </div>
+            <div id="link-container" class="hidden">
+                <div class="link-display">
+                    <div class="label">Editor link</div>
+                    <input class="link-textbox" type="text" name="editor-link" id="editor-link" readonly>
+                    <button title="Copy to clipboard" onclick="copy_link('editor-link')"><img
+                            src="../img/copy.svg" /></button>
+
+                    <div class="label">Overlay link</div>
+                    <input type=" text" name="overlay-link" id="overlay-link" readonly>
+                    <button title="Copy to clipboard" onclick="copy_link('overlay-link')"><img
+                            src="../img/copy.svg" /></button>
+                </div>
+            </div>
+            <p>
+                To generate a new session enter the link to you stream and optionally the size of the overlay. The link
+                to the stream is then used to display it in the background of the editor as a reference when adding and
+                moving elements. The size is used to make sure that the overlay matches the resolution of your stream.
+                If no size is provided it will default to 1920x1080. As of right now the editor is optimized for an
+                aspect ratio of 16:9.
+            </p>
+            <p>
+                Once you've entered the stream link click the generate button. Afterwards two links will be displayed.
+                The first one is the editor link and the second one is the overlay link. The links essentially just
+                contain a session id which is unique for each overlay.<br><br>
+                <strong style="color: rgb(216, 52, 52)">Important:</strong> The generated links should only be shared
+                with people
+                you trust. Anyone that has access to them or the session id they contain can use the editor to change
+                the overlay.
+            </p>
+
+            <h1 id="adding-overlay">Adding the overlay</h1>
+            <p>
+                Adding the overlay to your stream is done through a browser source. If you don't know how to add a
+                browser source to your streaming software here's two links for how to do it in OBS and XSplit:
+            </p>
+            <ul>
+                <li><a href="https://obsproject.com/kb/sources-guide" target="_blank">Browser source for OBS
+                        Studio</a>
+                </li>
+                <li><a href="https://support.xsplit.com/en/article/webpage-1y1l6v/" target="_blank">Browser source
+                        for
+                        XSplit</a>
+                </li>
+            </ul>
+            <p>
+                For the following steps OBS studio is used since most people use it. After having added a browser
+                source you'll be presented with the following dialog:
+            </p>
+            <img class="center-image" src="../img/obs-browser-source-dialog.png" alt="OBS browser source dialog">
+            <p>
+                The URL field is where you enter the overlay link. The width and height fields should be set to the
+                size of your stream so the browser source fills out the entire screen. If you don't know the size of
+                your stream you can find it in the settings dialog of OBS under the video tab. All other settings
+                can be left at their default values. After the source has been created it will display the overlay
+                which by default is empty.
+            </p>
+            <h1 id="editor">Using the editor</h1>
+            <p>
+                The overlay editor is where elements are added, removed and modified. It consists of two windows
+                and the main canvas area in the center. The canvas area is a representation of the current state
+                of the overlay. The two tool windows can be moved around by clicking and dragging their title bars
+                if they are in the way of any overlay elements. If no element is selected the windows will also be
+                semi-transparent to make it easier to see the canvas area. If you hover over them they will become
+                opaque.
+            </p>
+            <h2 id="usage-and-keybinds">Keybinds and basic usage</h2>
+            <p>
+                After having added an element you probably want make additional changes to it. By default newly added
+                elements are not visible on stream. Elements that are not visible on stream will be marked by a cyan
+                dashed border and low opacity. The currently selected element will have a red border. If the element
+                is scaled down a lot the border might not be visible or hard to see.
+            </p>
+            <p>
+                By clicking on any element on the canvas you can change the active selection which will start to display
+                the settings for the currently selected element in the <a href="#settings-window">settings window</a>.
+                Once an element is selected there are a few useful keybinds available:
+            </p>
+            <ul>
+                <li><strong>G</strong> enters movement mode, move your mouse to move the object along the x and y axis
+                </li>
+                <li><strong>S</strong> enters scale mode, move your mouse to scale the object along the x and y axis
+                </li>
+                <li><strong>R</strong> enters rotation mode, move your mouse to rotate the object around the Z-axis</li>
+                <li><strong>M</strong> mirrors the object horziontally</li>
+                <li><strong>Shift+M</strong> mirrors it vertically</li>
+                <li><strong>X</strong> deletes the element</li>
+                <li><strong>H</strong> toggles the visibility of the element on stream</li>
+                <li><strong>Ctrl+R</strong> resets the scale and rotation</li>
+            </ul>
+            <p>
+                To exit any of the modes press <strong>ESC</strong> or click anywhere on the canvas. If you have used
+                <a href="https://blender.org">Blender</a> before some of the keybinds should be familiar to you. When
+                moving,
+                scaling or rotating you can press <strong>X</strong>, <strong>Y</strong> or <strong>Z</strong> to lock
+                the movement to the x or y axis respectively.
+            </p>
+            <p>
+                If you have an image link in your clipboard you can paste it into the editor with
+                <strong>Ctrl+V</strong>
+                to create a new image element. The same goes for text which will create a new text element. The editor
+                also has an internal clipboard which can be used to copy and paste elements. To copy an element press
+                <strong>Shift+C</strong> and to paste it press <strong>Shift+V</strong>.
+            </p>
+            <h2 id="settings-window">Settings window</h2>
+            <p>The settings window is split up into three segments:</p>
+            <ul>
+                <li>Adding elements</li>
+                <li>Canvas settings</li>
+                <li>Selected element settings</li>
+            </ul>
+            <h3>Adding elements</h3>
+            <p>
+                Clicking on any of the buttons at the top of the settings window will add a new element type.
+            </p>
+            <h3>Canvas settings</h3>
+            <p>
+                Here you can adjust the canvas size which will also be propagated to any overlay loaded in OBS.
+                You can also change which stream is embed in the background, by entering the URL and the pressing
+                "embed".
+            </p>
+            <h3>Selected element settings</h3>
+            <p>
+                Depending on what type of element is selected you'll see different settings. There are some basic
+                properties that all elements share. The properties are more thoroughly described <a
+                    href="#elements">here</a>.
+            </p>
+            <h2 id="element-list">Element list</h2>
+            <p>
+                The element list is a window that contains a list of all elements that are currently added to the
+                overlay. The order of them represents the order in which they are displayed, so if there are two
+                elements and element A is at the top of the list and element B is below A, A is displayed above B in the
+                overlay. Clicking on an item in the list will change the currently selected element.
+            </p>
+
+            <h1 id="elements">Elements</h1>
+            <h2 id="basic-element-properties">Basic properties</h2>
+            <p>
+                All elements share the following basic properties:
+            </p>
+            <ul>
+                <li>name</li>
+                <li>position and size</li>
+                <li>layer or z-index</li>
+                <li>opacity</li>
+                <li>visibility on stream</li>
+                <li>pivot point</li>
+            </ul>
+            <h3>Name</h3>
+            <p>Pretty selfexplanatory. The name can be used to make elements easier identifiable, but it does not have
+                to be unique. IROS generates a separate unique id for each element.</p>
+            <h3>Position and size</h3>
+            <p>
+                Each element has its own size and position. The position and scale are modified by moving or scaling the
+                element. See <a href="#usage-and-keybinds">Keybinds and basic usage</a> for more info.
+            </p>
+            <h3><img class="icon" src="../img/layer.svg" /> Layer or z-index</h3>
+            <p>Determines which elements are drawn at the top. By default all elements use layer 0, so the oder in which
+                they are drawn is determined by the order in which they are added to the overlay. The last element is
+                always at the top. If you want an element to be drawn above another one you can achieve this by
+                either increasing the z-index of the element you want to be above, or by decreasing the z-index of the
+                element
+                that should be below.
+            </p>
+            <h3><img class="icon" src="../img/opacity.svg" /> Opacity</h3>
+            <p>With this slider the opacity or transparency of the element can be modified. If you accidentally set the
+                opacity to zero you can use the <a href="#element-list">element list</a> to find the element again.</p>
+            <h3><img class="icon" src="../img/visible.svg" /> Visibility on stream</h3>
+            <p>By default each newily added element will not be visible on stream to prevent accidentally showing
+                something
+                you don't want to show. By checking or unchecking the checkbox next to the eyeball or by pressing
+                <strong>H</strong> you can make an element visible or invisible on stream.
+            </p>
+            <h3><img class="icon" src="../img/pivot.svg" /> Pivot point</h3>
+            <p>
+                The pivot point determines the origin for scaling and rotating the element. By default it is set to the
+                center of the object. The setting has three buttons for the horizontal position of the pivot and three
+                for the vertical position. By clicking on any of the buttons the pivot is modified, which is reflected
+                for example by how the rotation affects the object.
+            </p>
+
+            <h2 id="text"><img src="../img/add-text.svg" class="icon element" /> Text</h2>
+            <p>
+                Can display text using basic markdown formatting, e.g. <strong>**bold**</strong>, <em>*italic*</em>,
+                <s>~~strikethrough~~</s> or <span style="text-decoration: underline">__underline__</span>.
+            </p>
+            <p>The font of the text can be changed by typing the name of the desired font into the font textbox. Keep in
+                mind that as of right now the desired font has to be installed on the machine that displays the overlay
+                on stream.
+            </p>
+            <p>Other properties include the color of the text and the background.</p>
+
+            <h2 id="image"><img src="../img/add-image.svg" class="icon element" /> Image</h2>
+            <p>
+                The image element can load an Image from any URL and display it in the overlay. If you copy the URL
+                of an image to your clipboard and paste it in the editor with <strong>Ctrl+V</strong> a new image
+                element using the URL from your clipboard will be created. As always the new element will not be visible
+                on stream by default to prevent accidentally pasted images from showing up.
+            </p>
+
+            <h2 id="countdown-and-timer"><img src="../img/add-timer.svg" class="icon element" /> Countdown and timer
+            </h2>
+            <p>
+                This element can either count the time up or down. It is essentially a text element with some logic to
+                make it keep track of time. You can choose between the two modes "stopwatch" or "timer". If you choose
+                timer you can enter the time from which it'll count down into the textbox. Lastly there's a start, pause
+                and reset button to control the time tracking.
+            </p>
+
+            <h2 id="emotes"><img src="../img/add-emote.svg" class="icon element" /> Emotes</h2>
+            <p>It can sometimes be useful to easily display emotes people use in chat on stream. When clicking this
+                button a new dialog will open which lets you search for emotes available on <a
+                    href="https://7tv.app">7TV</a>. Type in the name of the emote in the search bar and hit enter or
+                click "Search". The dialog will show the first 40 emotes that match the query. Click on the emote you
+                want to add and it'll be added as a new image element to the overlay.
+            </p>
+
+            <h2 id="favorites"><img src="../img/add-favorite.svg" class="icon element" /> Favorites</h2>
+            <p>
+                If there are any elements that you need frequently you can favorite them by selecting them and pressing
+                <strong>F</strong>.
+                When clicking on the favorite button a dialog opens with a list of all favorited elements. Click on any
+                of them to add them to the overlay. The favorites are saved locally in your browser. If you want to
+                remove favorites you can click on the "delete mode" button. Afterwards click on any element which marks
+                it for deletion. If you click an element again it will be unmarked. When you're finished
+                click "done" and all elements marked for deletion will be removed.
+            </p>
+
+            <h1 id="faq">Frequently asked questions</h1>
+            <p><strong>Where's the source code? Is this FOSS?</strong> Currently the source code is not freely
+                available. I might make it available at some point since the code isn't all that interesting.</p>
+            <p><strong>Can feature X be added?</strong> Depends. You can open an issue <a href="">here</a> to describe
+                what you're looking for.</p>
+            <p><strong>Where can I report bugs?</strong> Bugs can be reported on <a href=""></a>github</a>.</p>
+            <p><strong>Why can't I move elements with my mouse?</strong> See <a href="#usage-and-keybinds">keybinds and
+                    basic usage</a>. </p>
+            <p><strong>Isn't this basically what <a href="https://twitch.tv/moonmoon">moonmoon</a> uses?</strong>
+                Yes, it's heavily inspired by that, but written from scratch.</p>
+        </div>
+    </div>
+</body>
+
+</html>

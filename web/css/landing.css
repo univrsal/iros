@@ -226,3 +226,46 @@ button img {
     width: 22px;
     height: 18px;
 }
+
+h1::before {
+    content: "";
+    display: block;
+    height: 2em;
+    margin-top: -2em;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+h2::before {
+    content: "";
+    display: block;
+    height: 2.5em;
+    margin-top: -2.5em;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.center-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    filter: drop-shadow(0 0 0.3rem #000000ad);
+}
+
+li {
+    font-size: 13pt;
+}
+
+.icon {
+    height: 24px;
+    background-color: gray;
+    border-radius: 4px;
+    top: 6px;
+    position: relative;
+
+}
+
+.icon.element {
+    padding: 2px;
+}

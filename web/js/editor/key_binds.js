@@ -95,6 +95,12 @@ function keybind_switch_axis_y(edit, _e) {
     }
 }
 
+function keybind_switch_axis_z(edit, _e) {
+    if (edit.mode_axis !== MODE_AXIS.NONE) {
+        edit.mode_axis = MODE_AXIS.Z;
+    }
+}
+
 function keybind_switch_axis_xy(edit, _e) {
     if (edit.mode_axis !== MODE_AXIS.NONE) {
         edit.mode_axis = MODE_AXIS.XY;
@@ -140,6 +146,7 @@ const editor_keybinds = [
     { code: "Escape", ctrl: false, function: keybind_exit_editor_modes },
     { code: "KeyX", ctrl: false, function: keybind_switch_axis_x },
     { code: "KeyY", ctrl: false, function: keybind_switch_axis_y },
+    { code: "KeyZ", ctrl: false, function: keybind_switch_axis_z },
     { code: "KeyZ", shift: true, function: keybind_switch_axis_xy },
     { code: "KeyR", ctrl: true, function: keybind_reset_transform },
     { code: "KeyF", ctrl: false, function: keybind_favorite_selected_element },
