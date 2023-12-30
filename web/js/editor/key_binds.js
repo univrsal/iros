@@ -25,7 +25,7 @@ function keybind_paste_internal(edit, _e) {
 }
 
 function keybind_delete_selected_element(edit, _e) {
-    if (edit.selected_element) {
+    if (edit.selected_element && edit.current_mode === EDIT_MODE.NONE) {
         // remove from tickable elements
         let index = edit.tickable_elements.indexOf(edit.elements.get(edit.selected_element.id()));
         if (index > -1)
@@ -56,21 +56,21 @@ function keybind_mirror_selected_element(edit, e) {
 }
 
 function keybind_enter_scale_mode(edit, e) {
-    if (edit.selected_element) {
+    if (edit.selected_element && edit.current_mode !== EDIT_MODE.SCALE) {
         edit.enter_mode(EDIT_MODE.SCALE, MODE_AXIS.XY);
         edit.initial_element_size = { x: edit.selected_element.tf().scale_x, y: edit.selected_element.tf().scale_y };
     }
 }
 
 function keybind_enter_move_mode(edit, _e) {
-    if (edit.selected_element) {
+    if (edit.selected_element && edit.current_mode !== EDIT_MODE.MOVE) {
         edit.enter_mode(EDIT_MODE.MOVE, MODE_AXIS.XY);
         edit.initial_element_size = { x: edit.selected_element.tf().x, y: edit.selected_element.tf().y };
     }
 }
 
 function keybind_enter_rotate_mode(edit, _e) {
-    if (edit.selected_element) {
+    if (edit.selected_element && edit.current_mode !== EDIT_MODE.ROTATE) {
         edit.enter_mode(EDIT_MODE.ROTATE, MODE_AXIS.Z);
         edit.initial_element_size = { rotation: edit.selected_element.tf().rotation_z };
     }
