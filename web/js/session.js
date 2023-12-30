@@ -25,10 +25,10 @@ function generate_session() {
     let viewer_link = "";
     if (width === "" || height === "") {
         editor_link = `${document.location.origin}/editor?session=${session_uuid}&stream=${stream_url}`;
-        viewer_link = `${document.location.origin}/viewer?session=${session_uuid}&stream=${stream_url}`;
+        viewer_link = `${document.location.origin}/viewer?session=${session_uuid}`;
     } else {
         editor_link = `${document.location.origin}/viewer?session=${session_uuid}&stream=${stream_url}`;
-        viewer_link = `${document.location.origin}/viewer?session=${session_uuid}&stream=${stream_url}`;
+        viewer_link = `${document.location.origin}/viewer?session=${session_uuid}`;
     }
 
     // set links
