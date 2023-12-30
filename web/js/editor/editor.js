@@ -104,7 +104,7 @@ class editor extends viewer {
         if (this.current_mode == EDIT_MODE.SCALE) {
             //  calculate distance from drag offset to element center
             let dx = this.initial_position.x - this.selected_element.tf().x;
-            let dy = this.initial_position.y - this.selected_element.tf().x;
+            let dy = this.initial_position.y - this.selected_element.tf().y;
             let distance = Math.sqrt(dx * dx + dy * dy);
 
             // calculate distance from mouse to element center
