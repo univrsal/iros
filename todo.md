@@ -37,8 +37,8 @@
 [x] favorites to quickly save and load elements
 [x] x for deleting elements
 [x] h for toggling visibility
-[ ] scaling depends on element position???
-[ ] text background 
+[x] scaling depends on element position???
+[x] text background 
 [ ] copy paste elements don't have unique id and name
 [ ] Enforce uuid for session id
 [ ] select multiple items

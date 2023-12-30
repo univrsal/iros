@@ -93,7 +93,8 @@
     padding-left: 9px;
 }
 
-.window #color {
+.window #color,
+.window #background-color {
     height: 23px;
     width: calc(100%);
 }
@@ -176,7 +177,8 @@
 #text-settings,
 #color-settings,
 #url-settings,
-#timer-settings {
+#timer-settings,
+#background-color-settings {
     display: grid;
     grid-gap: 4px;
     margin-bottom: 4px;
@@ -190,7 +192,8 @@
 #text-settings,
 #color-settings,
 #url-settings,
-#timer-settings {
+#timer-settings,
+#background-color-settings {
     /* arrange labels and inputs in grid */
     grid-template-columns: min-content 1fr;
 }
@@ -198,7 +201,8 @@
 #text-settings,
 #color-settings,
 #url-settings,
-#timer-settings {
+#timer-settings,
+#background-color-settings {
     display: none;
 }
 

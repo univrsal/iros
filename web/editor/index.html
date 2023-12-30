@@ -143,12 +143,21 @@
                 <input type="color" name="color" id="color" title="Element color">
             </div>
 
+            <div id="background-color-settings">
+                <img id="background-color-label" src="../img/background-color.svg" title="Element background color" />
+                <input type="color" name="background-color" id="background-color" title="Element background color">
+            </div>
+
             <div id="text-settings">
+                <input type="checkbox" name="background-color" id="enable-background-color"
+                    title="Enable background color">
+                <label for="enable-background-color" title="Enable background color">Background color</label>
                 <img id="font-label" src="../img/font.svg" title="Element font" />
                 <input type="text" name="font" id="font" title="Element font">
 
                 <img id="font-size-label" src="../img/font-size.svg" title="Element font size" />
                 <input type="number" name="font-size" id="font-size" title="Element font size">
+
                 <textarea id="text" name="text" rows="4" cols="50"
                     title="Element text, supports basic markdown like **bold**, *italic*, __underline__ and ~~strikethrough~~"></textarea>
             </div>

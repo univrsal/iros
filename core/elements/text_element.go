@@ -21,10 +21,11 @@ import "encoding/json"
 
 type TextElement struct {
 	ElementBase
-	Font  string `json:"font"`
-	Size  int    `json:"size"`
-	Color string `json:"color"`
-	Text  string `json:"text"`
+	Font            string `json:"font"`
+	Size            int    `json:"size"`
+	Color           string `json:"color"`
+	BackgroundColor string `json:"background_color"`
+	Text            string `json:"text"`
 }
 
 func (e *TextElement) Update(data map[string]json.RawMessage) {

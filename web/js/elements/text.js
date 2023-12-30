@@ -18,7 +18,7 @@
 class text_element extends element {
     constructor(parent, data, type = "text") {
         super(parent, type, data);
-        this.html = $(`<div class="iros-element" id="${this.data.id}">${this.get_formatted_text()}</div>`);
+        this.html = $(`<div class="iros-element iros-text-element" id="${this.data.id}">${this.get_formatted_text()}</div>`);
     }
 
     update() {
@@ -32,6 +32,7 @@ class text_element extends element {
         this.html.style.fontFamily = this.data.font;
         this.html.style.fontSize = this.data.size + "px";
         this.html.style.color = this.data.color;
+        this.html.style.backgroundColor = this.data.background_color;
         this.html.innerHTML = this.get_formatted_text();
         this.data.transform.width = this.html.clientWidth;
         this.data.transform.height = this.html.clientHeight;
@@ -62,13 +63,18 @@ class text_element_handler extends element_handler {
         super(edt, type);
         this.color_settings = $("#color-settings");
         this.text_settings = $("#text-settings");
+        this.background_color_settings = $("#background-color-settings");
         this.color = $("#color");
+        this.background_color = $("#background-color");
+        this.enable_background_color = $("#enable-background-color");
         this.text = $("#text");
         this.font = $("#font");
         this.size = $("#font-size");
         this.selected_element = null;
 
         this.color.on("input", () => this.update_selected_element());
+        this.background_color.on("input", () => this.update_selected_element());
+        this.enable_background_color.on("input", () => this.update_selected_element());
         this.text.on("input", () => this.update_selected_element());
         this.font.on("input", () => this.update_selected_element());
         this.size.on("input", () => this.update_selected_element_and_ui());
@@ -82,6 +88,7 @@ class text_element_handler extends element_handler {
     update_selected_element() {
         if (this.selected_element) {
             this.selected_element.data.color = this.color.value;
+            this.selected_element.data.background_color = this.background_color.value + (this.enable_background_color.checked ? "ff" : "00");
             this.selected_element.data.text = this.text.value;
             this.selected_element.data.font = this.font.value;
             this.selected_element.data.size = Number(this.size.value);
@@ -93,7 +100,10 @@ class text_element_handler extends element_handler {
     show_settings(element) {
         this.color_settings.style.display = "grid";
         this.text_settings.style.display = "grid";
+        this.background_color_settings.style.display = "grid";
         this.color.value = element.data.color;
+        this.background_color.value = element.data.background_color.substring(0, 7);
+        this.enable_background_color.checked = element.data.background_color.substring(7) === "ff";
         this.text.value = element.data.text;
         this.font.value = element.data.font;
         this.size.value = element.data.size;
@@ -103,6 +113,7 @@ class text_element_handler extends element_handler {
     hide_settings() {
         this.color_settings.style.display = "none";
         this.text_settings.style.display = "none";
+        this.background_color_settings.style.display = "none";
         this.selected_element = null;
     }
 }
@@ -113,6 +124,7 @@ function add_text_element() {
         font: "serif",
         size: 32,
         color: "#ff0000",
+        background_color: "#00000000",
         name: `Text ${edt.get_next_element_id()}`,
     };
     edt.add_element(create_element(edt, "text", data));

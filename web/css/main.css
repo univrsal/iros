@@ -45,3 +45,7 @@ html {
     /* This is needed to prevent the element from jumping when selected */
     border: 1px solid transparent;
 }
+
+.iros-text-element {
+    border-radius: 5px;
+}
