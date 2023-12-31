@@ -68,9 +68,9 @@ func (s *WebSocketServer) Start() {
 	var ws_url string
 	var http_address = fmt.Sprintf("%s:%d", Cfg.HTTPServerAddress, Cfg.HTTPPort)
 	if Cfg.UseWSS {
-		ws_url = "wss://" + http_address + Cfg.WebSocketEndpoint
+		ws_url = "wss://" + Cfg.ServerDomain + Cfg.WebSocketEndpoint
 	} else {
-		ws_url = "ws://" + http_address + Cfg.WebSocketEndpoint
+		ws_url = "ws://" + Cfg.ServerDomain + Cfg.WebSocketEndpoint
 	}
 	config_text := fmt.Sprintf(`var config = {WEBSOCKET_URL: "%s", ROOT: "%s", COMMIT: "%s"};`, ws_url, Cfg.WebRoot, Commit)
 	http.HandleFunc(Cfg.WebRoot+"js/config.js", func(w http.ResponseWriter, r *http.Request) {

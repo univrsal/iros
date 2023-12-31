@@ -1,7 +1,7 @@
 import shutil
 import os
 
-NO_CGO = False
+NO_CGO = True
 
 
 def find_files(path, ext):
@@ -59,3 +59,20 @@ for file in html_files:
     os.system(
         "html-minifier --collapse-whitespace --remove-comments -o " + file + " " + file
     )
+
+# prepend all css, html and js files with the header
+print("Prepending headers")
+for file in js_files + css_files + html_files:
+    with open(file, "r") as f:
+        content = f.read()
+    with open(file, "w") as f:
+        if file.endswith(".html"):
+            f.write(
+                "<!-- CopE Wright (c) $current_year me <uni@vrsal.cc> :^) - Donut Steel -->\n"
+            )
+        else:
+            f.write(
+                "/* CopE Wright (c) $current_year me <uni@vrsal.cc> :^) - Donut Steel */\n"
+            )
+
+        f.write(content)
