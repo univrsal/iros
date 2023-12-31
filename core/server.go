@@ -23,9 +23,22 @@ import (
 	"log"
 	"net/http"
 
+	"runtime/debug"
+
 	"git.vrsal.cc/alex/iros/core/elements"
 	"github.com/gorilla/websocket"
 )
+
+var Commit = func() string {
+	if info, ok := debug.ReadBuildInfo(); ok {
+		for _, setting := range info.Settings {
+			if setting.Key == "vcs.revision" {
+				return setting.Value[:7]
+			}
+		}
+	}
+	return "debug"
+}()
 
 type WebSocketServer struct {
 	Sessions map[string]IrosSession
@@ -59,14 +72,17 @@ func (s *WebSocketServer) Start() {
 	} else {
 		ws_url = "ws://" + http_address + Cfg.WebSocketEndpoint
 	}
-	config_text := fmt.Sprintf(`var config = {WEBSOCKET_URL: "%s", ROOT: "%s"};`, ws_url, Cfg.WebRoot)
+	config_text := fmt.Sprintf(`var config = {WEBSOCKET_URL: "%s", ROOT: "%s", COMMIT: "%s"};`, ws_url, Cfg.WebRoot, Commit)
 	http.HandleFunc(Cfg.WebRoot+"js/config.js", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/javascript")
 		w.Write([]byte(config_text))
 	})
 
 	http.Handle(Cfg.WebRoot, http.StripPrefix(Cfg.WebRoot, http.FileServer(http.Dir("./web"))))
-	http.ListenAndServe(http_address, nil)
+	err := http.ListenAndServe(http_address, nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
 }
 
 func StartServer(cfg string) {

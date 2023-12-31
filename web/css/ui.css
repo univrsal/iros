@@ -53,6 +53,14 @@
     width: 130px;
 }
 
+#elements {
+    line-height: 1.7em;
+}
+
+#elements button {
+    max-width: 37px;
+}
+
 .window h1 {
     font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;

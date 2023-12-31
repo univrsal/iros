@@ -10,6 +10,15 @@
             "request": "launch",
             "mode": "auto",
             "program": "main.go"
+        },
+        {
+            "name": "Deploy",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/meta/deploy.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/meta",
+            "justMyCode": true
         }
     ]
 }
