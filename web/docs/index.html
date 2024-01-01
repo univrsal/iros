@@ -89,8 +89,24 @@
             </p>
             <p>
                 See <a href="../#quickstart">quickstart</a> to get started with a few simple steps or look below for
-                a more thorough explanation for setting it up.
+                a more thorough explanation for setting it up. This tutorial is also available as a video (click on it
+                to load it):
             </p>
+
+            <script>
+                function embed_video(id) {
+                    document.querySelector(".video-embed").innerHTML = `
+                    <iframe src="https://www.youtube.com/embed/${id}" title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+                    `;
+                }
+            </script>
+
+            <div class="video-embed" onclick="embed_video('PXOY1KFhj7o')" title="Click to embed video">
+                <img src="../img/thumbnail.jpg" alt="Video placeholder">
+            </div>
 
             <h1 id="getting-started">Getting started</h1>
             <p>
@@ -336,15 +352,27 @@
 
             <h1 id="faq">Frequently asked questions</h1>
             <p><strong>Where's the source code? Is this FOSS?</strong> Currently the source code is not freely
-                available. I might make it available at some point since the code isn't all that interesting.</p>
+                available. I might make it available at some point since the code isn't all that interesting and I'm too
+                much of a brainlet to obfuscate the code anyways.</p>
             <p><strong>Can feature X be added?</strong> Depends. You can open an issue <a
                     href="https://github.com/univrsal/iros-issues/issues/new/choose">here</a> to describe
                 what you're looking for.</p>
-            <p><strong>Where can I report bugs?</strong> Bugs can be reported on <a href=""></a>github</a>.</p>
+            <p><strong>Where can I report bugs?</strong> Bugs can be reported on <a
+                    href="https://github.com/univrsal/iros-issues/issues/new/choose"></a>github</a>.</p>
             <p><strong>Why can't I move elements with my mouse?</strong> See <a href="#usage-and-keybinds">keybinds and
                     basic usage</a>. </p>
             <p><strong>Isn't this basically what <a href="https://twitch.tv/moonmoon">moonmoon</a> uses?</strong>
                 Yes, it's heavily inspired by that, but written from scratch.</p>
+            <p><strong>Is the overlay persistent?</strong> Overlay state is cached on the server and will stay until it
+                is restarted, which should only happen when a new version is released, however there's no guarantee.
+                You can favorite elements which will save them locally in your browser and makes it easier to rebuild
+                the overlay if the server restarts.</p>
+            <p><strong>What about latency?</strong> The server is located in central Europe so depending on the location
+                of the streamer and the users of the editor the latency can differ, but it should generally be fast
+                enough.</p>
+            <p><strong>How does this actually work?</strong> It's basically just a bunch of plain JS and a small
+                WebSocket server
+                written in Go.</p>
         </div>
     </div>
 </body>

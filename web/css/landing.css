@@ -269,3 +269,14 @@ li {
 .icon.element {
     padding: 2px;
 }
+
+.video-embed,
+.video-embed iframe,
+.video-embed img {
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
+.video-embed img {
+    cursor: pointer;
+}
