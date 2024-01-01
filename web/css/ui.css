@@ -398,14 +398,25 @@
     background-color: #939396;
 }
 
-.emote-search-result-image,
-.favorites-element-icon {
+.emote-search-result-image {
     width: calc(100% - 8px);
     height: calc(100% - 8px);
     padding: 4px;
     object-fit: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+#emote-search-input::placeholder {
+    color: rgb(197, 197, 197);
+}
+
+.favorites-element-icon {
+    height: calc(100% - 8px);
+    padding: 4px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .emote-search-result-name,
