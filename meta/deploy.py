@@ -37,7 +37,7 @@ else:
 
 # copy the web content to the build folder
 shutil.copytree("../web", "build/web")
-
+shutil.copytree("../templates", "build/templates")
 
 js_files = find_files("build/web", ".js")
 css_files = find_files("build/web", ".css")
