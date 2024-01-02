@@ -362,17 +362,14 @@
             <p><strong>Why can't I move elements with my mouse?</strong> See <a href="#usage-and-keybinds">keybinds and
                     basic usage</a>. </p>
             <p><strong>Isn't this basically what <a href="https://twitch.tv/moonmoon">moonmoon</a> uses?</strong>
-                Yes, it's heavily inspired by that, but written from scratch.</p>
-            <p><strong>Is the overlay persistent?</strong> Overlay state is cached on the server and will stay until it
-                is restarted, which should only happen when a new version is released, however there's no guarantee.
-                You can favorite elements which will save them locally in your browser and makes it easier to rebuild
-                the overlay if the server restarts.</p>
+                Yes, it's heavily inspired by that but written from scratch.</p>
+            <p><strong>Is the overlay persistent?</strong> Overlay state is cached on the server and should be retained
+                even after a server restart, but there's no guarantee.</p>
             <p><strong>What about latency?</strong> The server is located in central Europe so depending on the location
                 of the streamer and the users of the editor the latency can differ, but it should generally be fast
                 enough.</p>
             <p><strong>How does this actually work?</strong> It's basically just a bunch of plain JS and a small
-                WebSocket server
-                written in Go.</p>
+                WebSocket server written in Go. No fancy frameworks.</p>
         </div>
     </div>
 </body>
