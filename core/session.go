@@ -28,6 +28,8 @@ import (
 type IrosSession struct {
 	Connections []*websocket.Conn           `json:"-"`
 	State       map[string]elements.Element `json:"state"`
+	// we might want to purge sessions that haven't been connected to in a while at some point
+	LastConnectionTime int64 `json:"last_update"`
 }
 
 func (session *IrosSession) load_element(t string, data []byte) *elements.Element {

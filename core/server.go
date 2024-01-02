@@ -24,7 +24,9 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sync/atomic"
 	"syscall"
+	"time"
 
 	"runtime/debug"
 
@@ -152,6 +154,7 @@ func (s *WebSocketServer) LoadState() {
 			// load element
 			newsession.load_element(t, element_json)
 		}
+		Stats.NumSessions++
 		s.Sessions[k] = newsession
 	}
 
@@ -175,6 +178,8 @@ func (s *WebSocketServer) Start() {
 		log.Println("Websocket Connected!")
 		listen(websocket)
 	})
+
+	http.HandleFunc(Cfg.WebRoot+"stats", ServeStats)
 
 	var ws_url string
 	var http_address = fmt.Sprintf("%s:%d", Cfg.HTTPServerAddress, Cfg.HTTPPort)
@@ -215,6 +220,7 @@ func (s *WebSocketServer) Start() {
 }
 
 func StartServer(cfg string) {
+	Stats.StartTime = time.Now().Unix()
 	LoadConfig(cfg)
 	wss.Start()
 }
@@ -227,6 +233,11 @@ func listen(conn *websocket.Conn) {
 	type Handshake struct {
 		Session string `json:"session"`
 	}
+
+	conn.SetCloseHandler(func(code int, text string) error {
+		atomic.AddInt32(&Stats.NumWSConnections, -1)
+		return nil
+	})
 
 	for {
 		// read a message
@@ -255,16 +266,22 @@ func listen(conn *websocket.Conn) {
 			val.Connections = append(val.Connections, conn)
 			wss.Sessions[result.Session] = val
 			if val.State != nil {
+				// send state to new connection
 				conn.WriteJSON(val.State)
 			}
+			val.LastConnectionTime = time.Now().Unix()
 		} else {
 			var newsession IrosSession
 			newsession.State = make(map[string]elements.Element)
 			newsession.Connections = append(val.Connections, conn)
+			newsession.LastConnectionTime = time.Now().Unix()
 			wss.Sessions = make(map[string]IrosSession)
 			wss.Sessions[result.Session] = newsession
+
+			atomic.AddInt32(&Stats.NumSessions, 1)
 		}
 
+		atomic.AddInt32(&Stats.NumWSConnections, 1)
 		break
 	}
 
