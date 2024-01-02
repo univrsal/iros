@@ -1,8 +1,0 @@
-{
-  "webroot": "/",
-  "server_domain": "localhost",
-  "websocket_endpoint": "/ws",
-  "use_wss": false,
-  "http_port": 8080,
-  "http_server_address": "localhost"
-}

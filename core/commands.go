@@ -34,7 +34,7 @@ func process_command(session *IrosSession, cmd_type string, data map[string]json
 			return
 		}
 
-		session.load_element(t, command)
+		session.load_element(t, command["args"])
 	case "update":
 		var id string
 		err := json.Unmarshal(data["id"], &id)

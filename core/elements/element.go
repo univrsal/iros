@@ -17,7 +17,9 @@
 
 package elements
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type ElementTransform struct {
 	X         int     `json:"x"`

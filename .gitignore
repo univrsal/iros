@@ -1,2 +1,4 @@
 __debug**
 meta/build/
+config.json
+sessions.json

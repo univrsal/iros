@@ -24,13 +24,14 @@ import (
 )
 
 type Config struct {
-	WebRoot           string `json:"webroot"`
-	ServerDomain      string `json:"server_domain"`
-	WebSocketEndpoint string `json:"websocket_endpoint"`
-	UseWSS            bool   `json:"use_wss"`
-	HTTPPort          int    `json:"http_port"`
-	HTTPServerAddress string `json:"http_server_address"`
-	DebugMode         bool   `json:"debug_mode"`
+	WebRoot            string `json:"webroot"`
+	ServerDomain       string `json:"server_domain"`
+	WebSocketEndpoint  string `json:"websocket_endpoint"`
+	UseWSS             bool   `json:"use_wss"`
+	HTTPPort           int    `json:"http_port"`
+	HTTPServerAddress  string `json:"http_server_address"`
+	DebugMode          bool   `json:"debug_mode"`
+	SessionsBackupFile string `json:"sessions_backup_file"`
 }
 
 var (
@@ -40,13 +41,14 @@ var (
 func LoadConfig(path string) {
 	// Default config
 	Cfg = Config{
-		WebRoot:           "/",
-		ServerDomain:      "localhost",
-		WebSocketEndpoint: "/ws",
-		UseWSS:            true,
-		HTTPPort:          8080,
-		HTTPServerAddress: "localhost",
-		DebugMode:         false,
+		WebRoot:            "/",
+		ServerDomain:       "localhost",
+		WebSocketEndpoint:  "/ws",
+		UseWSS:             true,
+		HTTPPort:           8080,
+		HTTPServerAddress:  "localhost",
+		DebugMode:          false,
+		SessionsBackupFile: "./sessions.json",
 	}
 
 	// check if cmd.CfgFilePath is empty

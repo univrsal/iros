@@ -26,15 +26,15 @@ import (
 )
 
 type IrosSession struct {
-	Connections []*websocket.Conn
-	State       map[string]elements.Element
+	Connections []*websocket.Conn           `json:"-"`
+	State       map[string]elements.Element `json:"state"`
 }
 
-func (session *IrosSession) load_element(t string, data map[string]json.RawMessage) *elements.Element {
+func (session *IrosSession) load_element(t string, data []byte) *elements.Element {
 	switch t {
 	case "text":
 		e := new(elements.TextElement)
-		err := json.Unmarshal(data["args"], &e)
+		err := json.Unmarshal(data, &e)
 
 		if err != nil {
 			log.Println(err)
@@ -43,7 +43,7 @@ func (session *IrosSession) load_element(t string, data map[string]json.RawMessa
 		session.State[e.Id] = e
 	case "image":
 		e := new(elements.ImageElement)
-		err := json.Unmarshal(data["args"], &e)
+		err := json.Unmarshal(data, &e)
 
 		if err != nil {
 			log.Println(err)
@@ -52,7 +52,7 @@ func (session *IrosSession) load_element(t string, data map[string]json.RawMessa
 		session.State[e.Id] = e
 	case "timer":
 		e := new(elements.TimerElement)
-		err := json.Unmarshal(data["args"], &e)
+		err := json.Unmarshal(data, &e)
 
 		if err != nil {
 			log.Println(err)

@@ -22,6 +22,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"runtime/debug"
 
@@ -41,18 +44,126 @@ var Commit = func() string {
 }()
 
 type WebSocketServer struct {
-	Sessions map[string]IrosSession
+	Sessions map[string]IrosSession `json:"sessions"`
 }
 
 var (
 	wss WebSocketServer
 )
 
+func (s *WebSocketServer) SaveState() {
+	// Marshal the Server instance to JSON.
+	jsonBytes, err := json.Marshal(s)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	// Write out the JSON bytes to the file.
+	err = os.WriteFile(Cfg.SessionsBackupFile, jsonBytes, 0644)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	log.Println("Saved state to " + Cfg.SessionsBackupFile)
+}
+
+func (s *WebSocketServer) LoadState() {
+	if _, err := os.Stat(Cfg.SessionsBackupFile); err != nil {
+		return // file doesn't exist
+	}
+
+	// read our opened jsonFile as a byte array.
+	p, err := os.ReadFile(Cfg.SessionsBackupFile)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	log.Println("Loading state...")
+
+	// This is pretty convoluted, I guess using json.RawMessage and a wrapper struct would be better
+
+	var sessions_backup map[string]json.RawMessage
+	err = json.Unmarshal(p, &sessions_backup)
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	// get sessions
+	var sessions map[string]json.RawMessage
+	err = json.Unmarshal(sessions_backup["sessions"], &sessions)
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	// create new sessions map
+	s.Sessions = make(map[string]IrosSession)
+
+	// create sessions
+	for k, v := range sessions {
+		var session map[string]json.RawMessage
+		err = json.Unmarshal(v, &session)
+
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		log.Println("Loading session " + k)
+
+		// get state
+		var state map[string]json.RawMessage
+		err = json.Unmarshal(session["state"], &state)
+
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		var newsession IrosSession
+
+		// create element map
+		newsession.State = make(map[string]elements.Element)
+
+		// load elements
+		for _, element_json := range state {
+			var element map[string]json.RawMessage
+			err = json.Unmarshal(element_json, &element)
+
+			if err != nil {
+				log.Println(err)
+				return
+			}
+
+			// get type
+			var t string
+			err = json.Unmarshal(element["type"], &t)
+
+			if err != nil {
+				log.Println(err)
+				return
+			}
+			// load element
+			newsession.load_element(t, element_json)
+		}
+		s.Sessions[k] = newsession
+	}
+
+}
+
 func (s *WebSocketServer) Start() {
 	var upgrader = websocket.Upgrader{
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
 	}
+
+	wss.LoadState()
 
 	http.HandleFunc(Cfg.WebSocketEndpoint, func(w http.ResponseWriter, r *http.Request) {
 
@@ -78,7 +189,25 @@ func (s *WebSocketServer) Start() {
 		w.Write([]byte(config_text))
 	})
 
+	// Create a channel to receive OS signals.
+	sigs := make(chan os.Signal, 1)
+
+	// Register the channel to receive SIGINT and SIGTERM signals.
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
+	// Start a goroutine that will perform cleanup tasks when a signal is received.
+	go func() {
+		<-sigs
+
+		// Stop the server
+		log.Println("Saving state...")
+		wss.SaveState()
+
+		os.Exit(0)
+	}()
+
 	http.Handle(Cfg.WebRoot, http.StripPrefix(Cfg.WebRoot, http.FileServer(http.Dir("./web"))))
+	log.Println("IROS is running on http://" + http_address)
 	err := http.ListenAndServe(http_address, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
