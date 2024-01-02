@@ -41,7 +41,7 @@ class editor extends viewer {
         this.visibility = $("#visibility");
         this.element_name = $("#element-name");
         this.element_list = $("#element-list-select");
-
+        this.connection_indicator = $("#connection-indicator");
         this.canvas_width = $("#canvas-width");
         this.canvas_height = $("#canvas-height");
         this.editor_canvas = $("#editor-canvas");
@@ -199,6 +199,18 @@ class editor extends viewer {
     }
 
     /* Events */
+
+    on_connection_changed() {
+        if (this.connected) {
+            this.connection_indicator.classList.remove("disconnected");
+            this.connection_indicator.classList.add("connected");
+            this.connection_indicator.title = "WebSocket Connected";
+        } else {
+            this.connection_indicator.classList.remove("connected");
+            this.connection_indicator.classList.add("disconnected");
+            this.connection_indicator.title = "WebSocket Disconnected";
+        }
+    }
 
     on_element_clicked(_e, element) {
         this.select_element(element);

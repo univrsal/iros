@@ -463,3 +463,21 @@
 .marked-for-deletion:hover {
     background-color: #ffa8b3;
 }
+
+#connection-indicator {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    z-index: 2000;
+}
+
+#connection-indicator.disconnected {
+    background-color: #ff3d57;
+}
+
+#connection-indicator.connected {
+    background-color: #00ff00;
+}

@@ -64,6 +64,8 @@ class viewer {
     get_canvas_width() { return this.container.clientWidth; }
     get_canvas_height() { return this.container.clientHeight; }
 
+    on_connection_changed() { }
+
     on_resize() {
         this.container.width = window.innerWidth;
         this.container.height = window.innerHeight;
@@ -76,11 +78,13 @@ class viewer {
     on_error(e) {
         console.log(e);
         this.connected = false;
+        this.on_connection_changed();
     }
 
     on_close(e) {
         // reconnect
         this.connected = false;
+        this.on_connection_changed();
         setTimeout(() => {
             this.socket = new WebSocket(config.WEBSOCKET_URL);
             this.socket.onopen = e => this.on_open(e);
@@ -93,6 +97,7 @@ class viewer {
     on_open(e) {
         this.connected = true;
         this.socket.send(JSON.stringify({ session: this.session_id }));
+        this.on_connection_changed();
     }
 
     on_data(e) {
@@ -101,6 +106,9 @@ class viewer {
             alert(data.error);
             return;
         } else if (data.type === undefined) {
+            // remove all elements
+            this.elements.forEach(element => command_delete_element(this, element));
+
             // iterate over elements in data object
             for (const [_, args] of Object.entries(data)) {
                 command_add_element(this, args);
