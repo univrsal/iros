@@ -11,7 +11,7 @@
     z-index: 1001;
 }
 
-#editor-canvas.no-input {
+.no-input {
     pointer-events: none;
 }
 

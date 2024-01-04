@@ -15,6 +15,12 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+var windows = [];
+
+$(document).ready(() => {
+    windows = document.getElementsByClassName("window");
+});
+
 class editor extends viewer {
     constructor(container) {
         super(container);
@@ -451,6 +457,10 @@ class editor extends viewer {
         this.current_mode = mode;
         this.mode_axis = axis;
         this.editor_canvas.classList.remove('no-input');
+
+        for (let i = 0; i < windows.length; i++) {
+            windows[i].classList.add('no-input');
+        }
     }
 
     leave_mode() {
@@ -459,6 +469,9 @@ class editor extends viewer {
         this.editor_canvas.classList.add('no-input');
         this.initial_position.x = -1;
         this.initial_position.y = -1;
+        for (let i = 0; i < windows.length; i++) {
+            windows[i].classList.remove('no-input');
+        }
     }
 
     get_next_element_id() {
