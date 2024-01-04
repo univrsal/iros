@@ -25,6 +25,16 @@ function keybind_paste_internal(edit, _e) {
     }
 }
 
+function keybind_duplicate_selected_element(edit, _e) {
+    if (edit.selected_element) {
+        let new_element = edit.selected_element.clone();
+        new_element.tf().x += 10;
+        new_element.tf().y += 10;
+        new_element.data.name = edit.make_unique_element_name(new_element.data.name);
+        edit.add_element(new_element);
+    }
+}
+
 function keybind_delete_selected_element(edit, _e) {
     if (edit.selected_element && edit.current_mode === EDIT_MODE.NONE) {
         // remove from tickable elements
@@ -130,6 +140,12 @@ function keybind_toggle_selected_element_visibility(edit, _e) {
     }
 }
 
+function keybind_reset_zoom(edit, _e) {
+    edit.editor_zoom = 1;
+    edit.editor_offset = [0, 0];
+    edit.update_zoom_and_offset();
+}
+
 const editor_keybinds = [
     { code: "KeyC", ctrl: true, function: keybind_copy },
     { code: "KeyC", shift: true, function: keybind_copy },
@@ -151,4 +167,6 @@ const editor_keybinds = [
     { code: "KeyR", ctrl: true, function: keybind_reset_transform },
     { code: "KeyF", ctrl: false, function: keybind_favorite_selected_element },
     { code: "KeyH", ctrl: false, function: keybind_toggle_selected_element_visibility },
+    { code: "KeyD", shift: true, function: keybind_duplicate_selected_element },
+    { code: "Space", ctrl: true, function: keybind_reset_zoom },
 ];

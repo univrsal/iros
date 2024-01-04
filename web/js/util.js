@@ -23,6 +23,7 @@ const EDIT_MODE = {
     MOVE: 0,
     SCALE: 1,
     ROTATE: 2,
+    MOVE_CANVAS: 3,
 };
 
 const MODE_AXIS = {

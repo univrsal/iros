@@ -54,6 +54,9 @@ class editor extends viewer {
         this.ctx = this.editor_canvas.getContext("2d");
         this.mouse_pos = [0, 0];
         this.element_count = 0;
+        this.editor_zoom = 1;
+        this.editor_offset = [0, 0];
+        this.space_pressed = false;
 
         let opts = document.getElementsByClassName("pivot-option");
         this.pivot_options = [];
@@ -62,9 +65,10 @@ class editor extends viewer {
             $(opts[i]).on("click", () => { this.on_pivot_changed(opts[i]); });
         }
 
-        $(this.editor_canvas).on("mousemove", e => this.on_mouse_move(e));
-        $(this.editor_canvas).on("mouseup", e => this.on_mouse_up(e));
-        $(this.container).on("mousedown", e => this.on_mouse_down(e));
+        $(document).on("mousemove", e => this.on_mouse_move(e));
+        $(document).on("mouseup", e => this.on_mouse_up(e));
+        $(document).on("mousedown", e => this.on_mouse_down(e));
+        $(document).on("wheel", (e) => this.on_scroll(e));
 
         $(document).on("keydown", e => this.on_key_down(e));
         $(document).on("keyup", e => this.on_key_up(e));
@@ -168,6 +172,11 @@ class editor extends viewer {
             send_command_transform_element(this, this.selected_element);
             this.selected_element.update();
             this.update_selected_element();
+        } else if (this.current_mode == EDIT_MODE.MOVE_CANVAS) {
+            let dx = this.mouse_pos[0] - this.initial_position.x;
+            let dy = this.mouse_pos[1] - this.initial_position.y;
+            this.editor_offset = [dx * this.scale_factor * this.editor_zoom, dy * this.scale_factor * this.editor_zoom];
+            this.player_container.style.transform = `scale(${this.editor_zoom}) translate(${dx}px, ${dy}px)`;
         } else if (this.current_mode == EDIT_MODE.ROTATE) {
             // calculate the vectore from scale start to element center
             let dx = this.initial_position.x - (this.selected_element.tf().x + this.selected_element.tf().width / 2);
@@ -199,6 +208,10 @@ class editor extends viewer {
             send_command_transform_element(this, this.selected_element);
             this.update_selected_element();
         }
+    }
+
+    update_zoom_and_offset() {
+        this.player_container.style.transform = `scale(${this.editor_zoom}) translate(${this.editor_offset[0]}px, ${this.editor_offset[1]}px)`;
     }
 
     draw() {
@@ -235,16 +248,19 @@ class editor extends viewer {
             for (let [_, el] of this.elements) {
                 el.html.classList.remove("highlighted-element");
             }
+            this.space_pressed = false;
         }
     }
 
     on_key_down(e) {
         if ($('#settings-window').contains(e.target) || active_modal != null || $('#element-list-window').contains(e.target))
             return;
+
         if (e.code == "Space") {
             for (let [_, el] of this.elements) {
                 el.html.classList.add("highlighted-element");
             }
+            this.space_pressed = true;
         }
         for (let keybind of editor_keybinds) {
             if (e.code == keybind.code) {
@@ -289,12 +305,18 @@ class editor extends viewer {
     }
 
     on_mouse_down(e) {
-        if (e.target !== this.container)
-            return;
+        if (this.current_mode === EDIT_MODE.NONE) {
+            // if left mouse button is pressed
+            if (e.button == 0) {
+                //this.select_element(null);
 
-        if (this.current_mode === EDIT_MODE.NONE)
-            this.select_element(null);
-        this.leave_mode();
+                // check if mouse wheel is pressed
+            } else if (e.button == 1) {
+                this.enter_mode(EDIT_MODE.MOVE_CANVAS, MODE_AXIS.NONE);
+            }
+        }
+        if (e.button == 0)
+            this.leave_mode();
     }
 
     on_mouse_up(_e) {
@@ -302,8 +324,8 @@ class editor extends viewer {
     }
 
     on_mouse_move(e) {
-        this.mouse_pos = [this.chrome_scale_fuckery(e.layerX), this.chrome_scale_fuckery(e.layerY)];
-        if (this.initial_position.x == -1) {
+        this.mouse_pos = [e.clientX / this.scale_factor / this.editor_zoom, e.clientY / this.scale_factor / this.editor_zoom];
+        if (this.initial_position.x == -1 && this.current_mode != EDIT_MODE.NONE) {
             this.initial_position.x = this.mouse_pos[0];
             this.initial_position.y = this.mouse_pos[1];
         }
@@ -361,6 +383,12 @@ class editor extends viewer {
             send_command_update_element(this, this.selected_element);
             this.rebuild_element_list();
         }
+    }
+
+    on_scroll(e) {
+        this.editor_zoom += (e.deltaY < 0 ? 1 : -1) * (this.space_pressed ? 0.01 : 0.1);
+        this.editor_zoom = clamp(this.editor_zoom, 0.1, 1);
+        this.player_container.style.transform = `scale(${this.editor_zoom}) translate(${this.editor_offset[0]}px, ${this.editor_offset[1]}px)`;
     }
 
     /* Element handling */
@@ -456,7 +484,6 @@ class editor extends viewer {
     enter_mode(mode, axis = MODE_AXIS.XY) {
         this.current_mode = mode;
         this.mode_axis = axis;
-        this.editor_canvas.classList.remove('no-input');
 
         for (let i = 0; i < windows.length; i++) {
             windows[i].classList.add('no-input');
@@ -466,7 +493,6 @@ class editor extends viewer {
     leave_mode() {
         this.current_mode = EDIT_MODE.NONE;
         this.mode_axis = MODE_AXIS.NONE;
-        this.editor_canvas.classList.add('no-input');
         this.initial_position.x = -1;
         this.initial_position.y = -1;
         for (let i = 0; i < windows.length; i++) {
