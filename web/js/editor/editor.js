@@ -68,7 +68,14 @@ class editor extends viewer {
         $(this.opacity).on("change", () => this.on_opacity_changed());
         $(this.z_index).on("change", () => this.on_z_index_changed());
         $(this.visibility).on("change", () => this.on_visibility_changed());
-        $(this.element_list).on("change", () => { this.on_element_clicked(null, this.elements.get(this.element_list.value)); });
+        $(this.element_list).on("change", () => {
+            let element = this.elements.get(this.element_list.value);
+            if (element) {
+                this.on_element_clicked(null, element);
+            } else {
+                this.rebuild_element_list(); // element was deleted and shouldn't be in the list anymore
+            }
+        });
 
         this.canvas_width.value = "1920";
         this.canvas_height.value = "1080";
