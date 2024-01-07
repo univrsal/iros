@@ -33,7 +33,7 @@ class editor extends viewer {
         this.current_mode = EDIT_MODE.NONE;
         this.mode_axis = MODE_AXIS.NONE;
 
-        this.initial_position = { x: -1, y: -1 };
+        this.initial_position = { x: -1, ux: -1, y: -1, uy: -1 };
         this.initial_element_size = { width: 0, height: 0 };
         this.start_rotation_angle = 0;
         this.element_handlers = [new text_element_handler(this), new image_element_handler(this), new timer_element_handler(this)];
@@ -53,9 +53,11 @@ class editor extends viewer {
         this.editor_canvas = $("#editor-canvas");
         this.ctx = this.editor_canvas.getContext("2d");
         this.mouse_pos = [0, 0];
+        this.unscaled_mouse_pos = [0, 0];
         this.element_count = 0;
         this.editor_zoom = 1;
         this.editor_offset = [0, 0];
+        this.initial_editor_offset = [0, 0];
         this.space_pressed = false;
 
         let opts = document.getElementsByClassName("pivot-option");
@@ -173,10 +175,11 @@ class editor extends viewer {
             this.selected_element.update();
             this.update_selected_element();
         } else if (this.current_mode == EDIT_MODE.MOVE_CANVAS) {
-            let dx = this.mouse_pos[0] - this.initial_position.x;
-            let dy = this.mouse_pos[1] - this.initial_position.y;
-            this.editor_offset = [dx * this.scale_factor * this.editor_zoom, dy * this.scale_factor * this.editor_zoom];
-            this.player_container.style.transform = `scale(${this.editor_zoom}) translate(${dx}px, ${dy}px)`;
+            let dx = this.unscaled_mouse_pos[0] - this.initial_position.ux;
+            let dy = this.unscaled_mouse_pos[1] - this.initial_position.uy;
+            this.editor_offset = [this.initial_editor_offset[0] + dx / this.editor_zoom, this.initial_editor_offset[1] + dy / this.editor_zoom];
+
+            this.player_container.style.transform = `scale(${this.editor_zoom}) translate(${this.editor_offset[0]}px, ${this.editor_offset[1]}px)`;
         } else if (this.current_mode == EDIT_MODE.ROTATE) {
             // calculate the vectore from scale start to element center
             let dx = this.initial_position.x - (this.selected_element.tf().x + this.selected_element.tf().width / 2);
@@ -325,9 +328,13 @@ class editor extends viewer {
 
     on_mouse_move(e) {
         this.mouse_pos = [e.clientX / this.scale_factor / this.editor_zoom, e.clientY / this.scale_factor / this.editor_zoom];
+        this.unscaled_mouse_pos = [e.clientX, e.clientY];
         if (this.initial_position.x == -1 && this.current_mode != EDIT_MODE.NONE) {
             this.initial_position.x = this.mouse_pos[0];
             this.initial_position.y = this.mouse_pos[1];
+            this.initial_position.ux = this.unscaled_mouse_pos[0];
+            this.initial_position.uy = this.unscaled_mouse_pos[1];
+            this.initial_editor_offset = [...this.editor_offset];
         }
         this.handle_edit_modes(e);
     }

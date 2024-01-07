@@ -28,8 +28,12 @@
 }
 
 .hidden {
-    border: 1px dashed #2affd1;
+    border: 1px dashed #81c7b8;
     opacity: 0.5 !important;
+}
+
+.hidden.selected-element {
+    border: 1px solid #00ffea;
 }
 
 #player-container,
