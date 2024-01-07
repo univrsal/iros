@@ -165,8 +165,9 @@ func (s *WebSocketServer) Start() {
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
 	}
+	s.Sessions = make(map[string]IrosSession)
 
-	wss.LoadState()
+	s.LoadState()
 
 	http.HandleFunc(Cfg.WebSocketEndpoint, func(w http.ResponseWriter, r *http.Request) {
 
@@ -206,7 +207,7 @@ func (s *WebSocketServer) Start() {
 
 		// Stop the server
 		log.Println("Saving state...")
-		wss.SaveState()
+		s.SaveState()
 
 		os.Exit(0)
 	}()
@@ -275,7 +276,6 @@ func listen(conn *websocket.Conn) {
 			newsession.State = make(map[string]elements.Element)
 			newsession.Connections = append(val.Connections, conn)
 			newsession.LastConnectionTime = time.Now().Unix()
-			wss.Sessions = make(map[string]IrosSession)
 			wss.Sessions[result.Session] = newsession
 
 			atomic.AddInt32(&Stats.NumSessions, 1)

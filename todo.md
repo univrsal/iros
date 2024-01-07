@@ -43,7 +43,8 @@
 [x] Enforce uuid for session id
 [x] Basic documentation page
 [x] Fix rotation behaving weirdly
-[ ] Fix only one session being saved
+[x] Fix only one session being saved
+[ ] Mor effecient transform message
 [ ] select multiple items
     [ ] move items
     [ ] delete items
