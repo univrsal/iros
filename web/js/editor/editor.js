@@ -314,7 +314,7 @@ class editor extends viewer {
                 //this.select_element(null);
 
                 // check if mouse wheel is pressed
-            } else if (e.button == 1) {
+            } else if (e.button == 1 && active_modal == null) {
                 this.enter_mode(EDIT_MODE.MOVE_CANVAS, MODE_AXIS.NONE);
             }
         }
@@ -399,9 +399,11 @@ class editor extends viewer {
     }
 
     on_scroll(e) {
-        this.editor_zoom += (e.deltaY < 0 ? 1 : -1) * (this.space_pressed ? 0.01 : 0.1);
-        this.editor_zoom = clamp(this.editor_zoom, 0.1, 1);
-        this.player_container.style.transform = `scale(${this.editor_zoom}) translate(${this.editor_offset[0]}px, ${this.editor_offset[1]}px)`;
+        if (active_modal == null) {
+            this.editor_zoom += (e.deltaY < 0 ? 1 : -1) * (this.space_pressed ? 0.01 : 0.1);
+            this.editor_zoom = clamp(this.editor_zoom, 0.1, 1);
+            this.player_container.style.transform = `scale(${this.editor_zoom}) translate(${this.editor_offset[0]}px, ${this.editor_offset[1]}px)`;
+        }
     }
 
     /* Element handling */
