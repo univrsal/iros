@@ -42,6 +42,8 @@
 [x] copy paste elements don't have unique id and name
 [x] Enforce uuid for session id
 [x] Basic documentation page
+[x] Fix rotation behaving weirdly
+[ ] Fix only one session being saved
 [ ] select multiple items
     [ ] move items
     [ ] delete items

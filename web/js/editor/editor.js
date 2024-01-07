@@ -33,7 +33,7 @@ class editor extends viewer {
         this.current_mode = EDIT_MODE.NONE;
         this.mode_axis = MODE_AXIS.NONE;
 
-        this.initial_position = { x: -1, ux: -1, y: -1, uy: -1 };
+        this.initial_position = { x: -1, ux: -1, lx: -1, y: -1, uy: -1, ly: -1 };
         this.initial_element_size = { width: 0, height: 0 };
         this.start_rotation_angle = 0;
         this.element_handlers = [new text_element_handler(this), new image_element_handler(this), new timer_element_handler(this)];
@@ -53,7 +53,7 @@ class editor extends viewer {
         this.editor_canvas = $("#editor-canvas");
         this.ctx = this.editor_canvas.getContext("2d");
         this.mouse_pos = [0, 0];
-        this.unscaled_mouse_pos = [0, 0];
+        this.last_move_event = null;
         this.element_count = 0;
         this.editor_zoom = 1;
         this.editor_offset = [0, 0];
@@ -175,23 +175,23 @@ class editor extends viewer {
             this.selected_element.update();
             this.update_selected_element();
         } else if (this.current_mode == EDIT_MODE.MOVE_CANVAS) {
-            let dx = this.unscaled_mouse_pos[0] - this.initial_position.ux;
-            let dy = this.unscaled_mouse_pos[1] - this.initial_position.uy;
+            let dx = this.last_move_event.clientX - this.initial_position.ux;
+            let dy = this.last_move_event.clientY - this.initial_position.uy;
             this.editor_offset = [this.initial_editor_offset[0] + dx / this.editor_zoom, this.initial_editor_offset[1] + dy / this.editor_zoom];
 
             this.player_container.style.transform = `scale(${this.editor_zoom}) translate(${this.editor_offset[0]}px, ${this.editor_offset[1]}px)`;
         } else if (this.current_mode == EDIT_MODE.ROTATE) {
             // calculate the vectore from scale start to element center
-            let dx = this.initial_position.x - (this.selected_element.tf().x + this.selected_element.tf().width / 2);
-            let dy = this.initial_position.y - (this.selected_element.tf().y + this.selected_element.tf().height / 2);
+            let dx = this.initial_position.lx - (this.selected_element.tf().x + this.selected_element.tf().width / 2);
+            let dy = this.initial_position.ly - (this.selected_element.tf().y + this.selected_element.tf().height / 2);
 
             // calculate the vector from mouse pos to element center
-            let dx2 = this.mouse_pos[0] - (this.selected_element.tf().x + this.selected_element.tf().width / 2);
-            let dy2 = this.mouse_pos[1] - (this.selected_element.tf().y + this.selected_element.tf().height / 2);
+            let dx2 = this.last_move_event.localX - (this.selected_element.tf().x + this.selected_element.tf().width / 2);
+            let dy2 = this.last_move_event.localY - (this.selected_element.tf().y + this.selected_element.tf().height / 2);
 
             // calculate angle between vectors
             let angle = Math.atan2(dy2, dx2) - Math.atan2(dy, dx);
-
+            console.log(angle)
             // calculate new rotation
             let new_rotation = Math.round(this.initial_element_size.rotation + angle * 180 / Math.PI);
 
@@ -328,12 +328,18 @@ class editor extends viewer {
 
     on_mouse_move(e) {
         this.mouse_pos = [e.clientX / this.scale_factor / this.editor_zoom, e.clientY / this.scale_factor / this.editor_zoom];
-        this.unscaled_mouse_pos = [e.clientX, e.clientY];
+        this.last_move_event = e;
+        let rect = this.editor_canvas.getBoundingClientRect();
+        this.last_move_event.localX = (this.last_move_event.clientX - rect.left) / this.scale_factor / this.editor_zoom;
+        this.last_move_event.localY = (this.last_move_event.clientY - rect.top) / this.scale_factor / this.editor_zoom;
+
         if (this.initial_position.x == -1 && this.current_mode != EDIT_MODE.NONE) {
             this.initial_position.x = this.mouse_pos[0];
             this.initial_position.y = this.mouse_pos[1];
-            this.initial_position.ux = this.unscaled_mouse_pos[0];
-            this.initial_position.uy = this.unscaled_mouse_pos[1];
+            this.initial_position.ux = e.clientX;
+            this.initial_position.uy = e.clientY;
+            this.initial_position.lx = this.last_move_event.localX;
+            this.initial_position.ly = this.last_move_event.localY;
             this.initial_editor_offset = [...this.editor_offset];
         }
         this.handle_edit_modes(e);
