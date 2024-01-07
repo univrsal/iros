@@ -38,7 +38,7 @@ function process_emote_search_result(data, offset = 0) {
 
         for (let j = 0; j < emote.host.files.length; j++) {
             let file = emote.host.files[j];
-            if (file.format === "AVIF") {
+            if (file.format === "WEBP") {
                 urls.push(emote.host.url + "/" + file.name);
                 dimensions.push([file.width, file.height]);
             }
