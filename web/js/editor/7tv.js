@@ -101,7 +101,8 @@ function search_emotes(page_limit = 40) {
             let emote = emotes[i];
             let div = document.createElement("div");
             div.className = "emote-search-result";
-            div.innerHTML = `<div onclick="add_emote(${i})" class="emote-search-result-image" style="background-image: url('${emote.urls[0]}')"></div><div class="emote-search-result-name" title="${emote.name}">${emote.name}</div><div class="emote-search-result-owner" title="${emote.owner}">${emote.owner}</div>`;
+            div.innerHTML = `<div class="emote-search-result-image" style="background-image: url('${emote.urls[0]}')"></div><div class="emote-search-result-name" title="${emote.name}">${emote.name}</div><div class="emote-search-result-owner" title="${emote.owner}">${emote.owner}</div>`;
+            $(div).on("click", () => add_emote(i));
             $("#emote-search-results").appendChild(div);
         }
     }).catch((err) => {

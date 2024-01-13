@@ -14,8 +14,8 @@ $(document).ready(() => {
     });
     $(document).on("mousemove", (e) => {
         if (moving_window) {
-            moving_window.style.left = (e.clientX - move_offset[0]) + "px";
-            moving_window.style.top = (e.clientY - move_offset[1]) + "px";
+            moving_window.style.left = (e.clientX - 10 - move_offset[0]) + "px";
+            moving_window.style.top = (e.clientY - 10 - move_offset[1]) + "px";
         }
     });
 });

@@ -46,7 +46,7 @@
 [x] Fix only one session being saved
 [x] More effecient transform message
 [x] adding emotes only works when clicking directly on the emote
-[ ] moving windows doesn't account for padding
+[x] moving windows doesn't account for padding
 [ ] select multiple items
     [ ] move items
     [ ] delete items
