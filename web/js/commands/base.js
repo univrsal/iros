@@ -20,9 +20,79 @@ function get_commands() {
         ["transform", command_transform_element],
         ["add", command_add_element],
         ["delete", command_delete_element],
-        ["update", command_update_element]
+        ["update", command_update_element],
+        ["move", command_move_element],
+        ["scale", command_scale_element],
+        ["rotate", command_rotate_element],
     ]);
 }
+
+
+function send_command_move_element(view, element) {
+    view.send({
+        type: "move", args: {
+            id: element.id(),
+            pos: { x: element.tf().x, y: element.tf().y },
+        }, session: view.session_id
+    });
+}
+
+function command_move_element(view, data) {
+    var element = view.elements.get(data.id);
+    if (element == undefined)
+        return;
+
+    element.tf().x = data.pos.x;
+    element.tf().y = data.pos.y;
+
+    element.update();
+    if (view.is_editor())
+        view.update_selected_element();
+}
+
+
+function send_command_scale_element(view, element) {
+    view.send({
+        type: "scale", args: {
+            id: element.id(),
+            scale: { x: element.tf().scale_x, y: element.tf().scale_y },
+        }, session: view.session_id
+    });
+}
+
+function command_scale_element(view, data) {
+    var element = view.elements.get(data.id);
+    if (element == undefined)
+        return;
+    element.tf().scale_x = data.scale.x;
+    element.tf().scale_y = data.scale.y;
+    element.update();
+    if (view.is_editor())
+        view.update_selected_element();
+}
+
+
+function send_command_rotate_element(view, element) {
+    view.send({
+        type: "rotate", args: {
+            id: element.id(),
+            rotation: { x: element.tf().rotation_x, y: element.tf().rotation_y, z: element.tf().rotation_z },
+        }, session: view.session_id
+    });
+}
+
+function command_rotate_element(view, data) {
+    var element = view.elements.get(data.id);
+    if (element == undefined)
+        return;
+    element.tf().rotation_x = data.rotation.x;
+    element.tf().rotation_y = data.rotation.y;
+    element.tf().rotation_z = data.rotation.z;
+    element.update();
+    if (view.is_editor())
+        view.update_selected_element();
+}
+
 
 function send_command_transform_element(view, element) {
     view.send({

@@ -31,7 +31,3 @@ type TextElement struct {
 func (e *TextElement) Update(data map[string]json.RawMessage) {
 	json.Unmarshal(data["args"], &e)
 }
-
-func (e *TextElement) SetTransform(transform ElementTransform) {
-	e.Transform = transform
-}

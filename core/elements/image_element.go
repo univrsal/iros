@@ -27,7 +27,3 @@ type ImageElement struct {
 func (e *ImageElement) Update(data map[string]json.RawMessage) {
 	json.Unmarshal(data["args"], &e)
 }
-
-func (e *ImageElement) SetTransform(transform ElementTransform) {
-	e.Transform = transform
-}

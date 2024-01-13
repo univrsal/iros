@@ -21,6 +21,17 @@ import (
 	"encoding/json"
 )
 
+type Point struct {
+	X float32 `json:"x"`
+	Y float32 `json:"y"`
+}
+
+type Rotation struct {
+	X float32 `json:"x"`
+	Y float32 `json:"y"`
+	Z float32 `json:"z"`
+}
+
 type ElementTransform struct {
 	X         int     `json:"x"`
 	Y         int     `json:"y"`
@@ -43,6 +54,9 @@ type ElementTransform struct {
 type Element interface {
 	Update(data map[string]json.RawMessage)
 	SetTransform(transform ElementTransform)
+	SetPosition(position Point)
+	SetScale(scale Point)
+	SetRotation(rotation Rotation)
 }
 
 type ElementBase struct {
@@ -58,4 +72,20 @@ func (e *ElementBase) Update(data map[string]json.RawMessage) {
 
 func (e *ElementBase) SetTransform(transform ElementTransform) {
 	e.Transform = transform
+}
+
+func (e *ElementBase) SetPosition(position Point) {
+	e.Transform.X = int(position.X)
+	e.Transform.Y = int(position.Y)
+}
+
+func (e *ElementBase) SetScale(scale Point) {
+	e.Transform.ScaleX = scale.X
+	e.Transform.ScaleY = scale.Y
+}
+
+func (e *ElementBase) SetRotation(rotation Rotation) {
+	e.Transform.RotationX = rotation.X
+	e.Transform.RotationY = rotation.Y
+	e.Transform.RotationZ = rotation.Z
 }

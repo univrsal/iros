@@ -31,7 +31,3 @@ type TimerElement struct {
 func (e *TimerElement) Update(data map[string]json.RawMessage) {
 	json.Unmarshal(data["args"], &e)
 }
-
-func (e *TimerElement) SetTransform(transform ElementTransform) {
-	e.Transform = transform
-}

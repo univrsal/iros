@@ -152,7 +152,7 @@ class editor extends viewer {
             // this.selected_element.tf().scale_x = clamp(this.selected_element.tf().scale_x, 0.1, 10);
             // this.selected_element.tf().scale_y = clamp(this.selected_element.tf().scale_y, 0.1, 10);
             this.selected_element.update();
-            send_command_transform_element(this, this.selected_element);
+            send_command_scale_element(this, this.selected_element);
             this.update_selected_element();
         } else if (this.current_mode == EDIT_MODE.MOVE) {
             // calculate difference between mouse pos and scale start
@@ -171,7 +171,7 @@ class editor extends viewer {
                     break;
             }
 
-            send_command_transform_element(this, this.selected_element);
+            send_command_move_element(this, this.selected_element);
             this.selected_element.update();
             this.update_selected_element();
         } else if (this.current_mode == EDIT_MODE.MOVE_CANVAS) {
@@ -208,7 +208,7 @@ class editor extends viewer {
             }
 
             this.selected_element.update();
-            send_command_transform_element(this, this.selected_element);
+            send_command_rotate_element(this, this.selected_element);
             this.update_selected_element();
         }
     }

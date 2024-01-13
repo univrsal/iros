@@ -22,6 +22,20 @@ import (
 	"git.vrsal.cc/alex/iros/core/elements"
 )
 
+func try_unmarshal(id *string, id_data []byte, data []byte, data_out any) error {
+	err := json.Unmarshal(id_data, &id)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(data, data_out)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func process_command(session *IrosSession, cmd_type string, data map[string]json.RawMessage, command map[string]json.RawMessage) {
 
 	switch cmd_type {
@@ -53,21 +67,29 @@ func process_command(session *IrosSession, cmd_type string, data map[string]json
 		delete(session.State, id)
 	case "transform":
 		var id string
-		err := json.Unmarshal(data["id"], &id)
-
-		if err != nil {
-			return
-		}
-
 		var transform elements.ElementTransform
+		if err := try_unmarshal(&id, data["id"], data["transform"], &transform); err == nil {
+			session.State[id].SetTransform(transform)
+		}
+	case "move": // move element
+		var id string
+		var pos elements.Point
 
-		err = json.Unmarshal(data["transform"], &transform)
-		if err != nil {
-			return
+		if err := try_unmarshal(&id, data["id"], data["pos"], &pos); err == nil {
+			session.State[id].SetPosition(pos)
 		}
 
-		e := session.State[id]
-		e.SetTransform(transform)
-		session.State[id] = e
+	case "scale": // scale element
+		var id string
+		var scale elements.Point
+		if err := try_unmarshal(&id, data["id"], data["scale"], &scale); err == nil {
+			session.State[id].SetScale(scale)
+		}
+	case "rotate": // rotate element
+		var id string
+		var rotation elements.Rotation
+		if err := try_unmarshal(&id, data["id"], data["rotation"], &rotation); err == nil {
+			session.State[id].SetRotation(rotation)
+		}
 	}
 }
