@@ -45,7 +45,7 @@
 [x] Fix rotation behaving weirdly
 [x] Fix only one session being saved
 [x] More effecient transform message
-[ ] adding element only works when clicking directly on the emote
+[x] adding emotes only works when clicking directly on the emote
 [ ] moving windows doesn't account for padding
 [ ] select multiple items
     [ ] move items
