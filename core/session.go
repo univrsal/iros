@@ -61,6 +61,15 @@ func (session *IrosSession) load_element(t string, data []byte) *elements.Elemen
 			return nil
 		}
 		session.State[e.Id] = e
+	case "audio":
+		e := new(elements.AudioElement)
+		err := json.Unmarshal(data, &e)
+
+		if err != nil {
+			log.Println(err)
+			return nil
+		}
+		session.State[e.Id] = e
 	}
 	return nil
 }

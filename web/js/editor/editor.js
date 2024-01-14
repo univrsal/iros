@@ -36,7 +36,6 @@ class editor extends viewer {
         this.initial_position = { x: -1, ux: -1, lx: -1, y: -1, uy: -1, ly: -1 };
         this.initial_element_size = { width: 0, height: 0 };
         this.start_rotation_angle = 0;
-        this.element_handlers = [new text_element_handler(this), new image_element_handler(this), new timer_element_handler(this)];
 
         this.pos_x = $("#pos-x");
         this.pos_y = $("#pos-y");
@@ -451,7 +450,7 @@ class editor extends viewer {
 
         // hide all element settings
         this.selected_element = element;
-        this.element_handlers.forEach(element_handler => element_handler.hide_settings());
+        element_handlers.forEach(element_handler => element_handler.hide_settings());
 
         // update element properties in sidebar
         if (element) {
@@ -459,7 +458,7 @@ class editor extends viewer {
             this.update_selected_element();
 
             // find element handler for this element type
-            let element_handler = this.element_handlers.find(element_handler => element_handler.type == element.type());
+            let element_handler = element_handlers.find(element_handler => element_handler.type == element.type());
             element_handler.show_settings(element);
         }
         let windows = this.main_container.getElementsByClassName("window");
@@ -474,7 +473,7 @@ class editor extends viewer {
     update_selected_element() {
         if (this.selected_element == null)
             return;
-        let element_handler = this.element_handlers.find(element_handler => element_handler.type == this.selected_element.type());
+        let element_handler = element_handlers.find(element_handler => element_handler.type == this.selected_element.type());
         element_handler.show_settings(this.selected_element);
         this.pos_x.value = this.selected_element.tf().x;
         this.pos_y.value = this.selected_element.tf().y;

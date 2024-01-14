@@ -149,13 +149,20 @@ class element_handler {
 }
 
 var element_types = null;
-
+var element_handlers = [];
 $(document).ready(() => {
     element_types = {
         "image": image_element,
         "text": text_element,
         "timer": timer_element,
+        "audio": audio_element,
     };
+    element_handlers = [
+        new image_element_handler(edt),
+        new text_element_handler(edt),
+        new timer_element_handler(edt),
+        new audio_element_handler(edt),
+    ];
 });
 
 function create_element(parent, type, data) {

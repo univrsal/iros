@@ -47,6 +47,8 @@
 [x] More effecient transform message
 [x] adding emotes only works when clicking directly on the emote
 [x] moving windows doesn't account for padding
+[x] Add audio element
+[ ] Add video element
 [ ] select multiple items
     [ ] move items
     [ ] delete items
