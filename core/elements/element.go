@@ -57,6 +57,7 @@ type Element interface {
 	SetPosition(position Point)
 	SetScale(scale Point)
 	SetRotation(rotation Rotation)
+	GetId() string
 }
 
 type ElementBase struct {
@@ -88,4 +89,8 @@ func (e *ElementBase) SetRotation(rotation Rotation) {
 	e.Transform.RotationX = rotation.X
 	e.Transform.RotationY = rotation.Y
 	e.Transform.RotationZ = rotation.Z
+}
+
+func (e *ElementBase) GetId() string {
+	return e.Id
 }

@@ -33,43 +33,32 @@ type IrosSession struct {
 }
 
 func (session *IrosSession) load_element(t string, data []byte) *elements.Element {
+	var new_element elements.Element
+	var err error
+
 	switch t {
 	case "text":
-		e := new(elements.TextElement)
-		err := json.Unmarshal(data, &e)
+		new_element = new(elements.TextElement)
+		err = json.Unmarshal(data, &new_element)
 
-		if err != nil {
-			log.Println(err)
-			return nil
-		}
-		session.State[e.Id] = e
 	case "image":
-		e := new(elements.ImageElement)
-		err := json.Unmarshal(data, &e)
-
-		if err != nil {
-			log.Println(err)
-			return nil
-		}
-		session.State[e.Id] = e
+		new_element = new(elements.ImageElement)
+		err = json.Unmarshal(data, &new_element)
 	case "timer":
-		e := new(elements.TimerElement)
-		err := json.Unmarshal(data, &e)
-
-		if err != nil {
-			log.Println(err)
-			return nil
-		}
-		session.State[e.Id] = e
+		new_element := new(elements.TimerElement)
+		err = json.Unmarshal(data, &new_element)
 	case "audio":
-		e := new(elements.AudioElement)
-		err := json.Unmarshal(data, &e)
-
-		if err != nil {
-			log.Println(err)
-			return nil
-		}
-		session.State[e.Id] = e
+		new_element = new(elements.AudioElement)
+		err = json.Unmarshal(data, &new_element)
+	case "video":
+		new_element = new(elements.VideoElement)
+		err = json.Unmarshal(data, &new_element)
 	}
-	return nil
+
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	session.State[new_element.GetId()] = new_element
+	return &new_element
 }

@@ -156,12 +156,14 @@ $(document).ready(() => {
         "text": text_element,
         "timer": timer_element,
         "audio": audio_element,
+        "video": video_element,
     };
     element_handlers = [
         new image_element_handler(edt),
         new text_element_handler(edt),
         new timer_element_handler(edt),
         new audio_element_handler(edt),
+        new video_element_handler(edt),
     ];
 });
 

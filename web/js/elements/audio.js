@@ -16,9 +16,9 @@
 */
 
 class audio_element extends element {
-    constructor(parent, data) {
-        super(parent, "audio", data);
-        this.html = $(`<audio controls class="iros-element" id="${this.data.id}" src="${this.data.url}"></audio>`);
+    constructor(parent, data, type = "audio") {
+        super(parent, type, data);
+        this.html = $(`<${type} controls class="iros-element" id="${this.data.id}" src="${this.data.url}"></${type}>`);
         this.is_remote_event = false;
 
         if (parent.is_editor()) {
@@ -103,8 +103,8 @@ class audio_element extends element {
 }
 
 class audio_element_handler extends element_handler {
-    constructor(edt) {
-        super(edt, "audio");
+    constructor(edt, type = "audio") {
+        super(edt, type);
         this.url_settings = $("#url-settings");
         this.url = $("#url-input");
         this.selected_element = null;
