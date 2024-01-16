@@ -49,7 +49,9 @@
 [x] moving windows doesn't account for padding
 [x] Add audio element
 [x] Add video element
-[ ] allow resolution change of image/video elements
+[x] allow resolution change of image/video elements
+[ ] pasting video/audio links
+[ ] add iframe element
 [ ] select multiple items
     [ ] move items
     [ ] delete items

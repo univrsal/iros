@@ -76,6 +76,10 @@ class editor extends viewer {
         $(this.element_name).on("input", () => this.on_element_name_changed());
         $(this.canvas_width).on("change", () => this.on_resize());
         $(this.canvas_height).on("change", () => this.on_resize());
+        $(this.height).on("input", () => this.on_element_size_changed());
+        $(this.width).on("input", () => this.on_element_size_changed());
+        $(this.pos_x).on("input", () => this.on_element_pos_changed());
+        $(this.pos_y).on("input", () => this.on_element_pos_changed());
         $(this.opacity).on("change", () => this.on_opacity_changed());
         $(this.z_index).on("change", () => this.on_z_index_changed());
         $(this.visibility).on("change", () => this.on_visibility_changed());
@@ -394,6 +398,24 @@ class editor extends viewer {
             this.selected_element.data.name = this.element_name.value;
             send_command_update_element(this, this.selected_element);
             this.rebuild_element_list();
+        }
+    }
+
+    on_element_size_changed() {
+        if (this.selected_element) {
+            this.selected_element.tf().width = Number(this.width.value);
+            this.selected_element.tf().height = Number(this.height.value);
+            this.selected_element.update();
+            send_command_transform_element(this, this.selected_element);
+        }
+    }
+
+    on_element_pos_changed() {
+        if (this.selected_element) {
+            this.selected_element.tf().x = Number(this.pos_x.value);
+            this.selected_element.tf().y = Number(this.pos_y.value);
+            this.selected_element.update();
+            send_command_transform_element(this, this.selected_element);
         }
     }
 

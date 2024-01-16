@@ -77,9 +77,10 @@ class audio_element extends element {
     update() {
         this.is_remote_event = true; // prevent sending an update in response to this event
         super.update();
-        if (this.html.src.indexOf(this.data.url) == -1) {
-            this.html.src = this.data.url;
-        }
+
+
+        this.html.style.width = `${this.data.transform.width}px`;
+        this.html.style.height = `${this.data.transform.height}px`;
 
         // update volume, playback rate, etc.
         if (Math.abs(this.html.volume - this.data.volume) > 0.01)
@@ -90,6 +91,12 @@ class audio_element extends element {
             this.html.loop = this.data.loop;
         if (Math.abs(this.html.currentTime - this.data.current_time) > 1)
             this.html.currentTime = this.data.current_time;
+
+        if (this.html.src.indexOf(this.data.url) == -1) {
+            this.html.src = this.data.url;
+            this.data.current_time = 0;
+        }
+
         if (this.data.paused != this.html.paused) {
             if (this.data.paused)
                 this.html.pause();
