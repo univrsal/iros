@@ -15,6 +15,10 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+function generate_element_id() {
+    return Math.random().toString(36).substring(7);
+}
+
 class element {
     constructor(parent, type, data) {
         this.data = {
@@ -36,12 +40,12 @@ class element {
 
         this.data.type = type;
         if (data.id == undefined)
-            this.data.id = Math.random().toString(36).substring(7);
+            this.data.id = generate_element_id();
         this.html = null;
     }
 
     shuffle_id() {
-        this.data.id = Math.random().toString(36).substring(7);
+        this.data.id = generate_element_id();
         if (this.html != null)
             this.html.id = this.data.id;
     }
@@ -158,13 +162,15 @@ $(document).ready(() => {
         "audio": audio_element,
         "video": video_element,
     };
-    element_handlers = [
-        new image_element_handler(edt),
-        new text_element_handler(edt),
-        new timer_element_handler(edt),
-        new audio_element_handler(edt),
-        new video_element_handler(edt),
-    ];
+    if (edt) {
+        element_handlers = [
+            new image_element_handler(edt),
+            new text_element_handler(edt),
+            new timer_element_handler(edt),
+            new audio_element_handler(edt),
+            new video_element_handler(edt),
+        ];
+    }
 });
 
 function create_element(parent, type, data) {
