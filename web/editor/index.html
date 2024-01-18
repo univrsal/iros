@@ -66,6 +66,7 @@
     <script src="../js/elements/timer.js"></script>
     <script src="../js/elements/audio.js"></script>
     <script src="../js/elements/video.js"></script>
+    <script src="../js/elements/iframe.js"></script>
 
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>
 </head>
@@ -98,6 +99,8 @@
                         src="../img/add-audio.svg" /></button>
                 <button onclick="add_video_element()" title="Add video"><img id="audio-icon"
                         src="../img/add-video.svg" /></button>
+                <button onclick="add_iframe_element()" title="Add iframe"><img id="audio-icon"
+                        src="../img/add-iframe.svg" /></button>
                 <button onclick="open_modal(emote_search_modal)" title="Add 7tv Emote"><img id="emote-icon"
                         src="../img/add-emote.svg" /></button>
                 <button onclick="open_modal(favorites_modal)" title="Add favorite"><img id="favorite-icon"
@@ -191,6 +194,11 @@
             <div id="url-settings">
                 <label for="url-input">URL</label>
                 <input type="text" name="url-input" id="url-input">
+            </div>
+
+            <div id="event-settings">
+                <img id="block-events-label" src="../img/block-events.svg" title="Disable interaction" />
+                <input type="checkbox" name="block-events" id="block-events" title="Disable interaction">
             </div>
 
             <div id="volume-settings">

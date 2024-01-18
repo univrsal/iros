@@ -53,7 +53,7 @@
 [x] pasting video/audio links
 [x] add volume slider to settings
 [x] fix header options in mobile view
-[ ] add iframe element
+[x] add iframe element
 [ ] fade elements in/out
 [ ] select multiple items
     [ ] move items

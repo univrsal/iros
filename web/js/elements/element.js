@@ -161,6 +161,7 @@ $(document).ready(() => {
         "timer": timer_element,
         "audio": audio_element,
         "video": video_element,
+        "iframe": iframe_element,
     };
     if (edt) {
         element_handlers = [
@@ -169,6 +170,7 @@ $(document).ready(() => {
             new timer_element_handler(edt),
             new audio_element_handler(edt),
             new video_element_handler(edt),
+            new iframe_element_handler(edt),
         ];
     }
 });

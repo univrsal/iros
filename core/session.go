@@ -53,6 +53,9 @@ func (session *IrosSession) load_element(t string, data []byte) *elements.Elemen
 	case "video":
 		new_element = new(elements.VideoElement)
 		err = json.Unmarshal(data, &new_element)
+	case "iframe":
+		new_element = new(elements.IFrameElement)
+		err = json.Unmarshal(data, &new_element)
 	}
 
 	if err != nil {
