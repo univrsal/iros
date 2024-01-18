@@ -51,7 +51,10 @@
 [x] Add video element
 [x] allow resolution change of image/video elements
 [x] pasting video/audio links
+[ ] add volume slider to settings
 [ ] add iframe element
+[ ] fade elements in/out
 [ ] select multiple items
     [ ] move items
     [ ] delete items
+[ ] video/audio elements sometimes will not play anymore

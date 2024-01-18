@@ -20,42 +20,67 @@ class audio_element extends element {
         super(parent, type, data);
         this.html = $(`<${type} controls class="iros-element" id="${this.data.id}" src="${this.data.url}"></${type}>`);
         this.is_remote_event = false;
-
+        this.ignore_event = false;
         if (parent.is_editor()) {
             this.html.muted = true; // we don't want to hear the audio in the editor
             // react to pausing, volume change, seeking, etc.
-            this.html.addEventListener("pause", () => {
+            $(this.html).on("pause", () => {
+                if (!this.ignore_event && this.parent.selected_element != this) {
+                    this.ignore_event = true;
+                    this.html.play();
+                    this.ignore_event = false;
+                    edt.on_element_clicked(null, this);
+                    return;
+                }
                 if (!this.is_remote_event) {
                     this.data.paused = true;
                     send_command_update_element(this.parent, this);
                 }
             });
 
-            this.html.addEventListener("play", () => {
+            $(this.html).on("play", () => {
+                if (!this.ignore_event && this.parent.selected_element != this) {
+                    this.ignore_event = true;
+                    this.html.pause();
+                    this.ignore_event = false;
+                    edt.on_element_clicked(null, this);
+                    return;
+                }
                 if (!this.is_remote_event) {
                     this.data.paused = false;
                     send_command_update_element(this.parent, this);
                 }
             });
 
-            this.html.addEventListener("volumechange", () => {
+            $(this.html).on("volumechange", () => {
                 if (!this.is_remote_event) {
                     this.data.volume = this.html.volume;
                     send_command_update_element(this.parent, this);
                 }
             });
 
-            this.html.addEventListener("ratechange", () => {
+            $(this.html).on("ratechange", () => {
                 if (!this.is_remote_event) {
                     this.data.playback_rate = this.html.playbackRate;
                     send_command_update_element(this.parent, this);
                 }
             });
 
-            this.html.addEventListener("seeking", () => {
+            $(this.html).on("seeking", (event) => {
+                if (this.parent.selected_element != this) {
+                    event.preventDefault();
+                    return;
+                }
                 if (!this.is_remote_event) {
                     this.data.current_time = this.html.currentTime;
                     send_command_update_element(this.parent, this);
+                }
+            });
+
+            $(this.html).on("click", event => {
+                // if the user clicks on the video and it is not the current element, prevent the click
+                if (this.parent.selected_element != this) {
+                    event.preventDefault();
                 }
             });
         }
