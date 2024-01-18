@@ -68,11 +68,11 @@ for file in js_files + css_files + html_files:
     with open(file, "w") as f:
         if file.endswith(".html"):
             f.write(
-                "<!-- CopE Wright (c) $current_year me <uni@vrsal.cc> :^) - Donut Steel -->\n"
+                "<!-- Copyright (c) $current_year me <uni@vrsal.cc> :^) - Donut Steel -->\n"
             )
         else:
             f.write(
-                "/* CopE Wright (c) $current_year me <uni@vrsal.cc> :^) - Donut Steel */\n"
+                "/* Copyright (c) $current_year me <uni@vrsal.cc> :^) - Donut Steel */\n"
             )
 
         f.write(content)

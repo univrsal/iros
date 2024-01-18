@@ -74,6 +74,14 @@ body {
     user-select: none;
 }
 
+@media (max-width: 768px) {
+    #header {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
+
 #header-links {
     float: left;
     text-transform: capitalize;
