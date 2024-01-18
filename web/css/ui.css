@@ -185,6 +185,7 @@
 #text-settings,
 #color-settings,
 #url-settings,
+#volume-settings,
 #timer-settings,
 #background-color-settings {
     display: grid;
@@ -200,6 +201,7 @@
 #text-settings,
 #color-settings,
 #url-settings,
+#volume-settings,
 #timer-settings,
 #background-color-settings {
     /* arrange labels and inputs in grid */
@@ -209,6 +211,7 @@
 #text-settings,
 #color-settings,
 #url-settings,
+#volume-settings,
 #timer-settings,
 #background-color-settings {
     display: none;

@@ -87,6 +87,17 @@ class audio_element extends element {
     }
 
     set_url(url) {
+        if (url == this.data.url)
+            return;
+
+        // validate url by turning it into a URL object
+        try {
+            let _tmp = new URL(url);
+        } catch (e) {
+            console.log("Invalid URL: ", url);
+            return;
+        }
+
         this.html.src = url;
         this.data.url = url;
     }
@@ -138,26 +149,33 @@ class audio_element_handler extends element_handler {
     constructor(edt, type = "audio") {
         super(edt, type);
         this.url_settings = $("#url-settings");
+        this.volume_settings = $("#volume-settings");
         this.url = $("#url-input");
+        this.volume = $("#volume-input");
         this.selected_element = null;
         this.url.on("input", () => this.update_selected_element());
+        this.volume.on("input", () => this.update_selected_element());
     }
 
     update_selected_element() {
         if (this.selected_element) {
             this.selected_element.set_url(this.url.value);
+            this.selected_element.data.volume = this.volume.value / 100.0;
             send_command_update_element(this.edt, this.selected_element);
         }
     }
 
     show_settings(element) {
         this.url_settings.style.display = "grid";
+        this.volume_settings.style.display = "grid";
         this.url.value = element.data.url;
+        this.volume.value = element.data.volume * 100.0;
         this.selected_element = element;
     }
 
     hide_settings() {
         this.url_settings.style.display = "none";
+        this.volume_settings.style.display = "none";
         this.selected_element = null;
     }
 }
