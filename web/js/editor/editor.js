@@ -80,7 +80,7 @@ class editor extends viewer {
         $(this.width).on("input", () => this.on_element_size_changed());
         $(this.pos_x).on("input", () => this.on_element_pos_changed());
         $(this.pos_y).on("input", () => this.on_element_pos_changed());
-        $(this.opacity).on("change", () => this.on_opacity_changed());
+        $(this.opacity).on("input", () => this.on_opacity_changed());
         $(this.z_index).on("change", () => this.on_z_index_changed());
         $(this.visibility).on("change", () => this.on_visibility_changed());
         $(this.element_list).on("change", () => {
