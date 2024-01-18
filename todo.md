@@ -51,8 +51,9 @@
 [x] Add video element
 [x] allow resolution change of image/video elements
 [x] pasting video/audio links
-[ ] add volume slider to settings
+[x] add volume slider to settings
 [ ] add iframe element
+[ ] fix header options in mobile view
 [ ] fade elements in/out
 [ ] select multiple items
     [ ] move items
