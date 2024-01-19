@@ -93,10 +93,18 @@ class element {
             this.html.style.zIndex = this.tf().z_index;
             this.html.style.opacity = this.tf().opacity;
             this.html.style.transformOrigin = `${this.tf().h_pivot} ${this.tf().v_pivot}`;
-            if (this.tf().visible)
+            if (this.tf().visible) {
                 this.html.classList.remove("hidden");
-            else
-                this.html.classList.add("hidden");
+                this.html.classList.remove("fade-out");
+                this.html.classList.add("fade-in");
+            } else {
+                this.html.classList.remove("fade-in");
+                this.html.classList.add("fade-out");
+                setTimeout(() => {
+                    if (this.html != null)
+                        this.html.classList.add("hidden");
+                }, 500);
+            }
         }
 
         // make sure width and height are positive

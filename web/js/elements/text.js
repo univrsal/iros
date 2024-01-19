@@ -22,10 +22,18 @@ class text_element extends element {
     }
 
     update() {
-        if (this.tf().visible)
+        if (this.tf().visible) {
             this.html.classList.remove("hidden");
-        else
-            this.html.classList.add("hidden");
+            this.html.classList.remove("fade-out");
+            this.html.classList.add("fade-in");
+        } else {
+            this.html.classList.remove("fade-in");
+            this.html.classList.add("fade-out");
+            setTimeout(() => {
+                if (this.html != null)
+                    this.html.classList.add("hidden");
+            }, 500);
+        }
         this.html.style.zIndex = this.tf().z_index;
         this.html.style.opacity = this.tf().opacity;
         this.html.style.transform = this.build_transform();

@@ -59,3 +59,4 @@
     [ ] move items
     [ ] delete items
 [ ] video/audio elements sometimes will not play anymore
+[ ] don't re-implement entire update logic for text element
