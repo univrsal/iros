@@ -45,7 +45,7 @@ func (session *IrosSession) load_element(t string, data []byte) *elements.Elemen
 		new_element = new(elements.ImageElement)
 		err = json.Unmarshal(data, &new_element)
 	case "timer":
-		new_element := new(elements.TimerElement)
+		new_element = new(elements.TimerElement)
 		err = json.Unmarshal(data, &new_element)
 	case "audio":
 		new_element = new(elements.AudioElement)
