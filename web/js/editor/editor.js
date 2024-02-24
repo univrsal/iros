@@ -50,6 +50,7 @@ class editor extends viewer {
         this.canvas_width = $("#canvas-width");
         this.canvas_height = $("#canvas-height");
         this.editor_canvas = $("#editor-canvas");
+        this.player_interaction = $("#player-interaction");
         this.ctx = this.editor_canvas.getContext("2d");
         this.mouse_pos = [0, 0];
         this.last_move_event = null;
@@ -73,6 +74,7 @@ class editor extends viewer {
 
         $(document).on("keydown", e => this.on_key_down(e));
         $(document).on("keyup", e => this.on_key_up(e));
+        $(this.player_interaction).on("change", e => this.on_player_interaction_changed(e));
         $(this.element_name).on("input", () => this.on_element_name_changed());
         $(this.canvas_width).on("change", () => this.on_resize());
         $(this.canvas_height).on("change", () => this.on_resize());
@@ -194,7 +196,7 @@ class editor extends viewer {
 
             // calculate angle between vectors
             let angle = Math.atan2(dy2, dx2) - Math.atan2(dy, dx);
-            console.log(angle)
+
             // calculate new rotation
             let new_rotation = Math.round(this.initial_element_size.rotation + angle * 180 / Math.PI);
 
@@ -231,6 +233,10 @@ class editor extends viewer {
     }
 
     /* Events */
+
+    on_player_interaction_changed(e) {
+        this.toggle_player_interaction(e.target.checked);
+    }
 
     on_connection_changed() {
         if (this.connected) {
@@ -524,6 +530,7 @@ class editor extends viewer {
         for (let i = 0; i < windows.length; i++) {
             windows[i].classList.add('no-input');
         }
+        this.toggle_player_interaction(false);
     }
 
     leave_mode() {
@@ -534,6 +541,7 @@ class editor extends viewer {
         for (let i = 0; i < windows.length; i++) {
             windows[i].classList.remove('no-input');
         }
+        this.editor_canvas.classList.add('no-input');
     }
 
     get_next_element_id() {
@@ -544,5 +552,16 @@ class editor extends viewer {
         let name_no_numbers = element_name.replace(/\d+$/, '');
         name_no_numbers += " " + this.get_next_element_id();
         return name_no_numbers;
+    }
+
+    toggle_player_interaction(on) {
+        this.player_interaction.checked = on;
+        if (on) {
+            this.container.classList.add("no-input");
+            this.editor_canvas.classList.add("no-input");
+        } else {
+            this.container.classList.remove("no-input");
+            this.editor_canvas.classList.remove("no-input");
+        }
     }
 }

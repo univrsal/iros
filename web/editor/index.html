@@ -121,6 +121,8 @@
                 <button id="embed-button" onclick="embed_player()">
                     Embed
                 </button>
+                <input type="checkbox" name="player-interaction" id="player-interaction" title="Allows interaction with stream player, e.g. for changing volume or quality">
+                <label id="player-interaction-lable" for="player-interaction" title="Allows interaction with stream player, e.g. for changing volume or quality">Interactive player</label>
             </div>
 
             <div id="element-header">
@@ -130,10 +132,10 @@
             <div id="base-settings">
                 <label for="element-name" title="Name">Name</label>
                 <input type="text" name="name" id="element-name" title="Name of element">
-                <label for="pos-x" title="X position of element">X</label>
+                <label class="center-label" for="pos-x" title="X position of element">X</label>
                 <input type="text" name="pos-x" id="pos-x" title="X position of element">
 
-                <label for="pos-y" title="Y position of element">Y</label>
+                <label class="center-label" for="pos-y" title="Y position of element">Y</label>
                 <input type="text" name="pos-y" id="pos-y" title="Y position of element">
 
                 <img id="width-label" src="../img/width.svg" title="Width of element" />

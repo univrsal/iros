@@ -75,8 +75,11 @@
     font-size: 14px;
     font-family: Arial, Helvetica, sans-serif;
     margin-top: 3px;
+    user-select: none;
+}
+
+.center-label {
     text-align: center;
-    font-weight: bold;
 }
 
 #main-container .window img {
@@ -165,6 +168,14 @@
 #embed-url {
     grid-column: 1 / span 3;
     height: 19px;
+}
+
+#embed-url::placeholder  {
+    color: rgb(230, 230, 230);
+}
+
+#player-interaction-lable {
+    grid-column: 2 / span 3;
 }
 
 #embed-button {
