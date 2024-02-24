@@ -54,6 +54,7 @@
 [x] add volume slider to settings
 [x] fix header options in mobile view
 [x] add iframe element
+[x] add option to interact with stream
 [ ] fade elements in/out
 [ ] select multiple items
     [ ] move items
