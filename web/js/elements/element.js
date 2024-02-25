@@ -1,6 +1,6 @@
 /*
    This file is part of iros
-   Copyright (C) 2023 Alex <uni@vrsal.xyz>
+   Copyright (C) 2024 Alex <uni@vrsal.xyz>
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU Affero General Public License as published

@@ -19,7 +19,7 @@ def check_installed(name):
         exit(1)
 
 
-deps = ["go", "terser", "cleancss", "html-minifier"]
+deps = ["go"]
 
 # check if all dependencies are installed
 for dep in deps:
@@ -38,41 +38,3 @@ else:
 # copy the web content to the build folder
 shutil.copytree("../web", "build/web")
 shutil.copytree("../templates", "build/templates")
-
-js_files = find_files("build/web", ".js")
-css_files = find_files("build/web", ".css")
-html_files = find_files("build/web", ".html")
-
-# minify the web content
-print("Minifying js")
-for file in js_files:
-    os.system("terser --compress --mangle --output " + file + " " + file)
-
-# minify the CSS content
-print("Minifying css")
-for file in css_files:
-    os.system("cleancss -o " + file + " " + file)
-
-# minify the HTML content
-print("Minifying html")
-for file in html_files:
-    os.system(
-        "html-minifier --collapse-whitespace --remove-comments -o " + file + " " + file
-    )
-
-# prepend all css, html and js files with the header
-print("Prepending headers")
-for file in js_files + css_files + html_files:
-    with open(file, "r") as f:
-        content = f.read()
-    with open(file, "w") as f:
-        if file.endswith(".html"):
-            f.write(
-                "<!-- Copyright (c) $current_year me <uni@vrsal.cc> :^) - Donut Steel -->\n"
-            )
-        else:
-            f.write(
-                "/* Copyright (c) $current_year me <uni@vrsal.cc> :^) - Donut Steel */\n"
-            )
-
-        f.write(content)
