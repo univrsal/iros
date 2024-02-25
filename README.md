@@ -1,5 +1,3 @@
-![logo](./meta/logo.png)
-
 ### Interactive Remote Overlay System
 
 ![screenshot](./web/img/showcase.png)
