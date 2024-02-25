@@ -27,30 +27,36 @@ import (
 type StatsData struct {
 	StartTime        int64
 	Uptime           string
+	LastMessage      string
 	NumSessions      int32
 	NumWSConnections int32
+	LastMessageTime  int64
 }
 
 var (
 	Stats StatsData
 )
 
+func formatTime(t int64) string {
+	hours := t / 3600
+	t -= hours * 3600
+	minutes := t / 60
+	t -= minutes * 60
+	seconds := t
+
+	return fmt.Sprintf("%d hours, %d minutes, %d seconds", hours, minutes, seconds)
+}
+
 func getUptime() string {
 	// get difference between now and start time
 	uptime := time.Now().Unix() - Stats.StartTime
 
-	// convert to hours, minutes, seconds
-	hours := uptime / 3600
-	uptime -= hours * 3600
-	minutes := uptime / 60
-	uptime -= minutes * 60
-	seconds := uptime
-
-	return fmt.Sprintf("%d hours, %d minutes, %d seconds", hours, minutes, seconds)
+	return formatTime(uptime)
 }
 
 func ServeStats(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("templates/stats.html"))
 	Stats.Uptime = getUptime()
+	Stats.LastMessage = formatTime(time.Now().Unix() - Stats.LastMessageTime)
 	tmpl.Execute(w, Stats)
 }

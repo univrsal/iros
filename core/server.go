@@ -222,6 +222,7 @@ func (s *WebSocketServer) Start() {
 
 func StartServer(cfg string) {
 	Stats.StartTime = time.Now().Unix()
+	Stats.LastMessageTime = time.Now().Unix()
 	LoadConfig(cfg)
 	wss.Start()
 }
@@ -280,6 +281,7 @@ func listen(conn *websocket.Conn) {
 
 			atomic.AddInt32(&Stats.NumSessions, 1)
 		}
+		atomic.StoreInt64(&Stats.LastMessageTime, val.LastConnectionTime)
 
 		atomic.AddInt32(&Stats.NumWSConnections, 1)
 		break
