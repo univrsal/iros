@@ -319,8 +319,11 @@ class editor extends viewer {
     on_mouse_down(e) {
         if (this.current_mode === EDIT_MODE.NONE) {
             // if left mouse button is pressed
-            if (e.button == 0) {
-                //this.select_element(null);
+            if (e.button == 0 && (e.target == this.main_container ||
+                e.target == this.editor_canvas || e.target == this.player_container ||
+                e.target == this.container)) {
+                console.log(e.target);
+                this.select_element(null);
 
                 // check if mouse wheel is pressed
             } else if (e.button == 1 && active_modal == null) {
