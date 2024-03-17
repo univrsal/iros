@@ -18,66 +18,55 @@
 class audio_element extends element {
     constructor(parent, data, type = "audio") {
         super(parent, type, data);
-        this.html = $(`<${type} controls class="iros-element" id="${this.data.id}" src="${this.data.url}"></${type}>`);
+        this.html = $(`<div class="iros-element"  id="${this.data.id}"></div>`);
+        this.media_html = $(`<${type} controls class="iros-element iros-media-element" id="${this.data.id}" src="${this.data.url}"></${type}>`);
+        this.blocker = $(`<div class="iros-blocker"></div>`);
+        this.html.append(this.media_html);
+        this.html.append(this.blocker);
         this.is_remote_event = false;
-        this.ignore_event = false;
+        this.block_events = data.block_events;
+
         if (parent.is_editor()) {
-            this.html.muted = true; // we don't want to hear the audio in the editor
+            this.media_html.muted = true; // we don't want to hear the audio in the editor
             // react to pausing, volume change, seeking, etc.
-            $(this.html).on("pause", () => {
-                if (!this.ignore_event && this.parent.selected_element != this) {
-                    this.ignore_event = true;
-                    this.html.play();
-                    this.ignore_event = false;
-                    edt.on_element_clicked(null, this);
-                    return;
-                }
+            $(this.media_html).on("pause", () => {
+
                 if (!this.is_remote_event) {
                     this.data.paused = true;
                     send_command_update_element(this.parent, this);
                 }
             });
 
-            $(this.html).on("play", () => {
-                if (!this.ignore_event && this.parent.selected_element != this) {
-                    this.ignore_event = true;
-                    this.html.pause();
-                    this.ignore_event = false;
-                    edt.on_element_clicked(null, this);
-                    return;
-                }
+            $(this.media_html).on("play", () => {
+
                 if (!this.is_remote_event) {
                     this.data.paused = false;
                     send_command_update_element(this.parent, this);
                 }
             });
 
-            $(this.html).on("volumechange", () => {
+            $(this.media_html).on("volumechange", () => {
                 if (!this.is_remote_event) {
-                    this.data.volume = this.html.volume;
+                    this.data.volume = this.media_html.volume;
                     send_command_update_element(this.parent, this);
                 }
             });
 
-            $(this.html).on("ratechange", () => {
+            $(this.media_html).on("ratechange", () => {
                 if (!this.is_remote_event) {
-                    this.data.playback_rate = this.html.playbackRate;
+                    this.data.playback_rate = this.media_html.playbackRate;
                     send_command_update_element(this.parent, this);
                 }
             });
 
-            $(this.html).on("seeking", (event) => {
-                if (this.parent.selected_element != this) {
-                    event.preventDefault();
-                    return;
-                }
+            $(this.media_html).on("seeking", (event) => {
                 if (!this.is_remote_event) {
-                    this.data.current_time = this.html.currentTime;
+                    this.data.current_time = this.media_html.currentTime;
                     send_command_update_element(this.parent, this);
                 }
             });
 
-            $(this.html).on("click", event => {
+            $(this.media_html).on("click", event => {
                 // if the user clicks on the video and it is not the current element, prevent the click
                 if (this.parent.selected_element != this) {
                     event.preventDefault();
@@ -98,13 +87,13 @@ class audio_element extends element {
             return;
         }
 
-        this.html.src = url;
+        this.media_html.src = url;
         this.data.url = url;
     }
 
     tick() {
-        if (!this.html.paused) {
-            this.data.current_time = this.html.currentTime;
+        if (!this.media_html.paused) {
+            this.data.current_time = this.media_html.currentTime;
         }
     }
 
@@ -113,33 +102,40 @@ class audio_element extends element {
     update() {
         this.is_remote_event = true; // prevent sending an update in response to this event
         super.update();
+        this.set_block_events(this.data.block_events);
 
-
-        this.html.style.width = `${this.data.transform.width}px`;
-        this.html.style.height = `${this.data.transform.height}px`;
+        this.media_html.style.width = `${this.data.transform.width}px`;
+        this.media_html.style.height = `${this.data.transform.height}px`;
 
         // update volume, playback rate, etc.
-        if (Math.abs(this.html.volume - this.data.volume) > 0.01)
-            this.html.volume = this.data.volume;
-        if (Math.abs(this.html.playbackRate - this.data.playback_rate) > 0.01)
-            this.html.playbackRate = this.data.playback_rate;
-        if (this.html.loop != this.data.loop)
-            this.html.loop = this.data.loop;
-        if (Math.abs(this.html.currentTime - this.data.current_time) > 1)
-            this.html.currentTime = this.data.current_time;
+        if (Math.abs(this.media_html.volume - this.data.volume) > 0.01)
+            this.media_html.volume = this.data.volume;
+        if (Math.abs(this.media_html.playbackRate - this.data.playback_rate) > 0.01)
+            this.media_html.playbackRate = this.data.playback_rate;
+        if (this.media_html.loop != this.data.loop)
+            this.media_html.loop = this.data.loop;
+        if (Math.abs(this.media_html.currentTime - this.data.current_time) > 1)
+            this.media_html.currentTime = this.data.current_time;
 
-        if (this.html.src.indexOf(this.data.url) == -1) {
-            this.html.src = this.data.url;
+        if (this.media_html.src.indexOf(this.data.url) == -1) {
+            this.media_html.src = this.data.url;
             this.data.current_time = 0;
         }
 
-        if (this.data.paused != this.html.paused) {
+        if (this.data.paused != this.media_html.paused) {
             if (this.data.paused)
-                this.html.pause();
+                this.media_html.pause();
             else
-                this.html.play();
+                this.media_html.play();
         }
         this.is_remote_event = false;
+    }
+
+
+    set_block_events(block_events) {
+        this.data.block_events = block_events;
+        this.blocker.style.display = this.data.block_events ? "block" : "none";
+        return true;
     }
 
     is_resizable() { return true; }
@@ -152,15 +148,19 @@ class audio_element_handler extends element_handler {
         this.volume_settings = $("#volume-settings");
         this.url = $("#url-input");
         this.volume = $("#volume-input");
+        this.event_settings = $("#event-settings");
+        this.block_events = $("#block-events");
         this.selected_element = null;
         this.url.on("input", () => this.update_selected_element());
         this.volume.on("input", () => this.update_selected_element());
+        this.block_events.on("change", () => this.update_selected_element());
     }
 
     update_selected_element() {
         if (this.selected_element) {
             this.selected_element.set_url(this.url.value);
             this.selected_element.data.volume = this.volume.value / 100.0;
+            this.selected_element.set_block_events(this.block_events.checked);
             send_command_update_element(this.edt, this.selected_element);
         }
     }
@@ -168,14 +168,17 @@ class audio_element_handler extends element_handler {
     show_settings(element) {
         this.url_settings.style.display = "grid";
         this.volume_settings.style.display = "grid";
+        this.event_settings.style.display = "grid";
         this.url.value = element.data.url;
         this.volume.value = element.data.volume * 100.0;
         this.selected_element = element;
+        this.block_events.checked = element.data.block_events;
     }
 
     hide_settings() {
         this.url_settings.style.display = "none";
         this.volume_settings.style.display = "none";
+        this.event_settings.style.display = "none";
         this.selected_element = null;
     }
 }
@@ -199,6 +202,7 @@ function add_audio_element(url = null, name = null, width = 300, height = 50) {
         playback_rate: 1,
         paused: true,
         current_time: 0,
+        block_events: false,
     };
     edt.add_element(create_element(edt, "audio", data));
 }

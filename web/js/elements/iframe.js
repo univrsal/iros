@@ -19,10 +19,10 @@ class iframe_element extends element {
     constructor(parent, data) {
         super(parent, "iframe", data);
         this.html = $(`<div class="iros-element"  id="${this.data.id}"></div>`);
-        this.blocker = $(`<div class="iros-iframe-blocker"></div>`);
+        this.blocker = $(`<div class="iros-blocker"></div>`);
         this.iframe = $(`<iframe class="iros-iframe" src="${this.data.url}" frameborder="0"></iframe>`);
-        this.html.append(this.blocker);
         this.html.append(this.iframe);
+        this.html.append(this.blocker);
         this.block_events = data.block_events;
 
         if (parent.is_editor()) {
