@@ -46,7 +46,7 @@ function add_video_element(url = null, name = null, width = 480, height = 360) {
         playback_rate: 1,
         paused: true,
         current_time: 0,
-        block_events: true,
+        native_controls: false,
     };
     edt.add_element(create_element(edt, "video", data));
 }

@@ -44,36 +44,6 @@ class timer_element extends text_element {
     tickable() { return true; }
 }
 
-function parse_time_to_seconds(time) {
-    let seconds = 0;
-    let parts = time.split(":");
-    if (parts.length == 1) {
-        seconds = parseInt(parts[0]);
-    } else if (parts.length == 2) {
-        seconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
-    } else if (parts.length == 3) {
-        seconds = parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
-    }
-    return seconds;
-}
-
-function seconds_to_time(seconds) {
-    let hours = Math.floor(seconds / 3600);
-    let minutes = Math.floor((seconds - hours * 3600) / 60);
-    seconds = seconds - hours * 3600 - minutes * 60;
-    // add leading zeros
-    hours = hours.toString().padStart(2, "0");
-    minutes = (minutes % 60).toString().padStart(2, "0");
-
-    let milliseconds = Math.floor((seconds - Math.floor(seconds)) * 1000);
-    milliseconds = milliseconds.toString().padStart(2, "0");
-    // limit milliseconds to 2 digits
-    milliseconds = milliseconds.substring(0, 2);
-
-    seconds = (Math.floor(seconds) % 60).toString().padStart(2, "0");
-
-    return `${hours}:${minutes}:${seconds}.${milliseconds}`;
-}
 
 class timer_element_handler extends text_element_handler {
     constructor(edt) {

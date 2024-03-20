@@ -206,10 +206,30 @@
                 <input type="checkbox" name="block-events" id="block-events" title="Disable interaction">
             </div>
 
-            <div id="volume-settings">
+            <div id="media-settings">
                 <img id="volume-label" src="../img/volume.svg" title="Element volume" />
                 <input type="range" name="volume-input" id="volume-input" value="100" min="1" max="100"
                     title="Volume of element">
+                <img id="speed-label" src="../img/speed.svg" title="Playback rate" />
+                <input type="range" name="speed-input" id="speed-input" value="100" min="10" max="300"
+                    title="Playback rate">
+                <div id="seekbar-controls">
+                    <div id="progress">0:00</div>
+                    <input type="range" name="media-seek-bar" id="seek-bar" value="100" min="1" max="100"
+                        title="Progress">
+                    <div id="runtime">0:00</div>
+                </div>
+
+                <img id="native-controls-label" src="../img/controls.svg" title="Enable native controls" />
+                <input type="checkbox" name="native-controls" id="native-controls" title="Enable native controls">
+
+                <div id="media-buttons">
+                    <button id="media-start" onclick="start_media()"><img src="../img/play.svg" title="Play" /></button>
+                    <button id="media-pause" onclick="pause_media()"><img src="../img/pause.svg"
+                            title="Pause" /></button>
+                </div>
+
+
             </div>
 
             <div id="timer-settings">

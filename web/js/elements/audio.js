@@ -15,16 +15,27 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+function start_media() {
+    if (edt.selected_element) {
+        edt.selected_element.media_html.play();
+    }
+}
+
+function pause_media() {
+    if (edt.selected_element) {
+        edt.selected_element.media_html.pause();
+    }
+}
+
+var last_media_update = 0;
 class audio_element extends element {
     constructor(parent, data, type = "audio") {
         super(parent, type, data);
         this.html = $(`<div class="iros-element"  id="${this.data.id}"></div>`);
         this.media_html = $(`<${type} controls class="iros-element iros-media-element" id="${this.data.id}" src="${this.data.url}"></${type}>`);
-        this.blocker = $(`<div class="iros-blocker"></div>`);
         this.html.append(this.media_html);
-        this.html.append(this.blocker);
         this.is_remote_event = false;
-        this.block_events = data.block_events;
+        this.native_controls = this.data.native_controls;
 
         if (parent.is_editor()) {
             this.media_html.muted = true; // we don't want to hear the audio in the editor
@@ -94,6 +105,13 @@ class audio_element extends element {
     tick() {
         if (!this.media_html.paused) {
             this.data.current_time = this.media_html.currentTime;
+            let time = Date.now();
+            if (this.parent.is_editor() && edt.selected_element == this && time - last_media_update > 500) {
+                last_media_update = time;
+                $('#seek-bar').value = this.media_html.currentTime / this.media_html.duration * 100;
+                $('#progress').innerText = seconds_to_time(this.media_html.currentTime, false);
+                $('#runtime').innerText = seconds_to_time(this.media_html.duration, false);
+            }
         }
     }
 
@@ -102,7 +120,7 @@ class audio_element extends element {
     update() {
         this.is_remote_event = true; // prevent sending an update in response to this event
         super.update();
-        this.set_block_events(this.data.block_events);
+        this.set_native_controls(this.data.native_controls);
 
         this.media_html.style.width = `${this.data.transform.width}px`;
         this.media_html.style.height = `${this.data.transform.height}px`;
@@ -131,10 +149,15 @@ class audio_element extends element {
         this.is_remote_event = false;
     }
 
+    set_native_controls(native_controls) {
+        this.data.native_controls = native_controls;
+        this.media_html.controls = this.data.native_controls;
+        return true;
+    }
 
-    set_block_events(block_events) {
-        this.data.block_events = block_events;
-        this.blocker.style.display = this.data.block_events ? "block" : "none";
+    set_playback_rate(playback_rate) {
+        this.data.playback_rate = playback_rate;
+        this.media_html.playbackRate = this.data.playback_rate;
         return true;
     }
 
@@ -145,40 +168,48 @@ class audio_element_handler extends element_handler {
     constructor(edt, type = "audio") {
         super(edt, type);
         this.url_settings = $("#url-settings");
-        this.volume_settings = $("#volume-settings");
+        this.media_settings = $("#media-settings");
+        this.playback_rate = $("#speed-input");
         this.url = $("#url-input");
+        this.seek_bar = $("#seek-bar");
         this.volume = $("#volume-input");
-        this.event_settings = $("#event-settings");
-        this.block_events = $("#block-events");
+        this.native_controls = $("#native-controls");
         this.selected_element = null;
         this.url.on("input", () => this.update_selected_element());
         this.volume.on("input", () => this.update_selected_element());
-        this.block_events.on("change", () => this.update_selected_element());
+        this.playback_rate.on("input", () => this.update_selected_element());
+        this.native_controls.on("change", () => this.update_selected_element());
+        this.seek_bar.on("input", () => {
+            if (this.selected_element) {
+                this.selected_element.media_html.currentTime = this.selected_element.media_html.duration * this.seek_bar.value / 100;
+                send_command_update_element(this.edt, this.selected_element);
+            }
+        });
     }
 
     update_selected_element() {
         if (this.selected_element) {
             this.selected_element.set_url(this.url.value);
             this.selected_element.data.volume = this.volume.value / 100.0;
-            this.selected_element.set_block_events(this.block_events.checked);
+            this.selected_element.set_playback_rate(this.playback_rate.value / 100.0);
+            this.selected_element.set_native_controls(this.native_controls.checked);
             send_command_update_element(this.edt, this.selected_element);
         }
     }
 
     show_settings(element) {
         this.url_settings.style.display = "grid";
-        this.volume_settings.style.display = "grid";
-        this.event_settings.style.display = "grid";
+        this.media_settings.style.display = "grid";
+
         this.url.value = element.data.url;
         this.volume.value = element.data.volume * 100.0;
         this.selected_element = element;
-        this.block_events.checked = element.data.block_events;
+        this.native_controls.checked = element.data.native_controls;
     }
 
     hide_settings() {
         this.url_settings.style.display = "none";
-        this.volume_settings.style.display = "none";
-        this.event_settings.style.display = "none";
+        this.media_settings.style.display = "none";
         this.selected_element = null;
     }
 }
@@ -202,7 +233,7 @@ function add_audio_element(url = null, name = null, width = 300, height = 50) {
         playback_rate: 1,
         paused: true,
         current_time: 0,
-        block_events: false,
+        native_controls: false,
     };
     edt.add_element(create_element(edt, "audio", data));
 }
