@@ -26,11 +26,22 @@ function get_commands() {
         ["rotate", command_rotate_element],
         ["ping", command_ping],
         ["pong", command_pong],
+        ["cursormove", command_cursor_move],
     ]);
 }
 
 var outstanding_ping_command_id = null;
 var user_map = new Map();
+
+function command_cursor_move(view, data) {
+    if (!view.is_editor())
+        return;
+    view.update_cursor_info(data);
+}
+
+function send_command_cursor_move(view, x, y) {
+    view.send({ type: "cursormove", args: { x, y, id: view.id }, session: view.session_id });
+}
 
 function send_command_ping(view) {
     user_map.clear();

@@ -63,6 +63,8 @@ class editor extends viewer {
         this.rtt = 0;
         this.editor_users = 0;
         this.viewer_users = 0;
+        this.last_cursor_position = [0, 0];
+        this.cursor_map = new Map(); // map of user ids to cursor positions to show where other users are
 
         let opts = document.getElementsByClassName("pivot-option");
         this.pivot_options = [];
@@ -108,6 +110,13 @@ class editor extends viewer {
         setInterval(() => {
             send_command_ping(this);
         }, 2000);
+        setInterval(() => {
+            let dist2 = Math.pow(this.last_cursor_position[0] - this.mouse_pos[0], 2) + Math.pow(this.last_cursor_position[1] - this.mouse_pos[1], 2);
+            if (this.editor_users > 1 && dist2 > 10) {
+                this.last_cursor_position = [this.last_move_event.localX, this.last_move_event.localY];
+                send_command_cursor_move(this, this.last_move_event.localX, this.last_move_event.localY);
+            }
+        }, 100);
     }
 
     /* Drawing */
@@ -591,10 +600,37 @@ class editor extends viewer {
             else
                 this.viewer_users++;
         }
+
+        // remove cursors of users that left
+        for (let [id, _] of this.cursor_map) {
+            if (!users.has(id)) {
+                this.cursor_map.delete(id);
+                let cursor = $(`#${id}`);
+                if (cursor)
+                    cursor.remove();
+            }
+        }
+
         this.update_session_info();
     }
 
     update_session_info() {
         this.session_info.innerHTML = `${this.rtt} ms / ${this.editor_users} / ${this.viewer_users}`;
+    }
+
+    update_cursor_info(data) {
+        let cursor = null;
+        // check if cursor already exists
+        if (this.cursor_map.has(data.id)) {
+            cursor = $(`#${data.id}`);
+        } else {
+            this.cursor_map.set(data.id, {});
+            // create the cursor element
+            cursor = $(`<div class="user-cursor" id="${data.id}"></div>`);
+            this.container.appendChild(cursor);
+        }
+        // update cursor transform
+
+        cursor.style.transform = `translate(${data.x}px, ${data.y}px)`;
     }
 }

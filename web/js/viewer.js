@@ -22,7 +22,7 @@ class viewer {
         this.tickable_elements = [];
         this.commands = get_commands();
         this.connected = false;
-        this.id = uuidv4();
+        this.id = Math.random().toString(36).substring(7);
 
         this.socket = new WebSocket(config.WEBSOCKET_URL);
         this.socket.onopen = e => this.on_open(e);
