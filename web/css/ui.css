@@ -509,6 +509,18 @@
     z-index: 2000;
 }
 
+#session-info {
+    font-size: 9pt;
+    font-family: Arial, Helvetica, sans-serif;
+    opacity: 0.7;
+    color: rgb(197, 197, 197);
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 2000;
+    user-select: none;
+}
+
 #connection-indicator.disconnected {
     background-color: #ff3d57;
 }

@@ -51,6 +51,7 @@ class editor extends viewer {
         this.canvas_height = $("#canvas-height");
         this.editor_canvas = $("#editor-canvas");
         this.player_interaction = $("#player-interaction");
+        this.session_info = $("#session-info");
         this.ctx = this.editor_canvas.getContext("2d");
         this.mouse_pos = [0, 0];
         this.last_move_event = null;
@@ -59,6 +60,9 @@ class editor extends viewer {
         this.editor_offset = [0, 0];
         this.initial_editor_offset = [0, 0];
         this.space_pressed = false;
+        this.rtt = 0;
+        this.editor_users = 0;
+        this.viewer_users = 0;
 
         let opts = document.getElementsByClassName("pivot-option");
         this.pivot_options = [];
@@ -100,6 +104,10 @@ class editor extends viewer {
         this.on_resize();
 
         requestAnimationFrame(() => this.draw());
+
+        setInterval(() => {
+            send_command_ping(this);
+        }, 2000);
     }
 
     /* Drawing */
@@ -566,5 +574,27 @@ class editor extends viewer {
             this.container.classList.remove("no-input");
             this.editor_canvas.classList.remove("no-input");
         }
+    }
+
+    update_rtt(rtt) {
+        this.rtt = rtt;
+        this.update_session_info();
+    }
+
+    update_user_info(users) {
+        // count editor and viewer users
+        this.editor_users = 1; // this editor isn't in the map
+        this.viewer_users = 0;
+        for (let [_, user] of users) {
+            if (user.is_editor)
+                this.editor_users++;
+            else
+                this.viewer_users++;
+        }
+        this.update_session_info();
+    }
+
+    update_session_info() {
+        this.session_info.innerHTML = `${this.rtt} ms / ${this.editor_users} / ${this.viewer_users}`;
     }
 }

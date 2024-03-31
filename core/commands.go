@@ -92,5 +92,8 @@ func process_command(session *IrosSession, cmd_type string, data map[string]json
 		if err := try_unmarshal(&id, data["id"], data["rotation"], &rotation); err == nil {
 			session.State[id].SetRotation(rotation)
 		}
+	default:
+		// some commands are only for client to client communication and have no effect on the server
+		return
 	}
 }

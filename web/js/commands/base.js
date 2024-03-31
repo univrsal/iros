@@ -24,9 +24,39 @@ function get_commands() {
         ["move", command_move_element],
         ["scale", command_scale_element],
         ["rotate", command_rotate_element],
+        ["ping", command_ping],
+        ["pong", command_pong],
     ]);
 }
 
+var outstanding_ping_command_id = null;
+var user_map = new Map();
+
+function send_command_ping(view) {
+    user_map.clear();
+    outstanding_ping_command_id = Math.floor(Math.random() * 1000000);
+    view.send({ type: "ping", args: { editor_timestamp: Date.now(), id: outstanding_ping_command_id }, session: view.session_id });
+}
+
+function send_command_pong(view, start_timestamp, ping_id) {
+    view.send({ type: "pong", args: { start_timestamp, ping_id, viewer_id: view.id, is_editor: view.is_editor() }, session: view.session_id });
+}
+
+function command_ping(view, data) {
+    send_command_pong(view, data.editor_timestamp, data.id);
+}
+
+function command_pong(view, data) {
+    if (!view.is_editor()) // don't handle pongs in viewer mode
+        return;
+    if (outstanding_ping_command_id == data.id) {
+        let rtt = Date.now() - data.start_timestamp;
+        view.update_rtt(rtt);
+        outstanding_ping_command_id = null;
+    }
+    user_map.set(data.viewer_id, { rtt: data.rtt, is_editor: data.is_editor });
+    view.update_user_info(user_map);
+}
 
 function send_command_move_element(view, element) {
     view.send({
