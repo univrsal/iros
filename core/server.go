@@ -292,7 +292,7 @@ func listen(conn *websocket.Conn) {
 		t, p, err := conn.ReadMessage()
 		if err != nil {
 			log.Println(err)
-			return
+			break
 		}
 
 		var objmap map[string]json.RawMessage
@@ -300,7 +300,7 @@ func listen(conn *websocket.Conn) {
 
 		if err != nil {
 			log.Println(err)
-			return
+			continue
 		}
 
 		var session string
@@ -308,18 +308,23 @@ func listen(conn *websocket.Conn) {
 
 		if err != nil {
 			log.Println(err)
-			return
+			continue
 		}
 
 		val, exists := wss.Sessions[session]
 
 		if exists {
-			for _, c := range val.Connections {
+			for i, c := range val.Connections {
 				// don't send to the sender
 				if c == conn {
 					continue
 				}
-				c.WriteMessage(t, p)
+				err := c.WriteMessage(t, p)
+				if err != nil {
+					// Remove the failed connection from the slice
+					val.Connections = append(val.Connections[:i], val.Connections[i+1:]...)
+					continue
+				}
 			}
 
 			// keep track of session state
@@ -338,4 +343,7 @@ func listen(conn *websocket.Conn) {
 			log.Println("Received command with invalid session")
 		}
 	}
+
+	// Don't think we should ever reach this
+	atomic.AddInt32(&Stats.NumWSConnections, -1)
 }
