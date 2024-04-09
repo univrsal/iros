@@ -40,8 +40,11 @@
                     'Content-Type': 'application/json',
                     'Authorization': token
                 }
-            }).then(_ => {
-                location.reload();
+            }).then(response => {
+                if (response.status === 200)
+                    location.reload();
+                else
+                    console.error('Error:', response.status);
             }).catch((error) => {
                 console.error('Error:', error);
             });
