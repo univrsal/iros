@@ -1,4 +1,4 @@
-/*
+<!--
    This file is part of iros
    Copyright (C) 2024 Alex <uni@vrsal.xyz>
 
@@ -13,25 +13,30 @@
 
    You should have received a copy of the GNU Affero General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+-->
 
-package core
+<!DOCTYPE html>
+<html>
 
-import (
-	"time"
+<head>
+    <title>IROS | 404 - Not found</title>
+    <link rel="icon" href="../img/favicon.png" type="image/x-icon" />
+</head>
 
-	"git.vrsal.cc/alex/iros/core/api"
-	"git.vrsal.cc/alex/iros/core/util"
-	"git.vrsal.cc/alex/iros/core/web"
-	"git.vrsal.cc/alex/iros/core/wss"
-)
+<body>
+    <style>
+        .error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
 
-func StartServer(cfg string) {
-	util.Stats.StartTime = time.Now().Unix()
-	util.Stats.LastMessageTime = time.Now().Unix()
-	util.LoadConfig(cfg)
+    <div class="error">
+        <h3>404 - Not found</h3>
+    </div>
+</body>
 
-	api.RegisterRoutes()
-	web.RegisterPages()
-	wss.Instance.Start()
-}
+</html>

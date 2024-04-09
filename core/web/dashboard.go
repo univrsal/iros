@@ -15,23 +15,26 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package core
+package web
 
 import (
+	"html/template"
+	"net/http"
 	"time"
 
-	"git.vrsal.cc/alex/iros/core/api"
 	"git.vrsal.cc/alex/iros/core/util"
-	"git.vrsal.cc/alex/iros/core/web"
 	"git.vrsal.cc/alex/iros/core/wss"
 )
 
-func StartServer(cfg string) {
-	util.Stats.StartTime = time.Now().Unix()
-	util.Stats.LastMessageTime = time.Now().Unix()
-	util.LoadConfig(cfg)
+func dashboardPage(w http.ResponseWriter, r *http.Request) {
+	if !checkAuthentification(w, r) {
+		return
+	}
 
-	api.RegisterRoutes()
-	web.RegisterPages()
-	wss.Instance.Start()
+	tmpl := template.Must(template.ParseFiles("templates/dashboard.html"))
+	util.Stats.Uptime = util.GetUptime()
+	util.Stats.LastMessage = util.FormatTime(time.Now().Unix() - util.Stats.LastMessageTime)
+	util.Stats.InactiveSessions = wss.GetAmountOfSessionsToPurge()
+	util.Stats.NumSessions = int32(len(wss.Instance.Sessions))
+	tmpl.Execute(w, util.Stats)
 }

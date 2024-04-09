@@ -15,12 +15,15 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package core
+package util
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
 	"log"
 	"os"
+	"runtime/debug"
 )
 
 type Config struct {
@@ -32,11 +35,32 @@ type Config struct {
 	HTTPServerAddress  string `json:"http_server_address"`
 	DebugMode          bool   `json:"debug_mode"`
 	SessionsBackupFile string `json:"sessions_backup_file"`
+	APIToken           string `json:"api_token"`
 }
 
 var (
 	Cfg Config
 )
+
+var Commit = func() string {
+	if info, ok := debug.ReadBuildInfo(); ok {
+		for _, setting := range info.Settings {
+			if setting.Key == "vcs.revision" {
+				return setting.Value[:7]
+			}
+		}
+	}
+	return "debug"
+}()
+
+func GenerateToken() string {
+	byteSlice := make([]byte, 32) // Change the number to adjust the length of the token
+	_, err := rand.Read(byteSlice)
+	if err != nil {
+		panic(err) // Handle this error appropriately in your code
+	}
+	return hex.EncodeToString(byteSlice)
+}
 
 func LoadConfig(path string) {
 	// Default config
@@ -49,6 +73,7 @@ func LoadConfig(path string) {
 		HTTPServerAddress:  "localhost",
 		DebugMode:          false,
 		SessionsBackupFile: "./sessions.json",
+		APIToken:           GenerateToken(),
 	}
 
 	// check if cmd.CfgFilePath is empty
@@ -78,10 +103,25 @@ func LoadConfig(path string) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		defer f.Close()
 
 		dec := json.NewDecoder(f)
 		err = dec.Decode(&Cfg)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		defer f.Close()
+
+		outf, err := os.Create(path)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer outf.Close()
+		// write the config back to the file to write any new fields that
+		// the old config file didn't have
+		enc := json.NewEncoder(outf)
+		enc.SetIndent("", "  ")
+		err = enc.Encode(Cfg)
 		if err != nil {
 			log.Fatal(err)
 		}

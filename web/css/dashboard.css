@@ -15,23 +15,31 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package core
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
 
-import (
-	"time"
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+}
 
-	"git.vrsal.cc/alex/iros/core/api"
-	"git.vrsal.cc/alex/iros/core/util"
-	"git.vrsal.cc/alex/iros/core/web"
-	"git.vrsal.cc/alex/iros/core/wss"
-)
+.stats-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    list-style-type: none;
+}
 
-func StartServer(cfg string) {
-	util.Stats.StartTime = time.Now().Unix()
-	util.Stats.LastMessageTime = time.Now().Unix()
-	util.LoadConfig(cfg)
-
-	api.RegisterRoutes()
-	web.RegisterPages()
-	wss.Instance.Start()
+.dashboard {
+    padding: 1em;
 }

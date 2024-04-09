@@ -15,23 +15,14 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package core
+package web
 
 import (
-	"time"
-
-	"git.vrsal.cc/alex/iros/core/api"
-	"git.vrsal.cc/alex/iros/core/util"
-	"git.vrsal.cc/alex/iros/core/web"
-	"git.vrsal.cc/alex/iros/core/wss"
+	"html/template"
+	"net/http"
 )
 
-func StartServer(cfg string) {
-	util.Stats.StartTime = time.Now().Unix()
-	util.Stats.LastMessageTime = time.Now().Unix()
-	util.LoadConfig(cfg)
-
-	api.RegisterRoutes()
-	web.RegisterPages()
-	wss.Instance.Start()
+func loginPage(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("templates/login.html"))
+	tmpl.Execute(w, nil)
 }

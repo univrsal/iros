@@ -1,4 +1,4 @@
-<!--
+/*
    This file is part of iros
    Copyright (C) 2024 Alex <uni@vrsal.xyz>
 
@@ -13,20 +13,14 @@
 
    You should have received a copy of the GNU Affero General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
+*/
 
-<!DOCTYPE html>
-<html>
+package api
 
-<head>
-    <title>IROS Stats</title>
-</head>
+import (
+	"net/http"
+)
 
-<body>
-    <p>Uptime: {{.Uptime}}</p>
-    <p>Number of sessions: {{.NumSessions}}</p>
-    <p>Number of WebSocket connections: {{.NumWSConnections}}</p>
-    <p>Last connection time {{.LastMessage}}</p>
-</body>
-
-</html>
+func RegisterRoutes() {
+	http.HandleFunc("/api/v1/purgeSessions", PurgeSessions)
+}

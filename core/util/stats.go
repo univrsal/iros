@@ -15,12 +15,10 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package core
+package util
 
 import (
 	"fmt"
-	"html/template"
-	"net/http"
 	"time"
 )
 
@@ -31,13 +29,14 @@ type StatsData struct {
 	NumSessions      int32
 	NumWSConnections int32
 	LastMessageTime  int64
+	InactiveSessions uint32
 }
 
 var (
 	Stats StatsData
 )
 
-func formatTime(t int64) string {
+func FormatTime(t int64) string {
 	hours := t / 3600
 	t -= hours * 3600
 	minutes := t / 60
@@ -47,16 +46,9 @@ func formatTime(t int64) string {
 	return fmt.Sprintf("%d hours, %d minutes, %d seconds", hours, minutes, seconds)
 }
 
-func getUptime() string {
+func GetUptime() string {
 	// get difference between now and start time
 	uptime := time.Now().Unix() - Stats.StartTime
 
-	return formatTime(uptime)
-}
-
-func ServeStats(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("templates/stats.html"))
-	Stats.Uptime = getUptime()
-	Stats.LastMessage = formatTime(time.Now().Unix() - Stats.LastMessageTime)
-	tmpl.Execute(w, Stats)
+	return FormatTime(uptime)
 }

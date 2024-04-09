@@ -1,0 +1,55 @@
+<!--
+   This file is part of iros
+   Copyright (C) 2024 Alex <uni@vrsal.xyz>
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Affero General Public License as published
+   by the Free Software Foundation, version 3 of the License.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Affero General Public License for more details.
+
+   You should have received a copy of the GNU Affero General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IROS | Dashboard</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/dashboard.css'>
+    <link rel="icon" href="../img/favicon.png" type="image/x-icon" />
+
+</head>
+
+<body>
+    <script>
+        function purge_sessions() {
+            fetch('/api/v1/purgeSessions', {
+                method: 'POST',
+            }).catch((error) => {
+                console.error('Error:', error);
+            }).finally(() => {
+                location.reload();
+            });
+        }
+    </script>
+    <div class="stats-header">
+        <ul class="stats-list">
+            <li title="Uptime">🕐 {{.Uptime}}</li>
+            <li title="Number of sessions">📒 {{.NumSessions}}</li>
+            <li title="Connected web sockets">🔌 {{.NumWSConnections}}</li>
+            <li title="Last message">📥 {{.LastMessage}}</li>
+            <li title="Number of inactive sessions">🗑️ {{.InactiveSessions}}</li>
+        </ul>
+    </div>
+    <div class="dashboard">
+        <h3>Dashboard actions</h3>
+        <button class="button" onclick="purge_sessions()">Purge inactive sessions</button>
+    </div>
+</body>
+
+</html>

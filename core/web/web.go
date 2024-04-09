@@ -15,23 +15,30 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package core
+package web
 
 import (
-	"time"
+	"net/http"
 
-	"git.vrsal.cc/alex/iros/core/api"
 	"git.vrsal.cc/alex/iros/core/util"
-	"git.vrsal.cc/alex/iros/core/web"
-	"git.vrsal.cc/alex/iros/core/wss"
 )
 
-func StartServer(cfg string) {
-	util.Stats.StartTime = time.Now().Unix()
-	util.Stats.LastMessageTime = time.Now().Unix()
-	util.LoadConfig(cfg)
+func RegisterPages() {
+	http.HandleFunc(util.Cfg.WebRoot+"dashboard", dashboardPage)
+	http.HandleFunc(util.Cfg.WebRoot+"login", loginPage)
+}
 
-	api.RegisterRoutes()
-	web.RegisterPages()
-	wss.Instance.Start()
+func checkAuthentification(w http.ResponseWriter, r *http.Request) bool {
+	cookie, err := r.Cookie("authToken")
+	if err != nil {
+		http.Error(w, "Missing auth token", http.StatusUnauthorized)
+		return false
+	}
+
+	if cookie.Value != util.Cfg.APIToken {
+		http.Error(w, "Invalid auth token", http.StatusUnauthorized)
+		return false
+	}
+
+	return true
 }

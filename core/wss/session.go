@@ -15,13 +15,15 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package core
+package wss
 
 import (
 	"encoding/json"
 	"log"
+	"time"
 
 	"git.vrsal.cc/alex/iros/core/elements"
+
 	"github.com/gorilla/websocket"
 )
 
@@ -64,4 +66,16 @@ func (session *IrosSession) load_element(t string, data []byte) *elements.Elemen
 	}
 	session.State[new_element.GetId()] = new_element
 	return &new_element
+}
+
+func GetAmountOfSessionsToPurge() uint32 {
+
+	var sessionsToPurgeCount uint32 = 0
+	for _, session := range Instance.Sessions {
+		if time.Now().Unix()-session.LastConnectionTime > 60*60*24*7 {
+			sessionsToPurgeCount++
+		}
+	}
+
+	return sessionsToPurgeCount
 }

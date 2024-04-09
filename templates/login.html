@@ -1,0 +1,89 @@
+<!--
+   This file is part of iros
+   Copyright (C) 2024 Alex <uni@vrsal.xyz>
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Affero General Public License as published
+   by the Free Software Foundation, version 3 of the License.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Affero General Public License for more details.
+
+   You should have received a copy of the GNU Affero General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IROS | Dashboard login</title>
+    <link rel="icon" href="../img/favicon.png" type="image/x-icon" />
+</head>
+
+<body>
+    <style>
+        .login {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h3,
+        button {
+            margin-bottom: 0.5em;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #token {
+            width: 200px;
+        }
+
+        button {
+            margin-left: 0.5em;
+            cursor: pointer;
+        }
+
+        button>div {
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+        }
+
+        #token,
+        button {
+            padding: 0.5em;
+            margin-bottom: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+
+    <script>
+        function login() {
+            if (!document.getElementById('token').value) {
+                alert('Please enter an API token');
+                return;
+            }
+            // set authToken Cookie
+            document.cookie = `authToken=${document.getElementById('token').value};path=/;max-age=31536000`;
+            // redirect to dashboard
+            window.location.href = '/dashboard';
+        }
+    </script>
+
+    <div class="login">
+        <h3>IROS Dashboard login</h3>
+        <div>
+            <input type="password" id="token" placeholder="API Token">
+            <button class="button" onclick="login()">
+                <div>Login</div>
+            </button>
+        </div>
+    </div>
+</body>
+
+</html>
