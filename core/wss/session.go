@@ -20,6 +20,7 @@ package wss
 import (
 	"encoding/json"
 	"log"
+	"sync"
 	"time"
 
 	"git.vrsal.cc/alex/iros/core/elements"
@@ -27,8 +28,14 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+type IrosConnection struct {
+	Conn  *websocket.Conn
+	Mutex sync.Mutex
+}
+
 type IrosSession struct {
-	Connections []*websocket.Conn           `json:"-"`
+	Mutex       sync.Mutex
+	Connections []*IrosConnection           `json:"-"`
 	State       map[string]elements.Element `json:"state"`
 	// we might want to purge sessions that haven't been connected to in a while at some point
 	LastConnectionTime int64 `json:"last_update"`

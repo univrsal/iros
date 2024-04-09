@@ -34,7 +34,7 @@ import (
 )
 
 type WebSocketServer struct {
-	Sessions map[string]IrosSession `json:"sessions"`
+	Sessions map[string]*IrosSession `json:"sessions"`
 }
 
 var (
@@ -93,7 +93,7 @@ func (s *WebSocketServer) LoadState() {
 	}
 
 	// create new sessions map
-	s.Sessions = make(map[string]IrosSession)
+	s.Sessions = make(map[string]*IrosSession)
 
 	// create sessions
 	for k, v := range sessions {
@@ -116,7 +116,7 @@ func (s *WebSocketServer) LoadState() {
 			return
 		}
 
-		var newsession IrosSession
+		newsession := new(IrosSession)
 
 		// create element map
 		newsession.State = make(map[string]elements.Element)
@@ -182,21 +182,29 @@ func listen(conn *websocket.Conn) {
 
 		val, present := Instance.Sessions[result.Session]
 		if present {
-			val.Connections = append(val.Connections, conn)
+			val.Mutex.Lock()
+			newconnection := new(IrosConnection)
+			newconnection.Conn = conn
+			val.Connections = append(val.Connections, newconnection)
 			Instance.Sessions[result.Session] = val
 			if val.State != nil {
 				// send state to new connection
 				conn.WriteJSON(val.State)
 			}
 			val.LastConnectionTime = time.Now().Unix()
+			val.Mutex.Unlock()
 		} else {
-			var newsession IrosSession
+			newsession := new(IrosSession)
+			newsession.Connections = make([]*IrosConnection, 0)
+			newconnection := new(IrosConnection)
+			newconnection.Conn = conn
 			newsession.State = make(map[string]elements.Element)
-			newsession.Connections = append(val.Connections, conn)
+			newsession.Connections = append(newsession.Connections, newconnection)
 			newsession.LastConnectionTime = time.Now().Unix()
 			Instance.Sessions[result.Session] = newsession
 
 			atomic.AddInt32(&util.Stats.NumSessions, 1)
+			val = newsession
 		}
 		atomic.StoreInt64(&util.Stats.LastMessageTime, val.LastConnectionTime)
 
@@ -231,15 +239,21 @@ func listen(conn *websocket.Conn) {
 		val, exists := Instance.Sessions[session]
 
 		if exists {
-			for i, c := range val.Connections {
+			for i := range val.Connections {
+				c := val.Connections[i]
 				// don't send to the sender
-				if c == conn {
+				if c.Conn == conn {
 					continue
 				}
-				err := c.WriteMessage(t, p)
+				c.Mutex.Lock()
+				err := c.Conn.WriteMessage(t, p)
+				c.Mutex.Unlock()
+
 				if err != nil {
 					// Remove the failed connection from the slice
+					val.Mutex.Lock()
 					val.Connections = append(val.Connections[:i], val.Connections[i+1:]...)
+					val.Mutex.Unlock()
 					continue
 				}
 			}
@@ -253,7 +267,7 @@ func listen(conn *websocket.Conn) {
 				err = json.Unmarshal(objmap["args"], &args)
 
 				if err == nil {
-					process_command(&val, t, args, objmap)
+					process_command(val, t, args, objmap)
 				}
 			}
 		} else {
@@ -270,7 +284,7 @@ func (s *WebSocketServer) Start() {
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
 	}
-	s.Sessions = make(map[string]IrosSession)
+	s.Sessions = make(map[string]*IrosSession)
 
 	s.LoadState()
 
