@@ -56,9 +56,9 @@
 - [x] add iframe element
 - [x] add option to interact with stream
 - [x] fade elements in/out
+- [x] update supported element types in documentation
 - [ ] select multiple items
     - [ ] move items
     - [ ] delete items
 - [ ] video/audio elements sometimes will not play anymore
 - [ ] don't re-implement entire update logic for text element
-- [ ] update supported element types in documentation
