@@ -18,39 +18,18 @@
 <html>
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>IROS</title>
-    <link rel="icon" href="img/favicon.png" type="image/x-icon" />
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='css/landing.css'>
-    <script src='js/util.js'></script>
-    <script src='js/session.js'></script>
+    <link rel='stylesheet' type='text/css' media='screen' href='static/css/landing.css'>
+    <script src='static/js/util.js'></script>
+    <script src='static/js/session.js'></script>
 
-    <!-- HTML Meta Tags -->
-    <title>IROS</title>
-    <meta name="description" content="The interactive remote overlay system">
-
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://iros.vrsal.cc/">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="IROS">
-    <meta property="og:description" content="The interactive remote overlay system">
-    <meta property="og:image" content="https://iros.vrsal.cc/img/og.png">
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="iros.vrsal.cc">
-    <meta property="twitter:url" content="https://iros.vrsal.cc/">
-    <meta name="twitter:title" content="IROS">
-    <meta name="twitter:description" content="The interactive remote overlay system">
-    <meta name="twitter:image" content="https://iros.vrsal.cc/img/og.png">
+    {{template "header.html" .}}
 </head>
 
 <body>
 
     <div id="header">
-        <img id="header-logo" src="img/logo.png" alt="IROS Logo">
+        <img id="header-logo" src="static/img/logo.png" alt="IROS Logo">
 
         <!-- Header links -->
         <div id="header-links">
@@ -62,7 +41,7 @@
 
     <div id="main">
         <div id="screenshot">
-            <img src="img/showcase.png" alt="IROS Screenshot">
+            <img src="static/img/showcase.png" alt="IROS Screenshot">
         </div>
         <div id="content">
             <h1>The Interactive Remote Overlay System</h1>

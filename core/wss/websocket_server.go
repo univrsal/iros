@@ -315,7 +315,7 @@ func (s *WebSocketServer) Start() {
 		listen(websocket)
 	})
 
-	http.Handle(util.Cfg.WebRoot, http.StripPrefix(util.Cfg.WebRoot, http.FileServer(http.Dir("./web"))))
+	//http.Handle(util.Cfg.WebRoot, http.StripPrefix(util.Cfg.WebRoot, http.FileServer(http.Dir("./web"))))
 
 	log.Println("IROS is running on http://" + http_address)
 	err := http.ListenAndServe(http_address, nil)

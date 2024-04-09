@@ -19,54 +19,32 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>IROS | Editor </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/main.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/ui.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/player.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/overlay.css">
+    {{template "header.html" .}}
 
-    <!-- HTML Meta Tags -->
-    <title>IROS</title>
-    <meta name="description" content="The interactive remote overlay system">
+    <link rel="stylesheet" type="text/css" media="screen" href="./static/css/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="./static/css/ui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="./static/css/player.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="./static/css/overlay.css">
 
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://iros.vrsal.cc/">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="IROS | Editor">
-    <meta property="og:description" content="The interactive remote overlay system">
-    <meta property="og:image" content="https://iros.vrsal.cc/img/og.png">
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="iros.vrsal.cc">
-    <meta property="twitter:url" content="https://iros.vrsal.cc/">
-    <meta name="twitter:title" content="IROS | Viewer">
-    <meta name="twitter:description" content="The interactive remote overlay system">
-    <meta name="twitter:image" content="https://iros.vrsal.cc/img/og.png">
-
-    <!-- icon-->
-    <link rel="icon" href="../img/favicon.png" type="image/x-icon" />
-    <script src="../js/config.js"></script>
-    <script src="../js/commands/base.js"></script>
-    <script src="../js/util.js"></script>
-    <script src="../js/embed.js"></script>
-    <script src="../js/viewer.js"></script>
-    <script src="../js/editor/key_binds.js"></script>
-    <script src="../js/editor/editor.js"></script>
-    <script src="../js/editor/settings_ui.js"></script>
-    <script src="../js/editor/modals.js"></script>
-    <script src="../js/editor/7tv.js"></script>
-    <script src="../js/editor/favorites.js"></script>
-    <script src="../js/elements/element.js"></script>
-    <script src="../js/elements/text.js"></script>
-    <script src="../js/elements/image.js"></script>
-    <script src="../js/elements/timer.js"></script>
-    <script src="../js/elements/audio.js"></script>
-    <script src="../js/elements/video.js"></script>
-    <script src="../js/elements/iframe.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./static/js/commands/base.js"></script>
+    <script src="./static/js/util.js"></script>
+    <script src="./static/js/embed.js"></script>
+    <script src="./static/js/viewer.js"></script>
+    <script src="./static/js/editor/key_binds.js"></script>
+    <script src="./static/js/editor/editor.js"></script>
+    <script src="./static/js/editor/settings_ui.js"></script>
+    <script src="./static/js/editor/modals.js"></script>
+    <script src="./static/js/editor/7tv.js"></script>
+    <script src="./static/js/editor/favorites.js"></script>
+    <script src="./static/js/elements/element.js"></script>
+    <script src="./static/js/elements/text.js"></script>
+    <script src="./static/js/elements/image.js"></script>
+    <script src="./static/js/elements/timer.js"></script>
+    <script src="./static/js/elements/audio.js"></script>
+    <script src="./static/js/elements/video.js"></script>
+    <script src="./static/js/elements/iframe.js"></script>
 
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>
 </head>
@@ -90,31 +68,31 @@
             </div>
             <div id="elements">
                 <button onclick="add_text_element()" title="Add text"><img id="text-icon"
-                        src="../img/add-text.svg" /></button>
+                        src="./static/img/add-text.svg" /></button>
                 <button onclick="add_image_element()" title="Add image"><img id="image-icon"
-                        src="../img/add-image.svg" /></button>
+                        src="./static/img/add-image.svg" /></button>
                 <button onclick="add_timer_element()" title="Add timer"><img id="timer-icon"
-                        src="../img/add-timer.svg" /></button>
+                        src="./static/img/add-timer.svg" /></button>
                 <button onclick="add_audio_element()" title="Add audio"><img id="audio-icon"
-                        src="../img/add-audio.svg" /></button>
+                        src="./static/img/add-audio.svg" /></button>
                 <button onclick="add_video_element()" title="Add video"><img id="audio-icon"
-                        src="../img/add-video.svg" /></button>
+                        src="./static/img/add-video.svg" /></button>
                 <button onclick="add_iframe_element()" title="Add iframe"><img id="audio-icon"
-                        src="../img/add-iframe.svg" /></button>
+                        src="./static/img/add-iframe.svg" /></button>
                 <button onclick="open_modal(emote_search_modal)" title="Add 7tv Emote"><img id="emote-icon"
-                        src="../img/add-emote.svg" /></button>
+                        src="./static/img/add-emote.svg" /></button>
                 <button onclick="open_modal(favorites_modal)" title="Add favorite"><img id="favorite-icon"
-                        src="../img/add-favorite.svg" /></button>
+                        src="./static/img/add-favorite.svg" /></button>
             </div>
             <div id="canvas-header">
                 <h1>Canvas</h1>
             </div>
 
             <div id="canvas-settings">
-                <img id="canvas-width-label" src="../img/canvas-width.svg" title="Canvas width" />
+                <img id="canvas-width-label" src="./static/img/canvas-width.svg" title="Canvas width" />
                 <input type="text" name="canvas-width" id="canvas-width" title="Canvas width">
 
-                <img id="canvas-height-label" src="../img/canvas-height.svg" title="Canvas height" />
+                <img id="canvas-height-label" src="./static/img/canvas-height.svg" title="Canvas height" />
                 <input type="text" name="canvas-height" id="canvas-height" title="Canvas height">
 
                 <input type="text" name="embed-url" id="embed-url" placeholder="Stream URL" required>
@@ -141,23 +119,23 @@
                 <label class="center-label" for="pos-y" title="Y position of element">Y</label>
                 <input type="text" name="pos-y" id="pos-y" title="Y position of element">
 
-                <img id="width-label" src="../img/width.svg" title="Width of element" />
+                <img id="width-label" src="./static/img/width.svg" title="Width of element" />
                 <input type="text" name="width" id="width" title="Width of element">
 
-                <img id="height-label" src="../img/height.svg" title="Height of element" />
+                <img id="height-label" src="./static/img/height.svg" title="Height of element" />
                 <input type="text" name="height" id="height" title="Height of element">
 
-                <img id="z-index-label" src="../img/layer.svg" title="Layer of element" />
+                <img id="z-index-label" src="./static/img/layer.svg" title="Layer of element" />
                 <input type="number" name="z-index" id="z-index" title="Layer of element">
 
-                <img id="opacity-label" src="../img/opacity.svg" title="Opacity of element" />
+                <img id="opacity-label" src="./static/img/opacity.svg" title="Opacity of element" />
                 <input type="range" name="opacity" id="opacity" value="100" min="1" max="100"
                     title="Opacity of element">
 
-                <img id="visibility-label" src="../img/visible.svg" title="Visiblity of element" />
+                <img id="visibility-label" src="./static/img/visible.svg" title="Visiblity of element" />
                 <input type="checkbox" name="visibility" id="visibility" title="Visiblity of element">
 
-                <img id="pivot-label" src="../img/pivot.svg" title="Pivot point of element" />
+                <img id="pivot-label" src="./static/img/pivot.svg" title="Pivot point of element" />
                 <div id="pivot-select">
                     <div id="pivot-options-horizontal">
                         <div id="pivot-h-left" pivot="left" class="pivot-option horizontal" title="Left"></div>
@@ -173,12 +151,13 @@
             </div>
 
             <div id="color-settings">
-                <img id="color-label" src="../img/color.svg" title="Element color" />
+                <img id="color-label" src="./static/img/color.svg" title="Element color" />
                 <input type="color" name="color" id="color" title="Element color">
             </div>
 
             <div id="background-color-settings">
-                <img id="background-color-label" src="../img/background-color.svg" title="Element background color" />
+                <img id="background-color-label" src="./static/img/background-color.svg"
+                    title="Element background color" />
                 <input type="color" name="background-color" id="background-color" title="Element background color">
             </div>
 
@@ -186,10 +165,10 @@
                 <input type="checkbox" name="background-color" id="enable-background-color"
                     title="Enable background color">
                 <label for="enable-background-color" title="Enable background color">Background color</label>
-                <img id="font-label" src="../img/font.svg" title="Element font" />
+                <img id="font-label" src="./static/img/font.svg" title="Element font" />
                 <input type="text" name="font" id="font" title="Element font">
 
-                <img id="font-size-label" src="../img/font-size.svg" title="Element font size" />
+                <img id="font-size-label" src="./static/img/font-size.svg" title="Element font size" />
                 <input type="number" name="font-size" id="font-size" title="Element font size">
 
                 <textarea id="text" name="text" rows="4" cols="50"
@@ -202,15 +181,15 @@
             </div>
 
             <div id="event-settings">
-                <img id="block-events-label" src="../img/block-events.svg" title="Disable interaction" />
+                <img id="block-events-label" src="./static/img/block-events.svg" title="Disable interaction" />
                 <input type="checkbox" name="block-events" id="block-events" title="Disable interaction">
             </div>
 
             <div id="media-settings">
-                <img id="volume-label" src="../img/volume.svg" title="Element volume" />
+                <img id="volume-label" src="./static/img/volume.svg" title="Element volume" />
                 <input type="range" name="volume-input" id="volume-input" value="100" min="1" max="100"
                     title="Volume of element">
-                <img id="speed-label" src="../img/speed.svg" title="Playback rate" />
+                <img id="speed-label" src="./static/img/speed.svg" title="Playback rate" />
                 <input type="range" name="speed-input" id="speed-input" value="100" min="10" max="300"
                     title="Playback rate">
                 <div id="seekbar-controls">
@@ -220,12 +199,13 @@
                     <div id="runtime">0:00</div>
                 </div>
 
-                <img id="native-controls-label" src="../img/controls.svg" title="Enable native controls" />
+                <img id="native-controls-label" src="./static/img/controls.svg" title="Enable native controls" />
                 <input type="checkbox" name="native-controls" id="native-controls" title="Enable native controls">
 
                 <div id="media-buttons">
-                    <button id="media-start" onclick="start_media()"><img src="../img/play.svg" title="Play" /></button>
-                    <button id="media-pause" onclick="pause_media()"><img src="../img/pause.svg"
+                    <button id="media-start" onclick="start_media()"><img src="./static/img/play.svg"
+                            title="Play" /></button>
+                    <button id="media-pause" onclick="pause_media()"><img src="./static/img/pause.svg"
                             title="Pause" /></button>
                 </div>
 

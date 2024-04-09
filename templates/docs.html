@@ -19,45 +19,23 @@
 <html>
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>IROS | Docs</title>
-    <link rel="icon" href="../img/favicon.png" type="image/x-icon" />
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='../css/landing.css'>
-    <script src='../js/util.js'></script>
-    <script src='../js/session.js'></script>
-
-    <!-- HTML Meta Tags -->
-    <title>IROS</title>
-    <meta name="description" content="The interactive remote overlay system">
-
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://iros.vrsal.cc/docs">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="IROS | Documenation">
-    <meta property="og:description" content="The interactive remote overlay system">
-    <meta property="og:image" content="https://iros.vrsal.cc/img/og.png">
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="iros.vrsal.cc">
-    <meta property="twitter:url" content="https://iros.vrsal.cc/docs">
-    <meta name="twitter:title" content="IROS | Viewer">
-    <meta name="twitter:description" content="The interactive remote overlay system">
-    <meta name="twitter:image" content="https://iros.vrsal.cc/img/og.png">
+    <script src='static/js/util.js'></script>
+    <script src='static/js/session.js'></script>
+    <link rel='stylesheet' type='text/css' media='screen' href='static/css/landing.css'>
+    {{template "header.html" .}}
 </head>
 
 <body>
 
     <div id="header">
-        <img id="header-logo" src="../img/logo.png" alt="IROS Logo">
+        <img id="header-logo" src="static/img/logo.png" alt="IROS Logo">
 
         <!-- Header links -->
         <div id="header-links">
-            <a href="..">Home</a>
-            <a href="../#quickstart">Quickstart</a>
-            <a href=".">Documenation</a>
+            <a href=".">Home</a>
+            <a href="./#quickstart">Quickstart</a>
+            <a href="./docs">Documenation</a>
         </div>
     </div>
 
@@ -108,7 +86,7 @@
             </ul>
             </p>
             <p>
-                See <a href="../#quickstart">quickstart</a> to get started with a few simple steps or look below for
+                See <a href="./#quickstart">quickstart</a> to get started with a few simple steps or look below for
                 a more thorough explanation for setting it up. This tutorial is also available as a video (click on it
                 to load it):
             </p>
@@ -125,7 +103,7 @@
             </script>
 
             <div class="video-embed" onclick="embed_video('PXOY1KFhj7o')" title="Click to embed video">
-                <img src="../img/thumbnail.jpg" alt="Video placeholder">
+                <img src="static/img/thumbnail.jpg" alt="Video placeholder">
             </div>
 
             <h1 id="getting-started">Getting started</h1>
@@ -148,12 +126,12 @@
                     <div class="label">Editor link</div>
                     <input class="link-textbox" type="text" name="editor-link" id="editor-link" readonly>
                     <button title="Copy to clipboard" onclick="copy_link('editor-link')"><img
-                            src="../img/copy.svg" /></button>
+                            src="static/img/copy.svg" /></button>
 
                     <div class="label">Overlay link</div>
                     <input type=" text" name="overlay-link" id="overlay-link" readonly>
                     <button title="Copy to clipboard" onclick="copy_link('overlay-link')"><img
-                            src="../img/copy.svg" /></button>
+                            src="static/img/copy.svg" /></button>
                 </div>
             </div>
             <p>
@@ -191,7 +169,7 @@
                 For the following steps OBS studio is used since most people use it. After having added a browser
                 source you'll be presented with the following dialog:
             </p>
-            <img class="center-image" src="../img/obs-browser-source-dialog.png" alt="OBS browser source dialog">
+            <img class="center-image" src="static/img/obs-browser-source-dialog.png" alt="OBS browser source dialog">
             <p>
                 The URL field is where you enter the overlay link. The width and height fields should be set to the
                 size of your stream so the browser source fills out the entire screen. If you don't know the size of
@@ -302,7 +280,7 @@
                 Each element has its own size and position. The position and scale are modified by moving or scaling the
                 element. See <a href="#usage-and-keybinds">Keybinds and basic usage</a> for more info.
             </p>
-            <h3><img class="icon" src="../img/layer.svg" /> Layer or z-index</h3>
+            <h3><img class="icon" src="static/img/layer.svg" /> Layer or z-index</h3>
             <p>Determines which elements are drawn at the top. By default all elements use layer 0, so the oder in which
                 they are drawn is determined by the order in which they are added to the overlay. The last element is
                 always at the top. If you want an element to be drawn above another one you can achieve this by
@@ -310,16 +288,17 @@
                 element
                 that should be below.
             </p>
-            <h3><img class="icon" src="../img/opacity.svg" /> Opacity</h3>
+            <h3><img class="icon" src="static/img/opacity.svg" /> Opacity</h3>
             <p>With this slider the opacity or transparency of the element can be modified. If you accidentally set the
-                opacity to zero you can use the <a href="#element-list">element list</a> to find the element again.</p>
-            <h3><img class="icon" src="../img/visible.svg" /> Visibility on stream</h3>
+                opacity to zero you can use the <a href="#element-list">element list</a> to find the element
+                again.</p>
+            <h3><img class="icon" src="static/img/visible.svg" /> Visibility on stream</h3>
             <p>By default each newily added element will not be visible on stream to prevent accidentally showing
                 something
                 you don't want to show. By checking or unchecking the checkbox next to the eyeball or by pressing
                 <strong>H</strong> you can make an element visible or invisible on stream.
             </p>
-            <h3><img class="icon" src="../img/pivot.svg" /> Pivot point</h3>
+            <h3><img class="icon" src="static/img/pivot.svg" /> Pivot point</h3>
             <p>
                 The pivot point determines the origin for scaling and rotating the element. By default it is set to the
                 center of the object. The setting has three buttons for the horizontal position of the pivot and three
@@ -327,7 +306,7 @@
                 for example by how the rotation affects the object.
             </p>
 
-            <h2 id="text"><img src="../img/add-text.svg" class="icon element" /> Text</h2>
+            <h2 id="text"><img src="static/img/add-text.svg" class="icon element" /> Text</h2>
             <p>
                 Can display text using basic markdown formatting, e.g. <strong>**bold**</strong>, <em>*italic*</em>,
                 <s>~~strikethrough~~</s> or <span style="text-decoration: underline">__underline__</span>.
@@ -338,7 +317,7 @@
             </p>
             <p>Other properties include the color of the text and the background.</p>
 
-            <h2 id="image"><img src="../img/add-image.svg" class="icon element" /> Image</h2>
+            <h2 id="image"><img src="static/img/add-image.svg" class="icon element" /> Image</h2>
             <p>
                 The image element can load an Image from any URL and display it in the overlay. If you copy the URL
                 of an image to your clipboard and paste it in the editor with <strong>Ctrl+V</strong> a new image
@@ -346,7 +325,8 @@
                 on stream by default to prevent accidentally pasted images from showing up.
             </p>
 
-            <h2 id="countdown-and-timer"><img src="../img/add-timer.svg" class="icon element" /> Countdown and timer
+            <h2 id="countdown-and-timer"><img src="static/img/add-timer.svg" class="icon element" /> Countdown and
+                timer
             </h2>
             <p>
                 This element can either count the time up or down. It is essentially a text element with some logic to
@@ -355,7 +335,7 @@
                 and reset button to control the time tracking.
             </p>
 
-            <h2 id="emotes"><img src="../img/add-emote.svg" class="icon element" /> Emotes</h2>
+            <h2 id="emotes"><img src="static/img/add-emote.svg" class="icon element" /> Emotes</h2>
             <p>It can sometimes be useful to easily display emotes people use in chat on stream. When clicking this
                 button a new dialog will open which lets you search for emotes available on <a
                     href="https://7tv.app">7TV</a>. Type in the name of the emote in the search bar and hit enter or
@@ -363,7 +343,7 @@
                 want to add and it'll be added as a new image element to the overlay.
             </p>
 
-            <h2 id="audio"><img src="../img/add-audio.svg" class="icon element" /> Audio
+            <h2 id="audio"><img src="static/img/add-audio.svg" class="icon element" /> Audio
             </h2>
             <p>
                 The audio element allows embedding of audio files into the overlay. Volume, playback speed, looping
@@ -372,7 +352,7 @@
                 prevent hearing the audio twice.
             </p>
 
-            <h2 id="video"><img src="../img/add-video.svg" class="icon element" /> Video
+            <h2 id="video"><img src="static/img/add-video.svg" class="icon element" /> Video
             </h2>
             <p>
                 The video element allows embedding of video files into the overlay. Volume, playback speed, looping
@@ -381,7 +361,7 @@
                 prevent hearing the audio twice.
             </p>
 
-            <h2 id="iframe"><img src="../img/add-iframe.svg" class="icon element" /> Iframe
+            <h2 id="iframe"><img src="static/img/add-iframe.svg" class="icon element" /> Iframe
             </h2>
             <p>
                 The iframe element can embed any website into the overlay. Note that interaction with the website is
@@ -390,7 +370,7 @@
                 is therefore disabled.
             </p>
 
-            <h2 id="favorites"><img src="../img/add-favorite.svg" class="icon element" /> Favorites</h2>
+            <h2 id="favorites"><img src="static/img/add-favorite.svg" class="icon element" /> Favorites</h2>
             <p>
                 If there are any elements that you need frequently you can favorite them by selecting them and pressing
                 <strong>F</strong>.

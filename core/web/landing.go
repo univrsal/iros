@@ -15,14 +15,28 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package api
+package web
 
 import (
+	"html/template"
 	"net/http"
+	"strings"
 
 	"git.vrsal.cc/alex/iros/core/util"
 )
 
-func RegisterRoutes() {
-	http.HandleFunc(util.Cfg.WebRoot+"api/v1/purgeSessions", PurgeSessions)
+func landingPage(w http.ResponseWriter, r *http.Request) {
+	// check if the request path starts with the static path
+	if strings.HasPrefix(r.URL.Path, util.Cfg.WebRoot+"static/") {
+		http.StripPrefix(util.Cfg.WebRoot+"static", http.FileServer(http.Dir("static"))).ServeHTTP(w, r)
+		return
+	}
+
+	if r.URL.Path != util.Cfg.WebRoot {
+		notFoundPage(w, r)
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles("templates/landing.html", "templates/header.html"))
+	tmpl.Execute(w, util.Cfg)
 }

@@ -15,14 +15,16 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package api
+package web
 
 import (
+	"html/template"
 	"net/http"
 
 	"git.vrsal.cc/alex/iros/core/util"
 )
 
-func RegisterRoutes() {
-	http.HandleFunc(util.Cfg.WebRoot+"api/v1/purgeSessions", PurgeSessions)
+func docsPage(w http.ResponseWriter, _ *http.Request) {
+	tmpl := template.Must(template.ParseFiles("templates/docs.html", "templates/header.html"))
+	tmpl.Execute(w, util.Cfg)
 }

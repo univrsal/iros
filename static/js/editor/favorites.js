@@ -26,7 +26,7 @@ function build_favorites_list() {
     for (let i = 0; i < favorite_list.length; i++) {
         let fav = favorite_list[i];
         fav.id = undefined; // will be generated on creation
-        let element = $(`<div class="favorites-element"><img class="favorites-element-icon" src="../img/add-${fav.type}.svg" /><div class="favorites-element-name">${fav.name}</div></div>`);
+        let element = $(`<div class="favorites-element"><img class="favorites-element-icon" src="./static/img/add-${fav.type}.svg" /><div class="favorites-element-name">${fav.name}</div></div>`);
 
         element.on("click", (e) => {
             if (favorite_in_delete_mode) {

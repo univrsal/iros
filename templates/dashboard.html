@@ -20,20 +20,19 @@
 
 <head>
     <title>IROS | Dashboard</title>
-    <link rel='stylesheet' type='text/css' media='screen' href='../css/dashboard.css'>
-    <link rel="icon" href="../img/favicon.png" type="image/x-icon" />
-
+    <link rel='stylesheet' type='text/css' media='screen' href='static/css/dashboard.css'>
+    <link rel="icon" href="static/img/favicon.png" type="image/x-icon" />
 </head>
 
 <body>
     <script>
         function purge_sessions() {
-            fetch('/api/v1/purgeSessions', {
+            fetch('./api/v1/purgeSessions', {
                 method: 'POST',
+            }).then(_ => {
+                location.reload();
             }).catch((error) => {
                 console.error('Error:', error);
-            }).finally(() => {
-                location.reload();
             });
         }
     </script>

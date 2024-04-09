@@ -20,9 +20,11 @@ package web
 import (
 	"html/template"
 	"net/http"
+
+	"git.vrsal.cc/alex/iros/core/util"
 )
 
 func loginPage(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("templates/login.html"))
-	tmpl.Execute(w, nil)
+	tmpl := template.Must(template.ParseFiles("templates/login.html", "templates/header.html"))
+	tmpl.Execute(w, util.Cfg)
 }

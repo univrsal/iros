@@ -73,7 +73,7 @@ class image_element_handler extends element_handler {
 
 function add_image_element(url = null, name = null, width = 100, height = 100) {
     if (url === null)
-        url = `${document.location.origin}${config.ROOT}img/empty.png`
+        url = `${document.location.origin}${config.ROOT}/static/img/empty.png`
     if (name === null)
         name = `Image ${edt.get_next_element_id()}`;
     let data = {

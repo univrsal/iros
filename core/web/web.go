@@ -23,9 +23,19 @@ import (
 	"git.vrsal.cc/alex/iros/core/util"
 )
 
+func HandleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)) {
+	http.HandleFunc(util.Cfg.WebRoot+pattern, handler)
+	http.HandleFunc(util.Cfg.WebRoot+pattern+"/", handler)
+}
+
 func RegisterPages() {
-	http.HandleFunc(util.Cfg.WebRoot+"dashboard", dashboardPage)
-	http.HandleFunc(util.Cfg.WebRoot+"login", loginPage)
+	http.HandleFunc(util.Cfg.WebRoot, landingPage)
+	// the obs browser source will always request <page>/ instead of <page>
+	// so we need to handle both cases
+	HandleFunc("dashboard", dashboardPage)
+	HandleFunc("login", loginPage)
+	HandleFunc("editor", editorPage)
+	HandleFunc("viewer", viewerPage)
 }
 
 func checkAuthentification(w http.ResponseWriter, r *http.Request) bool {
