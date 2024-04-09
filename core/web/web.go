@@ -25,17 +25,21 @@ import (
 
 func HandleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)) {
 	http.HandleFunc(util.Cfg.WebRoot+pattern, handler)
-	http.HandleFunc(util.Cfg.WebRoot+pattern+"/", handler)
+	http.HandleFunc(util.Cfg.WebRoot+pattern+"/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, util.Cfg.WebRoot+pattern, http.StatusMovedPermanently)
+	})
 }
 
 func RegisterPages() {
 	http.HandleFunc(util.Cfg.WebRoot, landingPage)
-	// the obs browser source will always request <page>/ instead of <page>
-	// so we need to handle both cases
 	HandleFunc("dashboard", dashboardPage)
 	HandleFunc("login", loginPage)
 	HandleFunc("editor", editorPage)
-	HandleFunc("viewer", viewerPage)
+	HandleFunc("docs", docsPage)
+	// the obs browser source will always request <page>/ instead of <page>
+	// so we need to handle both cases without redirecting
+	http.HandleFunc(util.Cfg.WebRoot+"viewer", viewerPage)
+	http.HandleFunc(util.Cfg.WebRoot+"viewer/", viewerPage)
 }
 
 func checkAuthentification(w http.ResponseWriter, r *http.Request) bool {
