@@ -331,7 +331,7 @@ func (s *WebSocketServer) Start() {
 
 	//http.Handle(util.Cfg.WebRoot, http.StripPrefix(util.Cfg.WebRoot, http.FileServer(http.Dir("./web"))))
 
-	log.Println("IROS is running on http://" + http_address)
+	log.Println("IROS is running on http://" + http_address + util.Cfg.WebRoot)
 	err := http.ListenAndServe(http_address, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
