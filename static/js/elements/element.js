@@ -103,7 +103,7 @@ class element {
                 setTimeout(() => {
                     if (this.html != null)
                         this.html.classList.add("hidden");
-                }, 500);
+                }, 480);
             }
         }
 
