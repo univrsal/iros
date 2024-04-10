@@ -163,6 +163,8 @@ function command_add_element(view, data) {
     let new_element = create_element(view, data.type, data);
     if (new_element != null) {
         view.elements.set(new_element.id(), new_element);
+        if (!new_element.data.visible)
+            new_element.html.classList.add("hidden");
         view.container.appendChild(new_element.html);
         new_element.update();
         if (view.is_editor())
