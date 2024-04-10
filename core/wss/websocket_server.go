@@ -239,7 +239,10 @@ func listen(conn *websocket.Conn) {
 		val, exists := Instance.Sessions[session]
 
 		if exists {
-			for i := range val.Connections {
+			val.Mutex.Lock()
+			length := len(val.Connections)
+			// loop with length
+			for i := 0; i < length; i++ {
 				c := val.Connections[i]
 				// don't send to the sender
 				if c.Conn == conn {
@@ -251,12 +254,12 @@ func listen(conn *websocket.Conn) {
 
 				if err != nil {
 					// Remove the failed connection from the slice
-					val.Mutex.Lock()
+
 					val.Connections = append(val.Connections[:i], val.Connections[i+1:]...)
-					val.Mutex.Unlock()
-					continue
+					length--
 				}
 			}
+			val.Mutex.Unlock()
 
 			// keep track of session state
 			var t string
@@ -274,9 +277,6 @@ func listen(conn *websocket.Conn) {
 			log.Println("Received command with invalid session")
 		}
 	}
-
-	// Don't think we should ever reach this
-	atomic.AddInt32(&util.Stats.NumWSConnections, -1)
 }
 
 func (s *WebSocketServer) Start() {

@@ -48,15 +48,18 @@ func process_command(session *IrosSession, cmd_type string, data map[string]json
 		if err != nil {
 			return
 		}
-
+		session.Mutex.Lock()
 		session.load_element(t, command["args"])
+		session.Mutex.Unlock()
 	case "update":
 		var id string
 		err := json.Unmarshal(data["id"], &id)
 		if err != nil {
 			return
 		}
+		session.Mutex.Lock()
 		session.State[id].Update(command)
+		session.Mutex.Unlock()
 	case "delete":
 		var id string
 		err := json.Unmarshal(data["id"], &id)
@@ -64,33 +67,42 @@ func process_command(session *IrosSession, cmd_type string, data map[string]json
 		if err != nil {
 			return
 		}
-
+		session.Mutex.Lock()
 		delete(session.State, id)
+		session.Mutex.Unlock()
 	case "transform":
 		var id string
 		var transform elements.ElementTransform
 		if err := try_unmarshal(&id, data["id"], data["transform"], &transform); err == nil {
+			session.Mutex.Lock()
 			session.State[id].SetTransform(transform)
+			session.Mutex.Unlock()
 		}
 	case "move": // move element
 		var id string
 		var pos elements.Point
 
 		if err := try_unmarshal(&id, data["id"], data["pos"], &pos); err == nil {
+			session.Mutex.Lock()
 			session.State[id].SetPosition(pos)
+			session.Mutex.Unlock()
 		}
 
 	case "scale": // scale element
 		var id string
 		var scale elements.Point
 		if err := try_unmarshal(&id, data["id"], data["scale"], &scale); err == nil {
+			session.Mutex.Lock()
 			session.State[id].SetScale(scale)
+			session.Mutex.Unlock()
 		}
 	case "rotate": // rotate element
 		var id string
 		var rotation elements.Rotation
 		if err := try_unmarshal(&id, data["id"], data["rotation"], &rotation); err == nil {
+			session.Mutex.Lock()
 			session.State[id].SetRotation(rotation)
+			session.Mutex.Unlock()
 		}
 	default:
 		// some commands are only for client to client communication and have no effect on the server
