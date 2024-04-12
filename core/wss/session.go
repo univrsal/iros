@@ -34,7 +34,7 @@ type IrosConnection struct {
 }
 
 type IrosSession struct {
-	Mutex       sync.Mutex
+	Mutex       sync.Mutex                  `json:"-"`
 	Connections []*IrosConnection           `json:"-"`
 	State       map[string]elements.Element `json:"state"`
 	// we might want to purge sessions that haven't been connected to in a while at some point
