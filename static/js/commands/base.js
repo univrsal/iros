@@ -50,7 +50,7 @@ function send_command_ping(view) {
 }
 
 function send_command_pong(view, start_timestamp, ping_id) {
-    view.send({ type: "pong", args: { start_timestamp, ping_id, viewer_id: view.id, is_editor: view.is_editor() }, session: view.session_id });
+    view.send({ type: "pong", args: { start_timestamp, id: ping_id, viewer_id: view.id, is_editor: view.is_editor() }, session: view.session_id });
 }
 
 function command_ping(view, data) {
