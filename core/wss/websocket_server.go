@@ -163,7 +163,7 @@ func listen(conn *websocket.Conn) {
 		var result Handshake
 		err := conn.ReadJSON(&result)
 		if err != nil {
-			log.Println(err)
+			atomic.AddInt32(&util.Stats.NumWSConnections, -1)
 			return
 		}
 
@@ -189,7 +189,11 @@ func listen(conn *websocket.Conn) {
 			Instance.Sessions[result.Session] = val
 			if val.State != nil {
 				// send state to new connection
-				conn.WriteJSON(val.State)
+				err := conn.WriteJSON(val.State)
+				if err != nil {
+					log.Println(err)
+					return
+				}
 			}
 			val.LastConnectionTime = time.Now().Unix()
 			val.Mutex.Unlock()
@@ -216,7 +220,18 @@ func listen(conn *websocket.Conn) {
 	for {
 		t, p, err := conn.ReadMessage()
 		if err != nil {
-			log.Println(err)
+			if closeErr, ok := err.(*websocket.CloseError); ok {
+				if closeErr.Code == websocket.CloseAbnormalClosure {
+					// this type of disconnect does not trigger the close handler
+					// so we need to decrement the connection count here
+					// also it happens a lot so we don't need to log it
+					atomic.AddInt32(&util.Stats.NumWSConnections, -1)
+				} else {
+					log.Println(err)
+				}
+			} else {
+				log.Println(err)
+			}
 			break
 		}
 
@@ -284,6 +299,7 @@ func (s *WebSocketServer) Start() {
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
 	}
+	upgrader.HandshakeTimeout = 10 * time.Second
 	s.Sessions = make(map[string]*IrosSession)
 
 	s.LoadState()
@@ -325,6 +341,7 @@ func (s *WebSocketServer) Start() {
 			log.Println(err)
 			return
 		}
+
 		log.Println("Websocket Connected!")
 		listen(websocket)
 	})
