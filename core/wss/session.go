@@ -20,6 +20,7 @@ package wss
 import (
 	"encoding/json"
 	"log"
+	"sort"
 	"sync"
 	"time"
 
@@ -37,6 +38,7 @@ type IrosSession struct {
 	Mutex       sync.Mutex                  `json:"-"`
 	Connections []*IrosConnection           `json:"-"`
 	State       map[string]elements.Element `json:"state"`
+	ID          string                      `json:"-"`
 	// we might want to purge sessions that haven't been connected to in a while at some point
 	LastConnectionTime int64 `json:"last_update"`
 }
@@ -97,4 +99,22 @@ func GetAmountOfEmptySessionsToPurge() uint32 {
 	}
 
 	return sessionsToPurgeCount
+}
+
+func GetListOfNonEmptySessions() []*IrosSession {
+
+	var nonEmptySessions []*IrosSession
+
+	for _, session := range Instance.Sessions {
+		if len(session.State) != 0 {
+			nonEmptySessions = append(nonEmptySessions, session)
+		}
+	}
+
+	// sort sessions by ID
+	sort.Slice(nonEmptySessions, func(i, j int) bool {
+		return nonEmptySessions[i].ID < nonEmptySessions[j].ID
+	})
+
+	return nonEmptySessions
 }

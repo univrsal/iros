@@ -15,7 +15,7 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package util
+package wss
 
 import (
 	"fmt"
@@ -31,6 +31,7 @@ type StatsData struct {
 	LastMessageTime  int64
 	InactiveSessions uint32
 	EmptySessions    uint32
+	NonEmptySessions []*IrosSession
 }
 
 var (

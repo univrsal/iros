@@ -43,3 +43,7 @@ body {
 .dashboard {
     padding: 1em;
 }
+
+.session-id {
+    font-family: monospace;
+}

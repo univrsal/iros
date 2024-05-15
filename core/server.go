@@ -27,8 +27,8 @@ import (
 )
 
 func StartServer(cfg string) {
-	util.Stats.StartTime = time.Now().Unix()
-	util.Stats.LastMessageTime = time.Now().Unix()
+	wss.Stats.StartTime = time.Now().Unix()
+	wss.Stats.LastMessageTime = time.Now().Unix()
 	util.LoadConfig(cfg)
 
 	api.RegisterRoutes()

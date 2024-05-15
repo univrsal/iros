@@ -142,7 +142,8 @@ func (s *WebSocketServer) LoadState() {
 			// load element
 			newsession.load_element(t, element_json)
 		}
-		util.Stats.NumSessions++
+		Stats.NumSessions++
+		newsession.ID = k
 		s.Sessions[k] = newsession
 	}
 
@@ -154,7 +155,7 @@ func listen(conn *websocket.Conn) {
 	}
 
 	conn.SetCloseHandler(func(code int, text string) error {
-		atomic.AddInt32(&util.Stats.NumWSConnections, -1)
+		atomic.AddInt32(&Stats.NumWSConnections, -1)
 		return nil
 	})
 
@@ -163,7 +164,7 @@ func listen(conn *websocket.Conn) {
 		var result Handshake
 		err := conn.ReadJSON(&result)
 		if err != nil {
-			atomic.AddInt32(&util.Stats.NumWSConnections, -1)
+			atomic.AddInt32(&Stats.NumWSConnections, -1)
 			return
 		}
 
@@ -205,14 +206,15 @@ func listen(conn *websocket.Conn) {
 			newsession.State = make(map[string]elements.Element)
 			newsession.Connections = append(newsession.Connections, newconnection)
 			newsession.LastConnectionTime = time.Now().Unix()
+			newsession.ID = result.Session
 			Instance.Sessions[result.Session] = newsession
 
-			atomic.AddInt32(&util.Stats.NumSessions, 1)
+			atomic.AddInt32(&Stats.NumSessions, 1)
 			val = newsession
 		}
-		atomic.StoreInt64(&util.Stats.LastMessageTime, val.LastConnectionTime)
+		atomic.StoreInt64(&Stats.LastMessageTime, val.LastConnectionTime)
 
-		atomic.AddInt32(&util.Stats.NumWSConnections, 1)
+		atomic.AddInt32(&Stats.NumWSConnections, 1)
 		break
 	}
 
@@ -225,7 +227,7 @@ func listen(conn *websocket.Conn) {
 					// this type of disconnect does not trigger the close handler
 					// so we need to decrement the connection count here
 					// also it happens a lot so we don't need to log it
-					atomic.AddInt32(&util.Stats.NumWSConnections, -1)
+					atomic.AddInt32(&Stats.NumWSConnections, -1)
 				} else {
 					log.Println(err)
 				}

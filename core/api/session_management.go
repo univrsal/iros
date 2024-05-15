@@ -18,6 +18,7 @@
 package api
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"time"
@@ -64,4 +65,35 @@ func PurgeEmptySessions(w http.ResponseWriter, r *http.Request) {
 	log.Println("Purged", amount, "sessions")
 
 	w.WriteHeader(http.StatusOK)
+}
+
+func GetListOfNonEmptySessions(w http.ResponseWriter, r *http.Request) {
+	authToken := r.Header.Get("Authorization")
+	if authToken != util.Cfg.APIToken {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	type Response struct {
+		Sessions []string `json:"sessions"`
+	}
+
+	var data Response
+
+	for id, session := range wss.Instance.Sessions {
+		if len(session.State) != 0 {
+			data.Sessions = append(data.Sessions, id)
+		}
+	}
+
+	// send json response
+	w.Header().Set("Content-Type", "application/json")
+	err := json.NewEncoder(w).Encode(data)
+
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
 }

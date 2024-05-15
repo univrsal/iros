@@ -22,7 +22,6 @@ import (
 	"net/http"
 	"time"
 
-	"git.vrsal.cc/alex/iros/core/util"
 	"git.vrsal.cc/alex/iros/core/wss"
 )
 
@@ -32,10 +31,11 @@ func dashboardPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tmpl := template.Must(template.ParseFiles("templates/dashboard.html"))
-	util.Stats.Uptime = util.GetUptime()
-	util.Stats.LastMessage = util.FormatTime(time.Now().Unix() - util.Stats.LastMessageTime)
-	util.Stats.InactiveSessions = wss.GetAmountOfSessionsToPurge()
-	util.Stats.EmptySessions = wss.GetAmountOfEmptySessionsToPurge()
-	util.Stats.NumSessions = int32(len(wss.Instance.Sessions))
-	tmpl.Execute(w, util.Stats)
+	wss.Stats.Uptime = wss.GetUptime()
+	wss.Stats.LastMessage = wss.FormatTime(time.Now().Unix() - wss.Stats.LastMessageTime)
+	wss.Stats.InactiveSessions = wss.GetAmountOfSessionsToPurge()
+	wss.Stats.EmptySessions = wss.GetAmountOfEmptySessionsToPurge()
+	wss.Stats.NonEmptySessions = wss.GetListOfNonEmptySessions()
+	wss.Stats.NumSessions = int32(len(wss.Instance.Sessions))
+	tmpl.Execute(w, wss.Stats)
 }
