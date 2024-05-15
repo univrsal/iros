@@ -45,3 +45,23 @@ func PurgeSessions(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func PurgeEmptySessions(w http.ResponseWriter, r *http.Request) {
+	authToken := r.Header.Get("Authorization")
+	if authToken != util.Cfg.APIToken {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	var amount int = 0
+	for id, session := range wss.Instance.Sessions {
+		if len(session.State) == 0 {
+			// delete session
+			delete(wss.Instance.Sessions, id)
+			amount++
+		}
+	}
+	log.Println("Purged", amount, "sessions")
+
+	w.WriteHeader(http.StatusOK)
+}

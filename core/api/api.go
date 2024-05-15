@@ -25,4 +25,5 @@ import (
 
 func RegisterRoutes() {
 	http.HandleFunc(util.Cfg.WebRoot+"api/v1/purgeSessions", PurgeSessions)
+	http.HandleFunc(util.Cfg.WebRoot+"api/v1/purgeEmptySessions", PurgeEmptySessions)
 }

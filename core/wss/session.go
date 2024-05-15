@@ -86,3 +86,15 @@ func GetAmountOfSessionsToPurge() uint32 {
 
 	return sessionsToPurgeCount
 }
+
+func GetAmountOfEmptySessionsToPurge() uint32 {
+
+	var sessionsToPurgeCount uint32 = 0
+	for _, session := range Instance.Sessions {
+		if len(session.State) == 0 {
+			sessionsToPurgeCount++
+		}
+	}
+
+	return sessionsToPurgeCount
+}

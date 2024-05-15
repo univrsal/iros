@@ -35,6 +35,7 @@ func dashboardPage(w http.ResponseWriter, r *http.Request) {
 	util.Stats.Uptime = util.GetUptime()
 	util.Stats.LastMessage = util.FormatTime(time.Now().Unix() - util.Stats.LastMessageTime)
 	util.Stats.InactiveSessions = wss.GetAmountOfSessionsToPurge()
+	util.Stats.EmptySessions = wss.GetAmountOfEmptySessionsToPurge()
 	util.Stats.NumSessions = int32(len(wss.Instance.Sessions))
 	tmpl.Execute(w, util.Stats)
 }

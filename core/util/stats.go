@@ -30,6 +30,7 @@ type StatsData struct {
 	NumWSConnections int32
 	LastMessageTime  int64
 	InactiveSessions uint32
+	EmptySessions    uint32
 }
 
 var (

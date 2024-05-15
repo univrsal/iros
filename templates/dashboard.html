@@ -33,21 +33,35 @@
             if (parts.length === 2) return parts.pop().split(';').shift();
         }
         const token = getCookie('authToken');
-        function purge_sessions() {
-            fetch('./api/v1/purgeSessions', {
+
+        function send_request(endpoint, data = null, when_done = null) {
+            fetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token
-                }
+                },
+                body: JSON.stringify(data)
             }).then(response => {
-                if (response.status === 200)
-                    location.reload();
-                else
-                    console.error('Error:', response.status);
+                if (when_done) {
+                    when_done(response);
+                } else {
+                    if (response.status === 200)
+                        location.reload();
+                    else
+                        console.error('Error:', response.status);
+                }
             }).catch((error) => {
                 console.error('Error:', error);
             });
+        }
+
+        function purge_sessions() {
+            send_request('./api/v1/purgeSessions');
+        }
+
+        function purge_empty_sessions() {
+            send_request('./api/v1/purgeEmptySessions');
         }
     </script>
     <div class="stats-header">
@@ -57,11 +71,13 @@
             <li title="Connected web sockets">🔌 {{.NumWSConnections}}</li>
             <li title="Last message">📥 {{.LastMessage}}</li>
             <li title="Number of inactive sessions">🗑️ {{.InactiveSessions}}</li>
+            <li title="Number of empty sessions">0️⃣ {{.EmptySessions}}</li>
         </ul>
     </div>
     <div class="dashboard">
         <h3>Dashboard actions</h3>
         <button class="button" onclick="purge_sessions()">Purge inactive sessions</button>
+        <button class="button" onclick="purge_empty_sessions()">Purge empty sessions</button>
     </div>
 </body>
 
