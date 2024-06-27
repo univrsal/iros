@@ -176,6 +176,8 @@ button {
     border-style: solid none none none;
     border-width: 1px;
     padding-top: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
     padding-bottom: 3px;
 }
 
@@ -201,9 +203,6 @@ button:hover {
     width: 7em;
 }
 
-#stream-link {
-    width: min(24em, 80vw);
-}
 
 #stream-link {
     margin-right: 1em;
@@ -303,4 +302,17 @@ li {
 
 .video-embed img {
     cursor: pointer;
+}
+
+
+/* Hide header links and show the hamburger menu on screens narrower than 600px */
+@media (max-width: 600px) {
+
+    #header-links {
+        height: 100%;
+    }
+
+    #header-logo {
+        display: none;
+    }
 }
