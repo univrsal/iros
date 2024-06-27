@@ -18,7 +18,7 @@
 function generate_element_id() {
     // generate randmo five char id
     let result = "";
-    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz;
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     for (let i = 0; i < 5; i++)
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     return result;
