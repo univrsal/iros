@@ -89,13 +89,9 @@ class text_element_handler extends element_handler {
         this.enable_background_color.on("input", () => this.update_selected_element());
         this.text.on("input", () => this.update_selected_element());
         this.font.on("input", () => this.update_selected_element());
-        this.size.on("input", () => this.update_selected_element_and_ui());
+        this.size.on("input", () => this.update_selected_element());
     }
 
-    update_selected_element_and_ui() {
-        this.update_selected_element();
-        this.edt.update_selected_element();
-    }
 
     update_selected_element() {
         if (this.selected_element) {

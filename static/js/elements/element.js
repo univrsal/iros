@@ -16,7 +16,12 @@
 */
 
 function generate_element_id() {
-    return Math.random().toString(36).substring(7);
+    // generate randmo five char id
+    let result = "";
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz;
+    for (let i = 0; i < 5; i++)
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    return result;
 }
 
 class element {

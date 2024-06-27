@@ -523,8 +523,9 @@
 
 .user-cursor {
     background-image: url("../img/cursor.png");
-    width: 32px;
-    height: 32px;
+    transform-origin: top left;
+    width: 12px;
+    height: 21px;
     transition: transform 0.1s ease;
 }
 
