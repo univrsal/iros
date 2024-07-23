@@ -34,6 +34,18 @@ const MODE_AXIS = {
     XY: 3,
 };
 
+function get_cookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function set_cookie(name, value, days) {
+    let date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
+}
+
 function hex_to_rgba(hex) {
     let bigint = parseInt(hex.substring(1), 16);
     let r = (bigint >> 16) & 255;

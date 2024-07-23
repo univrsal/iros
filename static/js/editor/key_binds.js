@@ -20,6 +20,16 @@ function keybind_copy(edit, _e) {
         edit.internal_clipboard = edit.selected_element;
 }
 
+var warning_show_count = get_cookie("warning_show_count") || 0;
+
+function check_dc(data) {
+    if (data.indexOf("cdn.discordapp.com") !== -1 && warning_show_count < 2) {
+        alert(`Discord CDN links are temporary. Any linked media will fail to load after the link expires. Consider uploading the media to a more permanent host. This warning will be only twice.`);
+        warning_show_count++;
+        set_cookie("warning_show_count", warning_show_count, 365);
+    }
+}
+
 function keybind_paste(edit, _e) {
     read_data_from_clipboard().then(data => {
         let id = generate_element_id();
@@ -27,12 +37,15 @@ function keybind_paste(edit, _e) {
             let name = edit.make_unique_element_name("Image");
             edit.add_element(new image_element(edit, { url: data, id, name }));
         } else if (/(https?:\/\/.*\.(?:jpg|jpeg|gif|png|bmp|webp|svg|ico|avif|jxl))(?:\?.*)?$/i.test(data)) { // check if it's an image url
+            check_dc(data);
             let name = edit.make_unique_element_name("Image");
             edit.add_element(new image_element(edit, { url: data, id, name }));
         } else if (/(https?:\/\/.*\.(?:mp3|wav|ogg|aac|flac|opus))(?:\?.*)?$/i.test(data)) { // check if it's an audio url
+            check_dc(data);
             let name = edit.make_unique_element_name("Audio");
             edit.add_element(new audio_element(edit, { url: data, id, name, paused: true, transform: { width: 300, height: 50 } }));
         } else if (/(https?:\/\/.*\.(?:mp4|webm|mkv|avi))(?:\?.*)?$/i.test(data)) { // check if it's an video url
+            check_dc(data);
             let name = edit.make_unique_element_name("Video");
             edit.add_element(new video_element(edit, { url: data, id, name, paused: true, transform: { width: 640, height: 360 } }));
         } else {

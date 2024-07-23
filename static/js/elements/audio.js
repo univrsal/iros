@@ -189,6 +189,7 @@ class audio_element_handler extends element_handler {
 
     update_selected_element() {
         if (this.selected_element) {
+            check_dc(this.url.value);
             this.selected_element.set_url(this.url.value);
             this.selected_element.data.volume = this.volume.value / 100.0;
             this.selected_element.set_playback_rate(this.playback_rate.value / 100.0);

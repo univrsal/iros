@@ -54,6 +54,7 @@ class image_element_handler extends element_handler {
 
     update_selected_element() {
         if (this.selected_element) {
+            check_dc(this.url.value);
             this.selected_element.set_url(this.url.value);
             send_command_update_element(this.edt, this.selected_element);
         }
