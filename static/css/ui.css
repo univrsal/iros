@@ -536,3 +536,41 @@
 #connection-indicator.connected {
     background-color: #00ff00;
 }
+
+#announcement-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    position: absolute;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#announcement {
+    padding: 10px;
+    max-width: 80%;
+    min-width: 400px;
+}
+
+#announcement-title {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#announcement-text {
+    margin-bottom: 10px;
+}
+
+#announcement-close {
+    width: 50%;
+    text-align: center;
+    left: 25%;
+    position: relative;
+}
+
+a {
+    color: #8686ed;
+}

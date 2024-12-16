@@ -1,0 +1,23 @@
+<div id="announcement-container" style="display: none">
+    <div id="announcement" class="window">
+        <div id="announcement-content">
+            <div id="announcement-title">
+                {{ .AnnouncementTitle }}
+            </div>
+            <div id="announcement-text">
+              
+            </div>
+
+            <button id="announcement-close" onclick="document.getElementById('announcement-container').style.display = 'none'">
+                Close</button>
+        </div>
+    </div>
+    <script>
+        const lastAnnouncement = get_cookie("lastAnnouncement");
+        if (lastAnnouncement !== "{{ .Announcement }}" && "{{.Announcement}}" !== "") {
+            document.getElementById("announcement-text").innerHTML = "{{ .Announcement }}";
+            document.getElementById("announcement-container").style.display = "grid";
+        }
+        set_cookie("lastAnnouncement", "{{ .Announcement }}", 365);
+    </script>
+</div>

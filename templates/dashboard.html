@@ -63,6 +63,15 @@
         function purge_empty_sessions() {
             send_request('./api/v1/purgeEmptySessions');
         }
+
+        function set_announcement() {
+            const announcement = document.getElementById('announcement').value;
+            const announcementTitle = document.getElementById('announcementTitle').value;
+            send_request('./api/v1/setAnnouncement', {
+                announcement: announcement,
+                announcementTitle: announcementTitle
+            });
+        }
     </script>
     <div class="stats-header">
         <ul class="stats-list">
@@ -78,6 +87,11 @@
         <h3>Dashboard actions</h3>
         <button class="button" onclick="purge_sessions()">Purge inactive sessions</button>
         <button class="button" onclick="purge_empty_sessions()">Purge empty sessions</button>
+
+        <h3>Set announcement</h3>
+        <input type="text" id="announcementTitle" placeholder="Title" /><br>
+        <textarea id="announcement" placeholder="Announcement" rows="8" cols="60"></textarea><br>
+        <button class="button" onclick="set_announcement()">Set announcement</button>
 
         <h3>Session list</h3>
         <ul id="session_list">

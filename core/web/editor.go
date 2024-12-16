@@ -20,11 +20,31 @@ package web
 import (
 	"html/template"
 	"net/http"
+	"strings"
 
 	"git.vrsal.cc/alex/iros/core/util"
 )
 
+type editorPageData struct {
+	util.Config
+
+	Announcement      string
+	AnnouncementTitle string
+}
+
+var editorData editorPageData
+
+func SetAnnouncement(title string, announcement string) {
+	editorData.Announcement = strings.ReplaceAll(announcement, "\n", "<br>")
+	editorData.AnnouncementTitle = title
+}
+
 func editorPage(w http.ResponseWriter, _ *http.Request) {
-	tmpl := template.Must(template.ParseFiles("templates/editor.html", "templates/header.html"))
-	tmpl.Execute(w, util.Cfg)
+	tmpl := template.Must(template.ParseFiles("templates/editor.html", "templates/header.html", "templates/announcement.html"))
+	editorData.Config = util.Cfg
+	err := tmpl.Execute(w, editorData)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
