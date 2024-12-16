@@ -724,7 +724,7 @@ class editor extends viewer {
     let cursor = null;
     // check if cursor already exists
     if (this.cursor_map.has(data.id)) {
-      cursor = $(`#${data.id}`);
+      cursor = document.getElementById(data.id); // can't use $() because it doesn't work with ids that start with numbers
     } else {
       this.cursor_map.set(data.id, {});
       // create the cursor element
