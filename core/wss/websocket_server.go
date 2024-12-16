@@ -164,7 +164,7 @@ func listen(conn *websocket.Conn) {
 		var result Handshake
 		err := conn.ReadJSON(&result)
 		if err != nil {
-			atomic.AddInt32(&Stats.NumWSConnections, -1)
+			//atomic.AddInt32(&Stats.NumWSConnections, -1)
 			return
 		}
 
