@@ -1,6 +1,6 @@
 /*
    This file is part of iros
-   Copyright (C) 2024 Alex <uni@vrsal.xyz>
+   Copyright (C) 2025 Alex <uni@vrsal.xyz>
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU Affero General Public License as published
@@ -44,7 +44,7 @@ function generate_session() {
         editor_link = `${document.location.origin}/editor?session=${session_uuid}&stream=${stream_url}`;
         viewer_link = `${document.location.origin}/viewer?session=${session_uuid}`;
     } else {
-        editor_link = `${document.location.origin}/viewer?session=${session_uuid}&stream=${stream_url}`;
+        editor_link = `${document.location.origin}/editor?session=${session_uuid}&stream=${stream_url}`;
         viewer_link = `${document.location.origin}/viewer?session=${session_uuid}`;
     }
 
