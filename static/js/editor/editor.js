@@ -1,6 +1,6 @@
 /*
    This file is part of iros
-   Copyright (C) 2024 Alex <uni@vrsal.xyz>
+   Copyright (C) 2025 Alex <uni@vrsal.xyz>
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU Affero General Public License as published
@@ -99,7 +99,7 @@ class editor extends viewer {
     $(this.element_list).on('change', () => {
       let element = this.elements.get(this.element_list.value);
       if (element) {
-        this.on_element_clicked(null, element);
+        this.select_element(element);
       } else {
         this.rebuild_element_list(); // element was deleted and shouldn't be in the list anymore
       }
@@ -401,10 +401,18 @@ class editor extends viewer {
           e.target == this.container
         ) {
           this.select_element(null);
-        } else if (e.target.classList.contains('iros-element')) {
-          let element = this.elements.get(e.target.id);
+        } else if (
+          e.target.classList.contains('iros-element') ||
+          e.target.classList.contains('iros-blocker')
+        ) {
+          let element;
+          if (e.target.classList.contains('iros-blocker')) {
+            element = this.elements.get(e.target.parentElement.id);
+          } else {
+            element = this.elements.get(e.target.id);
+          }
           this.select_element(element);
-          element.html.classList.add('selected-element');
+
           this.dragging_element = true;
           this.move_start = [
             this.selected_element.tf().x - this.mouse_pos[0],
@@ -579,11 +587,6 @@ class editor extends viewer {
     this.select_element(element);
     element.html.classList.add('selected-element');
     if (element.tickable()) this.tickable_elements.push(element);
-    if (element.html) {
-      $(element.html).on('mousedown', (e) =>
-        this.on_element_mouse_down(e, element)
-      );
-    }
   }
 
   select_element(element) {
@@ -595,6 +598,7 @@ class editor extends viewer {
 
     // hide all element settings
     this.selected_element = element;
+    if (element !== null) element.html.classList.add('selected-element');
     element_handlers.forEach((element_handler) =>
       element_handler.hide_settings()
     );
@@ -602,12 +606,6 @@ class editor extends viewer {
     // update element properties in sidebar
     if (element) {
       this.update_selected_element();
-
-      // find element handler for this element type
-      let element_handler = element_handlers.find(
-        (element_handler) => element_handler.type == element.type()
-      );
-      element_handler.show_settings(element);
     }
     let windows = this.main_container.getElementsByClassName('window');
     for (let i = 0; i < windows.length; i++) {
@@ -617,7 +615,7 @@ class editor extends viewer {
   }
 
   update_selected_element() {
-    if (this.selected_element == null) return;
+    if (this.selected_element === null) return;
     let element_handler = element_handlers.find(
       (element_handler) => element_handler.type == this.selected_element.type()
     );
