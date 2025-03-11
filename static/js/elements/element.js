@@ -21,7 +21,7 @@ function generate_element_id() {
     let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     for (let i = 0; i < 5; i++)
         result += characters.charAt(Math.floor(Math.random() * characters.length));
-    return result;
+    return 'e' + result; // make sure id starts with a letter as css ids can't start with a number
 }
 
 class element {
