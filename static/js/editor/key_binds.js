@@ -39,8 +39,8 @@ function keybind_paste(edit, _e) {
   read_data_from_clipboard().then((data) => {
     let id = generate_element_id();
     if (data.indexOf('data:image') === 0) {
-      let name = edit.make_unique_element_name('Image');
-      edit.add_element(new image_element(edit, { url: data, id, name }));
+      //let name = edit.make_unique_element_name('Image');
+      //edit.add_element(new image_element(edit, { url: data, id, name }));
     } else if (
       /(https?:\/\/.*\.(?:jpg|jpeg|gif|png|bmp|webp|svg|ico|avif|jxl))(?:\?.*)?$/i.test(
         data
