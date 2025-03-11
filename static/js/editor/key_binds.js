@@ -25,10 +25,10 @@ function check_dc(data) {
   if (
     (data.indexOf('cdn.discordapp.com') !== -1 ||
       data.indexOf('media.discordapp.net') !== -1) &&
-    warning_show_count < 2
+    warning_show_count < 10
   ) {
     alert(
-      `Discord image links are temporary. Any linked media will fail to load after the link expires. Consider uploading the media to a more permanent host. This warning will be only twice.`
+      `Discord image links are temporary. Any linked media will fail to load after the link expires. Consider uploading the media to a more permanent host. This warning will be only shown ten times.`
     );
     warning_show_count++;
     set_cookie('warning_show_count', warning_show_count, 365);
