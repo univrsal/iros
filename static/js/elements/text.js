@@ -55,6 +55,12 @@ class text_element extends element {
   get_formatted_text() {
     let text = this.data.text;
 
+    // filter out any html tags
+    text = text.replace(/</g, '&lt;');
+    text = text.replace(/>/g, '&gt;');
+
+    text = text.replace(/\n/g, '<br>');
+
     // replace **bold** with <b>bold</b>
     text = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
